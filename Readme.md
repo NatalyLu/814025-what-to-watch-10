@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Наталья Лукашина](https://up.htmlacademy.ru/react/10/user/814025).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Крохмаль](https://htmlacademy.ru/profile/tchernyavskyd).
 
 ---
 
