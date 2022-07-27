@@ -1,18 +1,13 @@
-type FilmCardProps = {
-  film: {
-    link: string;
-    name: string;
-  }
-}
+import {Film} from '../../types/types';
 
-function FilmCard(props: FilmCardProps): JSX.Element {
+function FilmCard(props: Film): JSX.Element {
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
-        <img src={props.film.link} alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
+        <img src={props.film.LINK} alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">{props.film.name}</a>
+        <a className="small-film-card__link" href="film-page.html">{props.film.NAME}</a>
       </h3>
     </article>
   );

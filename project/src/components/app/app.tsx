@@ -1,15 +1,8 @@
 import Main from '../../pages/main/main';
+import {PromoFilm} from '../../types/types';
+import {Films} from '../../types/types';
 
-type AppProps = {
-  promoFilm: {
-    name: string;
-    genre: string;
-    year: string;
-  },
-  films: {link: string, name: string}[],
-}
-
-function App(props: AppProps): JSX.Element {
+function App(props: PromoFilm & Films): JSX.Element {
   return (
     <Main
       promoFilm = {props.promoFilm}

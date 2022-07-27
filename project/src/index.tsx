@@ -3,31 +3,31 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
 const Promo = {
-  name: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  year: '2014'
+  NAME: 'The Grand Budapest Hotel',
+  GENDER: 'Drama',
+  YEAR: '2014'
 };
 
 const Films = [
   {
-    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Fantastic Beasts: The Crimes of Grindelwald',
+    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    NAME: 'Fantastic Beasts: The Crimes of Grindelwald',
   },
   {
-    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Fantastic Beasts: Grindelwald',
+    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    NAME: 'Fantastic Beasts: Grindelwald',
   },
   {
-    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Fantastic Beasts: The',
+    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    NAME: 'Fantastic Beasts: The',
   },
   {
-    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Crimes of Grindelwald',
+    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    NAME: 'Crimes of Grindelwald',
   },
   {
-    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Grindelwald',
+    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    NAME: 'Grindelwald',
   },
 ];
 
