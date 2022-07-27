@@ -2,15 +2,6 @@ import FilmCards from '../../components/film-cards/film-cards';
 import {PromoFilm} from '../../types/types';
 import {Films} from '../../types/types';
 
-type MainProps = {
-  promoFilm: {
-    NAME: string;
-    GENDER: string;
-    YEAR: string;
-  },
-  films: {LINK: string, NAME: string}[],
-}
-
 function Main(props: PromoFilm & Films): JSX.Element {
   return (
     <>
