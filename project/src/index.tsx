@@ -8,12 +8,35 @@ const Promo = {
   year: '2014'
 };
 
+const Films = [
+  {
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: The Crimes of Grindelwald',
+  },
+  {
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: Grindelwald',
+  },
+  {
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: The',
+  },
+  {
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Crimes of Grindelwald',
+  },
+  {
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Grindelwald',
+  },
+];
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
 root.render(
   <React.StrictMode>
-    <App promoFilm={Promo}/>
+    <App promoFilm={Promo} films={Films} />
   </React.StrictMode>,
 );

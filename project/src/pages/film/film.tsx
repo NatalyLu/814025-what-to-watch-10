@@ -1,6 +1,10 @@
-import FilmsCard from '../../components/films-card/films-card';
+import FilmCards from '../../components/film-cards/film-cards';
 
-function Film(): JSX.Element {
+type FilmCardsProps = {
+  films: {link: string, name: string}[],
+}
+
+function Film(props:FilmCardsProps): JSX.Element {
   return (
     <>
       <section className="film-card film-card--full">
@@ -108,10 +112,7 @@ function Film(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
+            <FilmCards films={props.films} />
           </div>
         </section>
 

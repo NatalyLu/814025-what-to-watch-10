@@ -1,14 +1,15 @@
-import FilmsCard from '../../components/films-card/films-card';
+import FilmCards from '../../components/film-cards/film-cards';
 
-type AppFilmProps = {
+type MainProps = {
   promoFilm: {
     name: string;
     genre: string;
     year: string;
-  }
+  },
+  films: {link: string, name: string}[],
 }
 
-function Main({promoFilm}: AppFilmProps): JSX.Element {
+function Main(props: MainProps): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -42,14 +43,14 @@ function Main({promoFilm}: AppFilmProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={promoFilm.name} width="218" height="327" />
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={props.promoFilm.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilm.name}</h2>
+              <h2 className="film-card__title">{props.promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilm.genre}</span>
-                <span className="film-card__year">{promoFilm.year}</span>
+                <span className="film-card__genre">{props.promoFilm.genre}</span>
+                <span className="film-card__year">{props.promoFilm.year}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -110,26 +111,7 @@ function Main({promoFilm}: AppFilmProps): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
-            <FilmsCard />
+            <FilmCards films={props.films} />
           </div>
 
           <div className="catalog__more">

@@ -1,6 +1,10 @@
-import FilmsCard from '../../components/films-card/films-card';
+import FilmCards from '../../components/film-cards/film-cards';
 
-function MyList(): JSX.Element {
+type FilmCardProps = {
+  films: {link: string, name: string}[],
+}
+
+function MyList(props:FilmCardProps): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -29,15 +33,7 @@ function MyList(): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
-          <FilmsCard />
+          <FilmCards films={props.films} />
         </div>
       </section>
 
