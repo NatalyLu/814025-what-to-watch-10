@@ -1,8 +1,13 @@
 import FilmCards from '../../components/film-cards/film-cards';
 import {PromoFilm} from '../../types/types';
-import {Films} from '../../types/types';
+import {Film} from '../../types/types';
 
-function Main(props: PromoFilm & Films): JSX.Element {
+type MainProps = {
+  promoFilm: PromoFilm;
+  films: Film[];
+}
+
+function Main(props: MainProps): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -36,14 +41,14 @@ function Main(props: PromoFilm & Films): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={props.promoFilm.NAME} width="218" height="327" />
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={props.promoFilm.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.promoFilm.NAME}</h2>
+              <h2 className="film-card__title">{props.promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.promoFilm.GENDER}</span>
-                <span className="film-card__year">{props.promoFilm.YEAR}</span>
+                <span className="film-card__genre">{props.promoFilm.gender}</span>
+                <span className="film-card__year">{props.promoFilm.year}</span>
               </p>
 
               <div className="film-card__buttons">
