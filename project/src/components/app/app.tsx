@@ -1,13 +1,14 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
 import {default as OneFilm} from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
-import {PromoFilm} from '../../types/types';
-import {Film} from '../../types/types';
+import Error from '../../pages/error/error';
+import {PromoFilm, Film} from '../../types/types';
+import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
   promoFilm: PromoFilm;
@@ -15,12 +16,14 @@ type AppProps = {
 }
 
 function App(props: AppProps): JSX.Element {
+  const {promoFilm, films} = props;
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main promoFilm={props.promoFilm} films={props.films} />}
+          element={<Main promoFilm={promoFilm} films={films} />}
         />
 
         <Route
@@ -30,12 +33,18 @@ function App(props: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.MyList}
-          element={<MyList films={props.films} />}
+          element={
+            <PrivateRoute
+              authorizationStatus={AuthorizationStatus.NoAuth}
+            >
+              <MyList films={films} />
+            </PrivateRoute>
+          }
         />
 
         <Route
           path={AppRoute.Film}
-          element={<OneFilm films={props.films} />}
+          element={<OneFilm films={films} />}
         />
 
         <Route
@@ -46,6 +55,11 @@ function App(props: AppProps): JSX.Element {
         <Route
           path={AppRoute.Player}
           element={<Player />}
+        />
+
+        <Route
+          path='*'
+          element={<Error />}
         />
       </Routes>
     </BrowserRouter>
