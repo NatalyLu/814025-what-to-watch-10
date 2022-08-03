@@ -3,7 +3,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
-import {default as OneFilm} from '../../pages/film/film';
+import Film from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import Error from '../../pages/error/error';
@@ -44,7 +44,7 @@ function App(props: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.Film}
-          element={<OneFilm films={films} />}
+          element={<Film films={films} />}
         />
 
         <Route
