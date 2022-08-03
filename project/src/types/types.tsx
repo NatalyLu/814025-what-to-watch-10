@@ -3,9 +3,7 @@ export type Film = {
   name: string;
 }
 
-export type Films = {
-  films: Film[];
-}
+export type Films = Film[];
 
 export type PromoFilm = {
   name: string;

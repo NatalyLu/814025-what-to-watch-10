@@ -2,7 +2,11 @@ import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import {Films} from '../../types/types';
 
-function MyList(props:Films): JSX.Element {
+type MyListProps = {
+  films: Films;
+}
+
+function MyList(props: MyListProps): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

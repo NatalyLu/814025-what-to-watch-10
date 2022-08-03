@@ -7,12 +7,12 @@ import {default as OneFilm} from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import Error from '../../pages/error/error';
-import {PromoFilm, Film} from '../../types/types';
+import {PromoFilm, Films} from '../../types/types';
 import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
   promoFilm: PromoFilm;
-  films: Film[];
+  films: Films;
 }
 
 function App(props: AppProps): JSX.Element {

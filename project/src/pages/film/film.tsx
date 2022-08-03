@@ -2,7 +2,11 @@ import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import {Films} from '../../types/types';
 
-function Film(props:Films): JSX.Element {
+type FilmProps = {
+  films: Films;
+}
+
+function Film(props:FilmProps): JSX.Element {
   return (
     <>
       <section className="film-card film-card--full">
