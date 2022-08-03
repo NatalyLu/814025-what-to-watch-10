@@ -2,32 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
-const Promo = {
-  NAME: 'The Grand Budapest Hotel',
-  GENDER: 'Drama',
-  YEAR: '2014'
+const PROMO = {
+  name: 'The Grand Budapest Hotel',
+  gender: 'Drama',
+  year: '2014'
 };
 
-const Films = [
+const FILMS = [
   {
-    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    NAME: 'Fantastic Beasts: The Crimes of Grindelwald',
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: The Crimes of Grindelwald',
   },
   {
-    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    NAME: 'Fantastic Beasts: Grindelwald',
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: Grindelwald',
   },
   {
-    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    NAME: 'Fantastic Beasts: The',
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Fantastic Beasts: The',
   },
   {
-    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    NAME: 'Crimes of Grindelwald',
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Crimes of Grindelwald',
   },
   {
-    LINK: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    NAME: 'Grindelwald',
+    link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    name: 'Grindelwald',
   },
 ];
 
@@ -37,6 +37,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App promoFilm={Promo} films={Films} />
+    <App promoFilm={PROMO} films={FILMS} />
   </React.StrictMode>,
 );
