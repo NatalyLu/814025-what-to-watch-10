@@ -3,12 +3,12 @@ import {Film} from '../../types/types';
 
 type FilmCardProps = {
   film: Film;
-  onMouseOver: (({target}: MouseEvent<HTMLElement>) => void);
+  onMouseOver: ((evt: MouseEvent, film: Film) => void);
 }
 
 function FilmCard(props: FilmCardProps): JSX.Element {
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseOver={(evt) => {props.onMouseOver(evt, props.film);}}>
       <div className="small-film-card__image">
         <img src={props.film.link} alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
       </div>
