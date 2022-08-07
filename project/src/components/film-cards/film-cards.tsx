@@ -1,4 +1,4 @@
-import {useState, ChangeEvent} from 'react';
+import {useState, MouseEvent} from 'react';
 import FilmCard from '../film-card/film-card';
 import {Films} from '../../types/types';
 
@@ -12,10 +12,10 @@ function FilmCards(props: FilmCardsProps): JSX.Element {
   const [activeCard, setActiveCard] = useState(films[0]);
 
   // const cardHoverHandel = ({relatedTarget}: MouseEvent): void => {
-    // console.log('target', relatedTarget);
-  const cardHoverHandel = ({target}: ChangeEvent<HTMLElement>): void => {
-    console.log('target', target); 
-  
+  // console.log('target', relatedTarget);
+  const cardHoverHandel = (e: MouseEvent<HTMLElement>): void => {
+    console.log('target', e);
+
     // console.log('setActiveCard', setActiveCard);
     setActiveCard(films[2]);
   };

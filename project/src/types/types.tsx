@@ -12,12 +12,12 @@ export type PromoFilm = {
   year: string;
 }
 
-export type Video =  {
+export type Video = {
   poster: string;
   link: string;
 }
 
-export type VideoObj =  {
+export type VideoObj = {
   video: Video;
 }
 

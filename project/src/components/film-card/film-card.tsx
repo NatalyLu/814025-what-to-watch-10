@@ -1,9 +1,9 @@
-import {ChangeEvent} from 'react';
+import {MouseEvent} from 'react';
 import {Film} from '../../types/types';
 
 type FilmCardProps = {
   film: Film;
-  onMouseOver: (({target}: ChangeEvent<HTMLElement>) => void);
+  onMouseOver: (({target}: MouseEvent<HTMLElement>) => void);
 }
 
 function FilmCard(props: FilmCardProps): JSX.Element {
