@@ -67,7 +67,7 @@ export const films: FilmsData = [
   {
     id: 'Fantastic-8',
     link: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Grindelwald',
+    name: 'ndelwald',
     video: {
       poster: 'img/player-poster.jpg',
       link: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
