@@ -98,7 +98,7 @@ function Film(props:FilmProps): JSX.Element {
               <div className="film-card__text">
                 <p>{review.text.first}</p>
 
-                {review.text.second ? <p>{review.text.second}</p> : null}
+                {review.text.second && <p>{review.text.second}</p>}
 
                 <p className="film-card__director"><strong>{review.director}</strong></p>
 
