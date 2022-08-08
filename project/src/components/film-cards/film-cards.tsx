@@ -1,4 +1,4 @@
-import {useState, MouseEvent} from 'react';
+import {useState} from 'react';
 import FilmCard from '../film-card/film-card';
 import {Films, Film} from '../../types/types';
 
@@ -10,8 +10,7 @@ function FilmCards(props: FilmCardsProps): JSX.Element {
   const {films} = props;
   const [activeCard, setActiveCard] = useState(films[0]);
 
-  const handleCardHover = (evt: MouseEvent, film: Film): void => {
-    evt.preventDefault();
+  const handleCardHover = (film: Film): void => {
     setActiveCard(film);
   };
 
