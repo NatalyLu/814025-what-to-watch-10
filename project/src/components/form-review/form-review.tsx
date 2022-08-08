@@ -1,6 +1,8 @@
 import {useState, ChangeEvent, SyntheticEvent} from 'react';
 
 function FormReview(): JSX.Element {
+  const STAR_ARRAY = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
   const [review, setReview] = useState({
     stars: '8', // Инпут с этим значением активен по умолчанию
     text: '',
@@ -29,40 +31,17 @@ function FormReview(): JSX.Element {
     <form onSubmit={handleDetailsShow} action="#" className="add-review__htmlForm">
       <div className="rating">
         <div className="rating__stars">
-          <input onChange={handleReviewChange} className="rating__input" id="star-10" type="radio" name="rating" value="10" />
-          <label className="rating__label" htmlFor="star-10">Rating 10</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-9" type="radio" name="rating" value="9" />
-          <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-8" type="radio" name="rating" value="8" checked />
-          <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-7" type="radio" name="rating" value="7" />
-          <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-6" type="radio" name="rating" value="6" />
-          <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-          <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-          <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-          <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-          <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-          <input onChange={handleReviewChange} className="rating__input" id="star-1" type="radio" name="rating" value="1" />
-          <label className="rating__label" htmlFor="star-1">Rating 1</label>
+          {
+            STAR_ARRAY.map((star) =>
+              (
+                <>
+                  <input key={`key-star-${star}`} onChange={handleReviewChange} className="rating__input" id={`star-${star}`} type="radio" name="rating" value={star} checked={Number(review.stars) === star ? true : false} />
+                  <label key={`key-star-${star}`} className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
+                </>
+              )
+            )
+          }
         </div>
-      </div>
-
-      <div className="add-review__text">
-        <input onChange={handleReviewChange} className="add-review__text" name="review-text2" type="text" id="review-text2" placeholder="Review textjdjdjd" />
       </div>
 
       <div className="add-review__text">
