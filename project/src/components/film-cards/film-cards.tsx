@@ -1,15 +1,26 @@
+import {useState, MouseEvent} from 'react';
 import FilmCard from '../film-card/film-card';
-import {Films} from '../../types/types';
+import {Films, Film} from '../../types/types';
 
 type FilmCardsProps = {
   films: Films
 }
 
 function FilmCards(props: FilmCardsProps): JSX.Element {
+  const {films} = props;
+  const [activeCard, setActiveCard] = useState(films[0]);
+
+  const cardHoverHandel = (evt: MouseEvent, film: Film): void => {
+    evt.preventDefault();
+    setActiveCard(film);
+  };
+
   return (
     <div className="catalog__films-list">
-      {props.films.map((item) =>
-        <FilmCard key={item.name} film={item} />
+      {/* Временный показ id фильма, на карточку которого наведен курсор */}
+      <div style={ {width: '100%', marginBottom: '30px'} }><b>Hover element is: </b>{activeCard.id}</div>
+      {films.map((item) =>
+        <FilmCard key={item.name} film={item} onMouseOver={cardHoverHandel} />
       )}
     </div>
   );

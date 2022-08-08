@@ -3,27 +3,46 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
-import {default as OneFilm} from '../../pages/film/film';
+import Film from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import Error from '../../pages/error/error';
-import {PromoFilm, Films} from '../../types/types';
+import {PromoFilm, FilmsData, Films, Video, Review} from '../../types/types';
 import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
   promoFilm: PromoFilm;
-  films: Films;
+  films: FilmsData;
+  reviews: Review[];
 }
 
 function App(props: AppProps): JSX.Element {
-  const {promoFilm, films} = props;
+  const {promoFilm, films, reviews} = props;
+  const filmsTextData: Films = [];
+  const videoArr: Video[] = [];
+
+  films.forEach((film) => {
+    filmsTextData.push({
+      id: film.id,
+      name: film.name,
+      link: film.link,
+    });
+    videoArr.push({
+      poster: film.video.poster,
+      link: film.video.link,
+    });
+  });
+
+  // Здесь в будущем достанем данные из общего массива
+  const video = videoArr[0];
+  const review = reviews[0];
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main promoFilm={promoFilm} films={films} />}
+          element={<Main promoFilm={promoFilm} films={filmsTextData} />}
         />
 
         <Route
@@ -37,14 +56,14 @@ function App(props: AppProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <MyList films={films} />
+              <MyList films={filmsTextData} />
             </PrivateRoute>
           }
         />
 
         <Route
           path={AppRoute.Film}
-          element={<OneFilm films={films} />}
+          element={<Film films={filmsTextData} review={review} />}
         />
 
         <Route
@@ -54,7 +73,7 @@ function App(props: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.Player}
-          element={<Player />}
+          element={<Player video={video} />}
         />
 
         <Route

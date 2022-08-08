@@ -1,12 +1,18 @@
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import {Films} from '../../types/types';
+import {Review} from '../../types/types';
 
 type FilmProps = {
   films: Films;
+  review: Review;
 }
 
 function Film(props:FilmProps): JSX.Element {
+  const {review, films} = props;
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -54,7 +60,7 @@ function Film(props:FilmProps): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -82,21 +88,21 @@ function Film(props:FilmProps): JSX.Element {
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
+                <div className="film-rating__score">{review.rating.score}</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
+                  <span className="film-rating__level">{review.rating.level}</span>
+                  <span className="film-rating__count">{review.rating.count}</span>
                 </p>
               </div>
 
               <div className="film-card__text">
-                <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.</p>
+                <p>{review.text.first}</p>
 
-                <p>Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
+                {review.text.second ? <p>{review.text.second}</p> : null}
 
-                <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
+                <p className="film-card__director"><strong>{review.director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
+                <p className="film-card__starring"><strong>{review.starring}</strong></p>
               </div>
             </div>
           </div>
@@ -108,7 +114,7 @@ function Film(props:FilmProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmCards films={props.films} />
+            <FilmCards films={films} />
           </div>
         </section>
 

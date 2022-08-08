@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 import Logo from '../../components/logo/logo';
 
 function Error(): JSX.Element {
@@ -5,7 +7,7 @@ function Error(): JSX.Element {
     <section>
       <Logo />
       <h1>404: Страница не найдена</h1>
-      <a href="/"> На главную</a>
+      <Link to={AppRoute.Main}> На главную</Link>
     </section>
   );
 }
