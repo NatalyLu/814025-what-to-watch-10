@@ -23,7 +23,7 @@ function Film(props:FilmProps): JSX.Element {
     } else {
       setIsPlaying(false);
     }
-  }, 1000);
+  }, 5000);
 
   const handleCardHover = (ishover: boolean): void => {
     setIsStillHover(ishover);
@@ -32,6 +32,7 @@ function Film(props:FilmProps): JSX.Element {
 
   const handleCardBlur = (ishover: boolean): void => {
     setIsStillHover(ishover);
+    setIsPlaying(ishover);
     clearTimeout(timeHover());
   };
 
