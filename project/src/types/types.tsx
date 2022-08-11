@@ -12,13 +12,13 @@ export type PromoFilm = {
   year: string;
 }
 
-export type Video = {
+export type VideoContent = {
   poster: string;
   link: string;
 }
 
 export type VideoObj = {
-  video: Video;
+  video: VideoContent;
 }
 
 export type FilmsData = (Film & VideoObj)[];

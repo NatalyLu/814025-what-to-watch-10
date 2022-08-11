@@ -2,17 +2,17 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
-import {Films} from '../../types/types';
-import {Review} from '../../types/types';
+import Video from '../../components/video/video';
+import {Films, Review, VideoContent} from '../../types/types';
 
 type FilmProps = {
   films: Films;
   review: Review;
+  video: VideoContent;
 }
 
 function Film(props:FilmProps): JSX.Element {
-  const {review, films} = props;
-
+  const {review, films, video} = props;
   return (
     <>
       <section className="film-card film-card--full">
@@ -69,7 +69,7 @@ function Film(props:FilmProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <Video video={video} />
             </div>
 
             <div className="film-card__desc">
@@ -98,7 +98,7 @@ function Film(props:FilmProps): JSX.Element {
               <div className="film-card__text">
                 <p>{review.text.first}</p>
 
-                {review.text.second ? <p>{review.text.second}</p> : null}
+                {review.text.second && <p>{review.text.second}</p>}
 
                 <p className="film-card__director"><strong>{review.director}</strong></p>
 

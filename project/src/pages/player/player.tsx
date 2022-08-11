@@ -1,7 +1,7 @@
-import {Video} from '../../types/types';
+import {VideoContent} from '../../types/types';
 
 type PlayerProps = {
-  video: Video;
+  video: VideoContent;
 }
 
 function Player(props: PlayerProps): JSX.Element {

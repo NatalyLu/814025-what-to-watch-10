@@ -1,4 +1,4 @@
-import {useState, MouseEvent} from 'react';
+import {useState} from 'react';
 import FilmCard from '../film-card/film-card';
 import {Films, Film} from '../../types/types';
 
@@ -10,8 +10,7 @@ function FilmCards(props: FilmCardsProps): JSX.Element {
   const {films} = props;
   const [activeCard, setActiveCard] = useState(films[0]);
 
-  const cardHoverHandel = (evt: MouseEvent, film: Film): void => {
-    evt.preventDefault();
+  const handleCardHover = (film: Film): void => {
     setActiveCard(film);
   };
 
@@ -20,7 +19,7 @@ function FilmCards(props: FilmCardsProps): JSX.Element {
       {/* Временный показ id фильма, на карточку которого наведен курсор */}
       <div style={ {width: '100%', marginBottom: '30px'} }><b>Hover element is: </b>{activeCard.id}</div>
       {films.map((item) =>
-        <FilmCard key={item.name} film={item} onMouseOver={cardHoverHandel} />
+        <FilmCard key={item.name} film={item} onMouseOver={handleCardHover} />
       )}
     </div>
   );

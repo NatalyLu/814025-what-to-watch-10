@@ -7,7 +7,7 @@ import Film from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import Error from '../../pages/error/error';
-import {PromoFilm, FilmsData, Films, Video, Review} from '../../types/types';
+import {PromoFilm, FilmsData, Review} from '../../types/types';
 import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
@@ -18,20 +18,21 @@ type AppProps = {
 
 function App(props: AppProps): JSX.Element {
   const {promoFilm, films, reviews} = props;
-  const filmsTextData: Films = [];
-  const videoArr: Video[] = [];
 
-  films.forEach((film) => {
-    filmsTextData.push({
+  const filmsTextData = films.map((film) =>
+    ({
       id: film.id,
       name: film.name,
       link: film.link,
-    });
-    videoArr.push({
+    })
+  );
+
+  const videoArr = films.map((film) =>
+    ({
       poster: film.video.poster,
       link: film.video.link,
-    });
-  });
+    })
+  );
 
   // Здесь в будущем достанем данные из общего массива
   const video = videoArr[0];
@@ -63,7 +64,7 @@ function App(props: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.Film}
-          element={<Film films={filmsTextData} review={review} />}
+          element={<Film films={filmsTextData} review={review} video={video} />}
         />
 
         <Route
