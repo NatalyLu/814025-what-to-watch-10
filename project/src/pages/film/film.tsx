@@ -1,5 +1,4 @@
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
@@ -14,28 +13,6 @@ type FilmProps = {
 
 function Film(props:FilmProps): JSX.Element {
   const {review, films, video} = props;
-  const [isStillhover, setIsStillHover] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  let timeHover = () => setTimeout(() => {
-    if (isStillhover) {
-      setIsPlaying(true);
-    } else {
-      setIsPlaying(false);
-    }
-  }, 5000);
-
-  const handleCardHover = (ishover: boolean): void => {
-    setIsStillHover(ishover);
-    timeHover();
-  };
-
-  const handleCardBlur = (ishover: boolean): void => {
-    setIsStillHover(ishover);
-    setIsPlaying(ishover);
-    clearTimeout(timeHover());
-  };
-
   return (
     <>
       <section className="film-card film-card--full">
@@ -92,7 +69,7 @@ function Film(props:FilmProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <Video video={video} isPlaying={isPlaying} isStillhover={isStillhover} onMouseHover={handleCardHover} onMouseOut={handleCardBlur} />
+              <Video video={video} />
             </div>
 
             <div className="film-card__desc">

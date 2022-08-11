@@ -1,42 +1,33 @@
-import {useState, useRef, useEffect} from 'react';
+import {useRef} from 'react';
 import {VideoContent} from '../../types/types';
 
 type VideoProps = {
   video: VideoContent;
-  isPlaying: boolean;
-  //оставила для показа значения в панели разработчика в пропсах к Video
-  isStillhover: boolean;
-  onMouseHover: (ishover: boolean) => void;
-  onMouseOut: (ishover: boolean) => void;
 }
 
 function Video(props: VideoProps): JSX.Element {
   const {poster, link} = props.video;
-  const {isPlaying, isStillhover, onMouseHover, onMouseOut} = props;
-
-  const [isLoading, setIsLoading] = useState(true);
-
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  let timeHover: ReturnType<typeof setTimeout>;
 
-  useEffect(() => {
+  const handlerCardHover = () => {
+    // Проверяем, что видео есть и запускаем его через 1с удержания указателя мыши над постером
     if (videoRef.current === null) {
       return;
     }
 
-    const handleVideoLoad = () => setIsLoading(false);
+    timeHover = setTimeout(() => {
+      videoRef.current && videoRef.current.play();
+    }, 1000);
+  };
 
-    if (isPlaying) {
-      videoRef.current.addEventListener('loadeddata', handleVideoLoad);
-      videoRef.current.play();
-    } else {
-      videoRef.current.pause();
-      videoRef.current.removeEventListener('loadeddata', handleVideoLoad);
-    }
-
-  }, [isPlaying]);
+  const handlerCardBlur = () => {
+    clearTimeout(timeHover);
+    videoRef.current && videoRef.current.load();
+  };
 
   return (
-    <video src={link} className="player__video" poster={poster} ref={videoRef} onMouseOver={() => onMouseHover(true)} onMouseOut={() => onMouseOut(false)} > </video>
+    <video src={link} className="player__video" poster={poster} ref={videoRef} onMouseOver={handlerCardHover} onMouseOut={handlerCardBlur}> </video>
   );
 }
 export default Video;
