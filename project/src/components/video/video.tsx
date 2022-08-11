@@ -8,7 +8,7 @@ type VideoProps = {
 function Video(props: VideoProps): JSX.Element {
   const {poster, link} = props.video;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  let timeHover: ReturnType<typeof setTimeout>;
+  const timeHover = useRef<NodeJS.Timeout | null>(null);
 
   const handlerCardHover = () => {
     // Проверяем, что видео есть и запускаем его через 1с удержания указателя мыши над постером
@@ -16,13 +16,13 @@ function Video(props: VideoProps): JSX.Element {
       return;
     }
 
-    timeHover = setTimeout(() => {
+    timeHover.current = setTimeout(() => {
       videoRef.current && videoRef.current.play();
     }, 1000);
   };
 
   const handlerCardBlur = () => {
-    clearTimeout(timeHover);
+    timeHover.current && clearTimeout(timeHover.current);
     videoRef.current && videoRef.current.load();
   };
 
