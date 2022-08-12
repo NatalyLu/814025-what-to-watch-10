@@ -1,9 +1,13 @@
 import {Link} from 'react-router-dom';
+import {useState} from 'react';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
+import Tabs from '../../components/tabs/tabs';
+import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {Films, Review, VideoContent} from '../../types/types';
+import {FilmTabs} from '../../const';
 
 type FilmProps = {
   films: Films;
@@ -13,6 +17,12 @@ type FilmProps = {
 
 function Film(props:FilmProps): JSX.Element {
   const {review, films, video} = props;
+
+  const [type, setType] = useState(FilmTabs[0]);
+  const handleListClick = (active: string): void => {
+    setType(active);
+  };
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -73,37 +83,8 @@ function Film(props:FilmProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{review.rating.score}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{review.rating.level}</span>
-                  <span className="film-rating__count">{review.rating.count}</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{review.text.first}</p>
-
-                {review.text.second && <p>{review.text.second}</p>}
-
-                <p className="film-card__director"><strong>{review.director}</strong></p>
-
-                <p className="film-card__starring"><strong>{review.starring}</strong></p>
-              </div>
+              <NavTabs onClick={handleListClick} filmTabs={FilmTabs} />
+              <Tabs activeType={type} review={review} />
             </div>
           </div>
         </div>

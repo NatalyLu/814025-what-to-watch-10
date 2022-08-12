@@ -36,3 +36,11 @@ export type Review = {
   director: string,
   starring: string,
 }
+
+export type TabsReview = {
+  description: string,
+  author: string,
+  dateTime: string,
+  date: string,
+  rating: string,
+}
