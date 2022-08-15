@@ -22,6 +22,7 @@ function App(props: AppProps): JSX.Element {
   const filmsTextData = films.map((film) =>
     ({
       id: film.id,
+      genre: film.genre,
       name: film.name,
       link: film.link,
     })

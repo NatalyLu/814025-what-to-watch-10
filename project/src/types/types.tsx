@@ -1,5 +1,6 @@
 export type Film = {
   id: string;
+  genre: string;
   link: string;
   name: string;
 }
@@ -8,7 +9,7 @@ export type Films = Film[];
 
 export type PromoFilm = {
   name: string;
-  gender: string;
+  genre: string;
   year: string;
 }
 

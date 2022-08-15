@@ -1,5 +1,5 @@
 export const promo = {
   name: 'The Grand Budapest Hotel',
-  gender: 'Drama',
+  genre: 'Drama',
   year: '2014'
 };
