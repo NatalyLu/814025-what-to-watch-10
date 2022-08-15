@@ -5,8 +5,6 @@ export type Film = {
   name: string;
 }
 
-export type Films = Film[];
-
 export type PromoFilm = {
   name: string;
   genre: string;
@@ -22,6 +20,7 @@ export type VideoObj = {
   video: VideoContent;
 }
 
+export type FilmData = Film & VideoObj;
 export type FilmsData = (Film & VideoObj)[];
 
 export type Review = {

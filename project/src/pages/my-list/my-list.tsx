@@ -1,9 +1,9 @@
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
-import {Films} from '../../types/types';
+import {FilmsData} from '../../types/types';
 
 type MyListProps = {
-  films: Films;
+  films: FilmsData;
 }
 
 function MyList(props: MyListProps): JSX.Element {

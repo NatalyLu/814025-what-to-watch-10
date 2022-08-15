@@ -19,15 +19,6 @@ type AppProps = {
 function App(props: AppProps): JSX.Element {
   const {promoFilm, films, reviews} = props;
 
-  const filmsTextData = films.map((film) =>
-    ({
-      id: film.id,
-      genre: film.genre,
-      name: film.name,
-      link: film.link,
-    })
-  );
-
   const videoArr = films.map((film) =>
     ({
       poster: film.video.poster,
@@ -44,7 +35,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main promoFilm={promoFilm} films={filmsTextData} />}
+          element={<Main promoFilm={promoFilm} />}
         />
 
         <Route
@@ -58,14 +49,14 @@ function App(props: AppProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <MyList films={filmsTextData} />
+              <MyList films={films} />
             </PrivateRoute>
           }
         />
 
         <Route
           path={AppRoute.Film}
-          element={<Film films={filmsTextData} review={review} video={video} />}
+          element={<Film films={films} review={review} video={video} />}
         />
 
         <Route

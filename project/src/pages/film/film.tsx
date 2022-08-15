@@ -6,11 +6,11 @@ import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {Films, Review, VideoContent} from '../../types/types';
+import {FilmsData, Review, VideoContent} from '../../types/types';
 import {filmTabs} from '../../const';
 
 type FilmProps = {
-  films: Films;
+  films: FilmsData;
   review: Review;
   video: VideoContent;
 }

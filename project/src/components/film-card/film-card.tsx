@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
-import {Film} from '../../types/types';
+import {FilmData} from '../../types/types';
 import {AppRoute} from '../../const';
 
 type FilmCardProps = {
-  film: Film;
-  onMouseOver: ((film: Film) => void);
+  film: FilmData;
+  onMouseOver: ((film: FilmData) => void);
 }
 
 function FilmCard(props: FilmCardProps): JSX.Element {
