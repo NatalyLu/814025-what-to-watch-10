@@ -13,8 +13,10 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const FilmTabs = [
+export const filmTabs = [
   'Overview',
   'Details',
   'Reviews',
 ];
+
+export const defaultGenre = 'All genres';

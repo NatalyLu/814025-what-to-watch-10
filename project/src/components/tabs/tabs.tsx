@@ -1,7 +1,7 @@
 import OverviewTab from './overview-tab';
 import DetailsTab from './details-tab';
 import ReviewsTab from './reviews-tab';
-import {FilmTabs} from '../../const';
+import {filmTabs} from '../../const';
 import {Review} from '../../types/types';
 
 type TabsProps = {
@@ -11,7 +11,7 @@ type TabsProps = {
 
 function Tabs(props: TabsProps): JSX.Element {
   const {activeType, review} = props;
-  const [OVERVIEW, DETAILS, REVIEWS] = FilmTabs;
+  const [OVERVIEW, DETAILS, REVIEWS] = filmTabs;
 
   const getComponentByType = (type: string): (JSX.Element | null) => {
     switch (type) {

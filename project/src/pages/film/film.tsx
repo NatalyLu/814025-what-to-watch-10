@@ -7,7 +7,7 @@ import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {Films, Review, VideoContent} from '../../types/types';
-import {FilmTabs} from '../../const';
+import {filmTabs} from '../../const';
 
 type FilmProps = {
   films: Films;
@@ -15,10 +15,10 @@ type FilmProps = {
   video: VideoContent;
 }
 
-function Film(props:FilmProps): JSX.Element {
+function Film(props: FilmProps): JSX.Element {
   const {review, films, video} = props;
 
-  const [type, setType] = useState(FilmTabs[0]);
+  const [type, setType] = useState(filmTabs[0]);
   const handleListClick = (active: string): void => {
     setType(active);
   };
@@ -83,7 +83,7 @@ function Film(props:FilmProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <NavTabs onClick={handleListClick} filmTabs={FilmTabs} />
+              <NavTabs onClick={handleListClick} filmTabs={filmTabs} />
               <Tabs activeType={type} review={review} />
             </div>
           </div>
