@@ -1,15 +1,13 @@
-import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
-import GenreList from '../../components/genre-list/genre-list';
-import {defaultGenre} from '../../const';
-import {PromoFilm, Film} from '../../types/types';
+import FilmCatalog from '../../components/film-catalog/film-catalog';
+import {PromoFilm} from '../../types/types';
 
 type MainProps = {
   promoFilm: PromoFilm;
-  films: Film[];
 }
 
 function Main(props: MainProps): JSX.Element {
+  const {promoFilm} = props;
   return (
     <>
       <section className="film-card">
@@ -36,14 +34,14 @@ function Main(props: MainProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={props.promoFilm.name} width="218" height="327" />
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={promoFilm.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.promoFilm.name}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.promoFilm.genre}</span>
-                <span className="film-card__year">{props.promoFilm.year}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.year}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -67,18 +65,7 @@ function Main(props: MainProps): JSX.Element {
       </section>
 
       <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList films={props.films} activeGenre={defaultGenre} />
-          <div className="catalog__films-list">
-            <FilmCards films={props.films} />
-          </div>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
-        </section>
-
+        <FilmCatalog />
         <footer className="page-footer">
           <Logo />
 
