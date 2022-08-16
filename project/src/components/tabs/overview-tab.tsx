@@ -1,11 +1,12 @@
-import {Review} from '../../types/types';
+import {useAppSelector} from '../../hooks/index';
 
-type OverviewTabProps = {
-  review: Review;
-}
+// type OverviewTabProps = {
+//   id: string;
+// }
 
-function OverviewTab(props: OverviewTabProps): JSX.Element {
-  const {review} = props;
+function OverviewTab(): JSX.Element {
+  // По id фильма будем получать описание
+  const review = useAppSelector((store) => store.reviews)[0];
 
   return (
     <>

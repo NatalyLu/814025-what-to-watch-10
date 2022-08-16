@@ -1,12 +1,11 @@
+import {useAppSelector} from '../../hooks/index';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
-import {FilmsData} from '../../types/types';
 
-type MyListProps = {
-  films: FilmsData;
-}
+function MyList(): JSX.Element {
+  // Пока подгружаем несколько фильмов из хранилища, позже добавить логику избранных фильмов
+  const films = useAppSelector((state) => state.films).slice(0, 3);
 
-function MyList(props: MyListProps): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -29,7 +28,7 @@ function MyList(props: MyListProps): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          <FilmCards films={props.films} />
+          <FilmCards films={films} />
         </div>
       </section>
 

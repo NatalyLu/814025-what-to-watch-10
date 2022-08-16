@@ -3,6 +3,7 @@ export type Film = {
   genre: string;
   link: string;
   name: string;
+  year: number;
 }
 
 export type PromoFilm = {

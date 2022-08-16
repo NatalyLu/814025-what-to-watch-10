@@ -1,14 +1,12 @@
-import {VideoContent} from '../../types/types';
+import {useAppSelector} from '../../hooks/index';
 
-type PlayerProps = {
-  video: VideoContent;
-}
+function Player(): JSX.Element {
+  // Добавить логику для получения видео
+  const video = useAppSelector((state) => state.films)[0].video;
 
-function Player(props: PlayerProps): JSX.Element {
-  const {poster, link} = props.video;
   return (
     <div className="player">
-      <video src={link} className="player__video" poster={poster}></video>
+      <video src={video.link} className="player__video" poster={video.poster}></video>
 
       <button type="button" className="player__exit">Exit</button>
 

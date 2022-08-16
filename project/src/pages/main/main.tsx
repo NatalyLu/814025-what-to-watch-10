@@ -1,13 +1,11 @@
+import {useAppSelector} from '../../hooks/index';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
-import {PromoFilm} from '../../types/types';
 
-type MainProps = {
-  promoFilm: PromoFilm;
-}
 
-function Main(props: MainProps): JSX.Element {
-  const {promoFilm} = props;
+function Main(): JSX.Element {
+  const promoFilm = useAppSelector((state) => state.promoFilm);
+
   return (
     <>
       <section className="film-card">
