@@ -27,7 +27,7 @@ function Video(props: VideoProps): JSX.Element {
   };
 
   return (
-    <video src={link} className="player__video" poster={poster} ref={videoRef} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}> </video>
+    <video src={link} className="player__video" style={ {pointerEvents: 'auto'} } poster={poster} ref={videoRef} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}> </video>
   );
 }
 export default Video;
