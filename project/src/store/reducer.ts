@@ -4,9 +4,18 @@ import {films} from '../mocks/films';
 import {FilmsData} from '../types/types';
 import {defaultGenre} from '../const';
 
+const getGenres = (allFilms: FilmsData): string[] => {
+  const genres = [defaultGenre];
+  allFilms.map(
+    (film) => !genres.includes(film.genre) && genres.push(film.genre)
+  );
+  return genres;
+};
+
 const initialState = {
   genre: defaultGenre,
   films: films,
+  genres: getGenres(films),
 };
 
 const getFilmsByGenre = (genre: string, allfilms: FilmsData) => {

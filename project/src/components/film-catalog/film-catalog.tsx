@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import {changingGenre} from '../../store/action';
-import {defaultGenre, MAX_FILMS_COUNT} from '../../const';
+import {changingGenre, filmsByGenre} from '../../store/action';
+import {MAX_FILMS_COUNT} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import GenreList from '../../components/genre-list/genre-list';
 import FilmCards from '../../components/film-cards/film-cards';
@@ -8,23 +8,21 @@ import ShowMore from '../show-more/show-more';
 
 function FilmCatalog():JSX.Element {
   const films = useAppSelector((state) => state.films);
+  const genreList = useAppSelector((state) => state.genres);
   const activeGenre = useAppSelector((state) => state.genre);
   const dispatch = useAppDispatch();
-
-  // Получаем список уникальных жанров
-  const genres = [defaultGenre];
-  films.map((film) => !genres.includes(film.genre) && genres.push(film.genre));
 
   // По клику на жанр обновляем активный таб с жанром и формируем новый список фильмов
   const handleGenreClick = (genre: string): void => {
     dispatch(changingGenre(genre));
+    dispatch(filmsByGenre());
   };
 
   const [filmIndex, setFilmIndex] = useState(MAX_FILMS_COUNT);
 
-  const filteredFilms = activeGenre === defaultGenre ? films : films.filter((film) => film.genre === activeGenre);
-  const someFilteredFilms = filteredFilms.slice(0, filmIndex);
-  const isFilms = filteredFilms.length - someFilteredFilms.length;
+  // Берём первые n фильмов для отрисовки, если фильмов больше не осталось, то скрываем кнопку ShowMore
+  const someFilteredFilms = films.slice(0, filmIndex);
+  const isFilms = films.length - someFilteredFilms.length;
 
   const handleButtonClick = (): void => {
     setFilmIndex(filmIndex + MAX_FILMS_COUNT);
@@ -33,7 +31,7 @@ function FilmCatalog():JSX.Element {
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
-      <GenreList activeGenre={activeGenre} genres={genres} onClick={handleGenreClick} />
+      <GenreList activeGenre={activeGenre} genres={genreList} onClick={handleGenreClick} />
       <div className="catalog__films-list">
         <FilmCards films={someFilteredFilms} />
       </div>
