@@ -2,10 +2,10 @@ import { createReducer } from '@reduxjs/toolkit';
 import { changingGenre, filmsByGenre } from './action';
 import {films} from '../mocks/films';
 import {FilmsData} from '../types/types';
-import {defaultGenre} from '../const';
+import {DEFAULT_GENRE} from '../const';
 
 const getGenres = (allFilms: FilmsData): string[] => {
-  const genres = [defaultGenre];
+  const genres = [DEFAULT_GENRE];
   allFilms.map(
     (film) => !genres.includes(film.genre) && genres.push(film.genre)
   );
@@ -13,13 +13,13 @@ const getGenres = (allFilms: FilmsData): string[] => {
 };
 
 const initialState = {
-  genre: defaultGenre,
+  genre: DEFAULT_GENRE,
   films: films,
   genres: getGenres(films),
 };
 
 const getFilmsByGenre = (genre: string, allfilms: FilmsData) => {
-  if (genre === defaultGenre) {
+  if (genre === DEFAULT_GENRE) {
     return allfilms;
   } else {
     const filteredFilms = allfilms.filter((film) => film.genre === genre);

@@ -19,6 +19,6 @@ export const filmTabs = [
   'Reviews',
 ];
 
-export const defaultGenre = 'All genres';
+export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;
