@@ -7,9 +7,11 @@ import {filmReviews} from '../mocks/film-reviews';
 import {Films} from '../types/types';
 import {DEFAULT_GENRE} from '../const';
 
-const getGenres = (films: Films): string[] => {
+const getGenres = (filmsArr: Films): string[] => {
   const genres = [DEFAULT_GENRE];
-  films.map((film) => !genres.includes(film.genre) && genres.push(film.genre));
+  filmsArr.map(
+    (film) => !genres.includes(film.genre) && genres.push(film.genre)
+  );
   return genres;
 };
 
@@ -22,11 +24,11 @@ const initialState = {
   filmReviews: filmReviews,
 };
 
-const getFilmsByGenre = (genre: string, films: Films) => {
+const getFilmsByGenre = (genre: string, filmsArr: Films) => {
   if (genre === DEFAULT_GENRE) {
     return films;
   } else {
-    const filteredFilms = films.filter((film) => film.genre === genre);
+    const filteredFilms = filmsArr.filter((film) => film.genre === genre);
     return filteredFilms;
   }
 };
