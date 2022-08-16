@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
-import {FilmData} from '../../types/types';
+import {Film} from '../../types/types';
 import {AppRoute} from '../../const';
 import Video from '../video/video';
 
 type FilmCardProps = {
-  film: FilmData;
+  film: Film;
 }
 
 function FilmCard(props: FilmCardProps): JSX.Element {
