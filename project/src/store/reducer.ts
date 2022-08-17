@@ -9,7 +9,7 @@ import {DEFAULT_GENRE} from '../const';
 
 const getGenres = (filmsArr: Films): string[] => {
   const genres = [DEFAULT_GENRE];
-  filmsArr.map(
+  filmsArr.forEach(
     (film) => !genres.includes(film.genre) && genres.push(film.genre)
   );
   return genres;
