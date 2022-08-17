@@ -13,8 +13,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const FilmTabs = [
+export const filmTabs = [
   'Overview',
   'Details',
   'Reviews',
 ];
+
+export const DEFAULT_GENRE = 'All genres';
+
+export const MAX_FILMS_COUNT = 8;

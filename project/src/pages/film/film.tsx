@@ -1,24 +1,23 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
+import {useAppSelector} from '../../hooks/index';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {Films, Review, VideoContent} from '../../types/types';
-import {FilmTabs} from '../../const';
+import {filmTabs} from '../../const';
 
-type FilmProps = {
-  films: Films;
-  review: Review;
-  video: VideoContent;
-}
 
-function Film(props:FilmProps): JSX.Element {
-  const {review, films, video} = props;
+function Film(): JSX.Element {
+  // Добавить логику для получения похожих фильмов
+  const films = useAppSelector((state) => state.films);
+  // И текущего фильма и видео для него
+  const currentFilm = films[0];
+  const video = films[0].video;
 
-  const [type, setType] = useState(FilmTabs[0]);
+  const [type, setType] = useState(filmTabs[0]);
   const handleListClick = (active: string): void => {
     setType(active);
   };
@@ -50,10 +49,10 @@ function Film(props:FilmProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{currentFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{currentFilm.genre}</span>
+                <span className="film-card__year">{currentFilm.year}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -83,8 +82,8 @@ function Film(props:FilmProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <NavTabs onClick={handleListClick} filmTabs={FilmTabs} />
-              <Tabs activeType={type} review={review} />
+              <NavTabs onClick={handleListClick} filmTabs={filmTabs} />
+              <Tabs activeType={type} />
             </div>
           </div>
         </div>

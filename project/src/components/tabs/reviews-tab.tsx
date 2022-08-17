@@ -1,7 +1,8 @@
-import {filmReviews} from '../../mocks/film-reviews';
+import {useAppSelector} from '../../hooks/index';
 import {TabsReview} from '../../types/types';
 
 function ReviewsTab(): JSX.Element {
+  const filmReviews = useAppSelector((store) => store.filmReviews);
   // Так как отзывы выводятся в 2 колонки, то
   // необходимо разбить массив напополам =>
   // находим индекс центрального элемента массива (делением на 2 :))

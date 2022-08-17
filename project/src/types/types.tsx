@@ -1,27 +1,24 @@
-export type Film = {
-  id: string;
-  link: string;
-  name: string;
-}
-
-export type Films = Film[];
-
-export type PromoFilm = {
-  name: string;
-  gender: string;
-  year: string;
-}
-
 export type VideoContent = {
   poster: string;
   link: string;
 }
 
-export type VideoObj = {
+export type Film = {
+  id: string;
+  genre: string;
+  link: string;
+  name: string;
+  year: number;
   video: VideoContent;
 }
 
-export type FilmsData = (Film & VideoObj)[];
+export type PromoFilm = {
+  name: string;
+  genre: string;
+  year: string;
+}
+
+export type Films = Film[];
 
 export type Review = {
   rating: {
