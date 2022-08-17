@@ -22,7 +22,7 @@ function FilmCatalog():JSX.Element {
 
   // Берём первые n фильмов для отрисовки, если фильмов больше не осталось, то скрываем кнопку ShowMore
   const someFilteredFilms = films.slice(0, filmIndex);
-  const isFilms = films.length - someFilteredFilms.length;
+  const isFilms = Boolean(films.length - someFilteredFilms.length);
 
   const handleButtonClick = (): void => {
     setFilmIndex(filmIndex + MAX_FILMS_COUNT);
@@ -35,7 +35,7 @@ function FilmCatalog():JSX.Element {
       <div className="catalog__films-list">
         <FilmCards films={someFilteredFilms} />
       </div>
-      {(isFilms) ? <ShowMore onClick={handleButtonClick}/> : null }
+      {(isFilms) && <ShowMore onClick={handleButtonClick}/> }
     </section>
   );
 }
