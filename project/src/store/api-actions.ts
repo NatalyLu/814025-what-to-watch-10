@@ -4,9 +4,10 @@ import { AppDispatch, State } from '../types/state';
 import { Films } from '../types/types';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { APIRoute, AuthorizationStatus } from '../const';
-import { loadFilms, requireAuthorization } from './action';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { loadFilms, requireAuthorization, setError } from './action';
 import { saveToken, dropToken } from '../services/token';
+import {store} from './index';
 
 // createAsyncThunk создает асинхронные действия - actions
 export const fetchQuestionAction = createAsyncThunk<
@@ -83,5 +84,16 @@ export const logoutAction = createAsyncThunk<
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
+);
+
+// Очистка поля error. Спустя некоторое время показа ошибки пользоователю, удаляем её из хранилища
+export const clearErrorAction = createAsyncThunk(
+  'data/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setError(null)),
+      TIMEOUT_SHOW_ERROR,
+    );
   },
 );

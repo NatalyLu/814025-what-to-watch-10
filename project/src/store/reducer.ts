@@ -5,6 +5,7 @@ import {
   filmsByGenre,
   requireAuthorization,
   getReviews,
+  setError,
 } from "./action";
 // import {films} from '../mocks/films';
 // import {promo} from '../mocks/promo';
@@ -29,6 +30,7 @@ type InitialState = {
   reviews: Reviews;
   filmReviews: Reviews;
   authorizationStatus: AuthorizationStatus;
+  error: string | null;
 };
 
 const initialState: InitialState = {
@@ -40,6 +42,7 @@ const initialState: InitialState = {
   filmReviews: [],
   // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние, валидный ли наш токен, если он есть
   authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
 };
 
 const getFilmsByGenre = (genre: string, filmsArr: Films) => {
@@ -88,6 +91,9 @@ const reducer = createReducer(initialState,
       // })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
+      })
+      .addCase(setError, (state, action) => {
+        state.error = action.payload;
       });
   }
 );

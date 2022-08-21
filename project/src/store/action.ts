@@ -23,3 +23,5 @@ export const filmsByGenre = createAction<Films>('films/filmsByGenre');
 // export const addNewReview = createAction<Review>('review/addNewReview');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+
+export const setError = createAction<string | null>("data/setError");
