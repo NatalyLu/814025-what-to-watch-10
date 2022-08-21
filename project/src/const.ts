@@ -13,6 +13,17 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Films = "/films",
+  // Film = "/films/{filmId}",
+  // FilmSimilar = '/films/{filmId}/similar',
+  // PromoFilm = '/promo',
+  // Reviews = '/comments/{filmId}',
+  FavoriteFilms = '/favorite',
+  Login = "/login",
+  Logout = "/logout",
+}
+
 export const filmTabs = [
   'Overview',
   'Details',
