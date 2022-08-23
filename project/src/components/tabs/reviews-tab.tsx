@@ -1,5 +1,5 @@
 import {useAppSelector} from '../../hooks/index';
-import {Review} from '../../types/types';
+import {Review, Reviews} from '../../types/types';
 
 function ReviewsTab(): JSX.Element {
   const reviews = useAppSelector((store) => store.reviews);
@@ -8,10 +8,17 @@ function ReviewsTab(): JSX.Element {
   // находим индекс центрального элемента массива (делением на 2 :))
   // Eсли число отзывов нечетное, то округляем в большую сторону, чтобы в первой (левой) колонке было большее количество элементов
   // -1, т.к. индексы в массиве идут с 0
-  const IndexOfArrayCenter = ( (reviews.length % 2) ? Math.ceil(reviews.length / 2) : reviews.length / 2);
+  
+  let firstColumn:Reviews = [];
+  let secondColumn:Reviews = [];
 
-  const firstColumn = reviews.slice(0, IndexOfArrayCenter);
-  const secondColumn = reviews.slice(IndexOfArrayCenter);
+  if (reviews.length > 1) {
+    const IndexOfArrayCenter = ( (reviews.length % 2) ? Math.ceil(reviews.length / 2) : reviews.length / 2);
+    firstColumn = reviews.slice(0, IndexOfArrayCenter);
+    secondColumn = reviews.slice(IndexOfArrayCenter);
+  } else {
+    firstColumn = reviews;
+  }
 
   const getReviews = (array: Review[]): JSX.Element[] => (
     array.map((item) =>
@@ -35,9 +42,11 @@ function ReviewsTab(): JSX.Element {
       <div className="film-card__reviews-col">
         {getReviews(firstColumn)}
       </div>
-      <div className="film-card__reviews-col">
-        {getReviews(secondColumn)}
-      </div>
+      {secondColumn.length > 0 &&
+        <div className="film-card__reviews-col">
+          {getReviews(secondColumn)}
+        </div>
+      }
     </div>
   );
 }

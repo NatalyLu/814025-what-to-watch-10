@@ -25,12 +25,12 @@ const getGenres = (filmsArr: Films): string[] => {
 type InitialState = {
   genre: string;
   films: Films;
-  film: Partial<Film>;
+  film?: Film;
   favoriteFilms: Films;
   similarFilms: Films;
   filmsByGenre: Films;
   genres: string[];
-  promoFilm: Partial<Film>;
+  promoFilm?: Film;
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
@@ -41,12 +41,12 @@ const initialState: InitialState = {
   isDataLoaded: false,
   genre: DEFAULT_GENRE,
   films: [],
-  film: {},
+  film: undefined,
   favoriteFilms: [],
   similarFilms: [],
   filmsByGenre: [],
   genres: [],
-  promoFilm: {},
+  promoFilm: undefined,
   reviews: [],
   // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние, валидный ли наш токен, если он есть
   authorizationStatus: AuthorizationStatus.Unknown,

@@ -2,7 +2,7 @@ import {useAppSelector} from '../../hooks/index';
 import {Film} from '../../types/types';
 
 type OverviewTabProps = {
-  film: Partial<Film>;
+  film: Film;
 }
 
 function OverviewTab(props: OverviewTabProps): JSX.Element {
@@ -27,19 +27,23 @@ function OverviewTab(props: OverviewTabProps): JSX.Element {
 
   return (
     <>
-      <div className="film-rating">
-        <div className="film-rating__score">{review && review.rating}</div>
-        <p className="film-rating__meta">
-          <span className="film-rating__level">{level}</span>
-          <span className="film-rating__count">{film.scoresCount} ratings</span>
-        </p>
-      </div>
+      { review && 
+        <>
+          <div className="film-rating">
+            <div className="film-rating__score">{review.rating}</div>
+            <p className="film-rating__meta">
+              <span className="film-rating__level">{level}</span>
+              <span className="film-rating__count">{film.scoresCount} ratings</span>
+            </p>
+          </div>
 
-      <div className="film-card__text">
-        <p>{review && review.comment}</p>
-        <p className="film-card__director"><strong>{film && film.director}</strong></p>
-        <p className="film-card__starring"><strong>{film && film.starring}</strong></p>
-      </div>
+          <div className="film-card__text">
+            <p>{review && review.comment}</p>
+            <p className="film-card__director"><strong>{film && film.director}</strong></p>
+            <p className="film-card__starring"><strong>{film && film.starring}</strong></p>
+          </div>
+        </>
+      }
     </>
   );
 }

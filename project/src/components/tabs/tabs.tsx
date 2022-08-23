@@ -6,7 +6,7 @@ import {Film} from '../../types/types';
 
 type TabsProps = {
   activeType: string;
-  film: Partial<Film>;
+  film: Film;
 }
 
 function Tabs(props: TabsProps): JSX.Element {

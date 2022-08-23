@@ -1,7 +1,7 @@
 import {Film} from '../../types/types';
 
 type DetailsTabProps = {
-  film: Partial<Film>;
+  film: Film;
 }
 
 function DetailsTab(props: DetailsTabProps): JSX.Element {
@@ -18,7 +18,7 @@ function DetailsTab(props: DetailsTabProps): JSX.Element {
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {
-              film.starring && film.starring.map((actor) => (
+              film.starring.map((actor) => (
                 <>
                   {actor} <br />
                 </>
