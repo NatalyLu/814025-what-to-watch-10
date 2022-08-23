@@ -8,7 +8,7 @@ function ReviewsTab(): JSX.Element {
   // находим индекс центрального элемента массива (делением на 2 :))
   // Eсли число отзывов нечетное, то округляем в большую сторону, чтобы в первой (левой) колонке было большее количество элементов
   // -1, т.к. индексы в массиве идут с 0
-  
+
   let firstColumn:Reviews = [];
   let secondColumn:Reviews = [];
 
@@ -45,8 +45,7 @@ function ReviewsTab(): JSX.Element {
       {secondColumn.length > 0 &&
         <div className="film-card__reviews-col">
           {getReviews(secondColumn)}
-        </div>
-      }
+        </div>}
     </div>
   );
 }

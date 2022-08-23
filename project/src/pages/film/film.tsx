@@ -69,10 +69,9 @@ function Film(): JSX.Element {
                   <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
                 </div>
               </div>
-            </div>
-          }
+            </div>}
         </div>
-        
+
         {film &&
           <div className="film-card__wrap film-card__translate-top">
             <div className="film-card__info">
@@ -85,8 +84,7 @@ function Film(): JSX.Element {
                 <Tabs activeType={type} film={film} />
               </div>
             </div>
-          </div>
-        }
+          </div>}
       </section>
 
       <div className="page-content">

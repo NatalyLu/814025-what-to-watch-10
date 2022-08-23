@@ -59,8 +59,7 @@ function Main(): JSX.Element {
                   </button>
                 </div>
               </div>
-            </div>
-          }
+            </div>}
         </div>
       </section>
 
