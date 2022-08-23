@@ -12,7 +12,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image" style={ {pointerEvents: 'none'} }>
-        <Video video={film.video} />
+        <Video posterImage={film.posterImage} videoLink={film.videoLink} />
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={AppRoute.Film}>{film.name}</Link>
