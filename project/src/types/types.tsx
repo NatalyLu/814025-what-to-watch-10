@@ -1,38 +1,24 @@
-export type VideoContent = {
-  poster: string;
-  link: string;
-}
-
 export type Film = {
-  id: string;
-  genre: string;
-  link: string;
+  id: number;
   name: string;
-  year: number;
-  video: VideoContent;
-}
-
-export type PromoFilm = {
-  name: string;
+  posterImage: string;
+  previewImage: string;
+  backgroundImage: string;
+  backgroundColor: string;
+  videoLink: string;
+  previewVideoLink: string;
+  description: string;
+  rating: number;
+  scoresCount: number;
+  director: string;
+  starring: [string];
+  runTime: number;
   genre: string;
-  year: string;
+  released: number;
+  isFavorite: boolean;
 }
 
 export type Films = Film[];
-
-export type Review = {
-  rating: {
-    score: string,
-    level: string,
-    count: string,
-  },
-  text: {
-    first: string,
-    second?: string,
-  },
-  director: string,
-  starring: string,
-}
 
 export type TabsReview = {
   description: string,
@@ -41,3 +27,16 @@ export type TabsReview = {
   date: string,
   rating: string,
 }
+
+export type Review = {
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: {
+    id: number,
+    name: string,
+  };
+}
+
+export type Reviews = Review[];

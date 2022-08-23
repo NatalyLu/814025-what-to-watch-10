@@ -3,10 +3,10 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   AxiosError,
-} from "axios";
-import { StatusCodes } from "http-status-codes";
-import {getToken} from "./token";
-import { processErrorHandle } from "./process-error-handle";
+} from 'axios';
+import { StatusCodes } from 'http-status-codes';
+import {getToken} from './token';
+import { processErrorHandle } from './process-error-handle';
 
 // Record для описания формы нашего обьекта, т.е. ожидаем обьект с числовыми ключами и булевыми значениями
 // Ключи - это коды ошибок ответа от сервера
@@ -37,7 +37,7 @@ export const createAPI = ():AxiosInstance => {
 
     // И вставляем токен в заголовки
     if (token) {
-      config.headers["x-token"] = token;
+      config.headers['x-token'] = token;
     }
     return config;
   });
@@ -57,4 +57,4 @@ export const createAPI = ():AxiosInstance => {
   );
 
   return api;
-}
+};

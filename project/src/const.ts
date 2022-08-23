@@ -14,14 +14,14 @@ export enum AuthorizationStatus {
 }
 
 export enum APIRoute {
-  Films = "/films",
-  // Film = "/films/{filmId}",
-  // FilmSimilar = '/films/{filmId}/similar',
-  // PromoFilm = '/promo',
-  // Reviews = '/comments/{filmId}',
+  Films = '/films',
+  Film = '/films/{filmId}',
+  SimilarFilms = '/films/{filmId}/similar',
+  PromoFilm = '/promo',
+  Reviews = '/comments/{filmId}',
   FavoriteFilms = '/favorite',
-  Login = "/login",
-  Logout = "/logout",
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export const filmTabs = [

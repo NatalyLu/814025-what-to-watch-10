@@ -1,16 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
   loadFilms,
+  loadPromoFilm,
+  loadFavoriteFilms,
+  loadCurrentFilm,
+  loadSimilarFilms,
   changingGenre,
-  filmsByGenre,
   requireAuthorization,
-  getReviews,
+  loadReviews,
   setError,
-} from "./action";
-// import {films} from '../mocks/films';
-// import {promo} from '../mocks/promo';
-// import {reviews} from '../mocks/reviews';
-// import {filmReviews} from '../mocks/film-reviews';
+  setDataLoadedStatus,
+} from './action';
 import {Films, Film, Reviews} from '../types/types';
 import {DEFAULT_GENRE, AuthorizationStatus} from '../const';
 
@@ -25,21 +25,29 @@ const getGenres = (filmsArr: Films): string[] => {
 type InitialState = {
   genre: string;
   films: Films;
+  film: Partial<Film>;
+  favoriteFilms: Films;
+  similarFilms: Films;
+  filmsByGenre: Films;
   genres: string[];
-  // promoFilm: Film;
+  promoFilm: Partial<Film>;
   reviews: Reviews;
-  filmReviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
+  isDataLoaded: boolean;
 };
 
 const initialState: InitialState = {
+  isDataLoaded: false,
   genre: DEFAULT_GENRE,
   films: [],
+  film: {},
+  favoriteFilms: [],
+  similarFilms: [],
+  filmsByGenre: [],
   genres: [],
-  // promoFilm: films[0],
+  promoFilm: {},
   reviews: [],
-  filmReviews: [],
   // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние, валидный ли наш токен, если он есть
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
@@ -57,38 +65,33 @@ const getFilmsByGenre = (genre: string, filmsArr: Films) => {
 const reducer = createReducer(initialState,
   (builder) => {
     builder
+      .addCase(setDataLoadedStatus, (state, action) => {
+        state.isDataLoaded = action.payload;
+      })
       .addCase(loadFilms, (state, action) => {
         state.films = action.payload;
         state.genres = getGenres(state.films);
+        state.filmsByGenre = getFilmsByGenre(state.genre, state.films);
       })
       .addCase(changingGenre, (state, action) => {
         state.genre = action.payload;
+        state.filmsByGenre = getFilmsByGenre(state.genre, state.films);
       })
-      .addCase(filmsByGenre, (state) => {
-        state.films = getFilmsByGenre(state.genre, state.films);
+      .addCase(loadFavoriteFilms, (state, action) => {
+        state.favoriteFilms = action.payload;
       })
-      // .addCase(getFilm, (state) => {
-
-      // })
-
-      // .addCase(getSimilarFilms, (state) => {
-
-      // })
-      // .addCase(getPromoFilm, (state) => {
-
-      // })
-      // .addCase(getRecommendFilms, (state) => {
-
-      // })
-      // .addCase(changingFavorite, (state) => {
-
-      // })
-      .addCase(getReviews, (state, action) => {
+      .addCase(loadCurrentFilm, (state, action) => {
+        state.film = action.payload;
+      })
+      .addCase(loadPromoFilm, (state, action) => {
+        state.promoFilm = action.payload;
+      })
+      .addCase(loadSimilarFilms, (state, action) => {
+        state.similarFilms = action.payload;
+      })
+      .addCase(loadReviews, (state, action) => {
         state.reviews = action.payload;
       })
-      // .addCase(addNewReview, (state) => {
-
-      // })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
       })
