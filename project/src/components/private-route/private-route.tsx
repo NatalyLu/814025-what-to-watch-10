@@ -1,6 +1,6 @@
 import {Navigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading/loading';
 
 type PrivateRouteProps = {

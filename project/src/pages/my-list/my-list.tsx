@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 

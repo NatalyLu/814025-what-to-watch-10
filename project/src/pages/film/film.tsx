@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';

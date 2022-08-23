@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {changingGenre} from '../../store/action';
 import {MAX_FILMS_COUNT} from '../../const';
-import {useAppDispatch, useAppSelector} from '../../hooks/index';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import GenreList from '../../components/genre-list/genre-list';
 import FilmCards from '../../components/film-cards/film-cards';
 import ShowMore from '../show-more/show-more';

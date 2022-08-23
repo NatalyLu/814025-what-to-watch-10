@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 import {fetchPromoFilmAction} from '../../store/api-actions';
 import {store} from '../../store';
 import Logo from '../../components/logo/logo';

@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 
 type GenreListProps = {
   activeGenre: string;

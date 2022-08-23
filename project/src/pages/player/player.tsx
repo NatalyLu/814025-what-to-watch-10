@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 
 function Player(): JSX.Element {
   // Добавить логику для получения видео

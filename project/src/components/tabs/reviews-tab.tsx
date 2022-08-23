@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector} from '../../hooks';
 import {Review, Reviews} from '../../types/types';
 
 function ReviewsTab(): JSX.Element {
