@@ -11,11 +11,8 @@ import {filmTabs} from '../../const';
 
 
 function Film(): JSX.Element {
-  // Добавить логику для получения похожих фильмов
-  const films = useAppSelector((state) => state.films);
-  // И текущего фильма и видео для него
-  const currentFilm = films[0];
-  const video = films[0].video;
+  const similarFilms = useAppSelector((state) => state.similarFilms);
+  const film = useAppSelector((state) => state.film);
 
   const [type, setType] = useState(filmTabs[0]);
   const handleListClick = (active: string): void => {
@@ -49,10 +46,10 @@ function Film(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm.genre}</span>
-                <span className="film-card__year">{currentFilm.year}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -78,12 +75,12 @@ function Film(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <Video video={video} />
+              <Video posterImage={film.posterImage} videoLink={film.videoLink} />
             </div>
 
             <div className="film-card__desc">
               <NavTabs onClick={handleListClick} filmTabs={filmTabs} />
-              <Tabs activeType={type} />
+              <Tabs activeType={type} film={film} />
             </div>
           </div>
         </div>
@@ -94,7 +91,7 @@ function Film(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmCards films={films} />
+            <FilmCards films={similarFilms} />
           </div>
         </section>
 

@@ -4,7 +4,7 @@ import Logo from '../../components/logo/logo';
 
 function MyList(): JSX.Element {
   // Пока подгружаем несколько фильмов из хранилища, позже добавить логику избранных фильмов
-  const films = useAppSelector((state) => state.films).slice(0, 3);
+  const films = useAppSelector((state) => state.favoriteFilms);
 
   return (
     <div className="user-page">
