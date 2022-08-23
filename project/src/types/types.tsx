@@ -20,14 +20,6 @@ export type Film = {
 
 export type Films = Film[];
 
-export type TabsReview = {
-  description: string,
-  author: string,
-  dateTime: string,
-  date: string,
-  rating: string,
-}
-
 export type Review = {
   comment: string;
   date: string;

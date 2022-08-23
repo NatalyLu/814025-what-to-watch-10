@@ -37,7 +37,6 @@ function OverviewTab(props: OverviewTabProps): JSX.Element {
 
       <div className="film-card__text">
         <p>{review && review.comment}</p>
-        {/* {review.text.second && <p>{review.text.second}</p>} */}
         <p className="film-card__director"><strong>{film && film.director}</strong></p>
         <p className="film-card__starring"><strong>{film && film.starring}</strong></p>
       </div>
