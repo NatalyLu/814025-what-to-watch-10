@@ -23,6 +23,7 @@ const getGenres = (filmsArr: Films): string[] => {
 };
 
 type InitialState = {
+  isDataLoaded: boolean;
   genre: string;
   films: Films;
   film?: Film;
@@ -34,7 +35,6 @@ type InitialState = {
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
-  isDataLoaded: boolean;
 };
 
 const initialState: InitialState = {

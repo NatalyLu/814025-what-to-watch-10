@@ -1,10 +1,15 @@
 import {useAppSelector} from '../../hooks/index';
+import {fetchPromoFilmAction} from '../../store/api-actions';
+import {store} from '../../store';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
+import Spiner from '../../components/spiner/spiner';
 
 
 function Main(): JSX.Element {
+  store.dispatch(fetchPromoFilmAction(2));
   const promoFilm = useAppSelector((state) => state.promoFilm);
+  const isLoaded = useAppSelector((state) => state.isDataLoaded);
 
   return (
     <>
@@ -30,6 +35,7 @@ function Main(): JSX.Element {
         </header>
 
         <div className="film-card__wrap">
+          {!promoFilm && isLoaded && <Spiner />}
           {promoFilm &&
             <div className="film-card__info">
               <div className="film-card__poster">

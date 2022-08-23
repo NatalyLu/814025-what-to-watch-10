@@ -5,8 +5,10 @@ import axios, {
   AxiosError,
 } from 'axios';
 import { StatusCodes } from 'http-status-codes';
+import {setDataLoadedStatus} from '../store/action';
 import {getToken} from './token';
 import { processErrorHandle } from './process-error-handle';
+import { store } from '../store';
 
 // Record для описания формы нашего обьекта, т.е. ожидаем обьект с числовыми ключами и булевыми значениями
 // Ключи - это коды ошибок ответа от сервера
@@ -31,6 +33,7 @@ export const createAPI = ():AxiosInstance => {
   // Извлекаем токен из localStorage (с помощью перехватчиков - interceptors)
   // Перехватываем запрос - request
   api.interceptors.request.use((config: AxiosRequestConfig) => {
+    store.dispatch(setDataLoadedStatus(true));
     // Настраиваем перехватчик, который будет вызывать формирования запроса, но до его отправки серверу.
     // Здесь мы сможем модифицировать конфигурацию axios.
     const token = getToken();
@@ -45,7 +48,10 @@ export const createAPI = ():AxiosInstance => {
   // С помощью интерсетера проверяем наличие ошибки
   // Если имеется, то передаем в processErrorHandle текст ошибки
   api.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      store.dispatch(setDataLoadedStatus(false));
+      return response;
+    },
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
         processErrorHandle(error.response.data.error);

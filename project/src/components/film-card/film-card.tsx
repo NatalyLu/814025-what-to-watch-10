@@ -9,6 +9,7 @@ type FilmCardProps = {
 
 function FilmCard(props: FilmCardProps): JSX.Element {
   const {film} = props;
+
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image" style={ {pointerEvents: 'none'} }>

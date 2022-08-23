@@ -14,7 +14,7 @@ import {
   loadReviews,
   requireAuthorization,
   setError,
-  setDataLoadedStatus,
+  // setDataLoadedStatus,
 } from './action';
 import { saveToken, dropToken } from '../services/token';
 import {store} from './index';
@@ -36,16 +36,16 @@ export const fetchFilmsAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<Films>(APIRoute.Films);
     // *Ошибки запроса будем ловить в другом месте
-    dispatch(setDataLoadedStatus(true));
+    // dispatch(setDataLoadedStatus(true));
     dispatch(loadFilms(data));
-    dispatch(setDataLoadedStatus(false));
+    // dispatch(setDataLoadedStatus(false));
   }
 );
 
 // PROMO FILM
 export const fetchPromoFilmAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -53,7 +53,7 @@ export const fetchPromoFilmAction = createAsyncThunk<
   }
 >(
   'data/fetchPromoFilm',
-  async (_arg, { dispatch, extra: api }) => {
+  async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
   }

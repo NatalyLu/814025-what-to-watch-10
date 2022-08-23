@@ -1,5 +1,4 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {useAppSelector} from '../../hooks/index';
 import {AppRoute} from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
@@ -9,18 +8,8 @@ import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
 import Error from '../../pages/error/error';
 import PrivateRoute from '../private-route/private-route';
-import LoadingScreen from '../../pages/loading/loading';
-import {isCheckedAuth} from '../../functions';
 
 function App(): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
-
-  if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -37,9 +26,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute
-              authorizationStatus={authorizationStatus}
-            >
+            <PrivateRoute>
               <MyList />
             </PrivateRoute>
           }
