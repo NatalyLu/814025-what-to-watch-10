@@ -16,7 +16,7 @@ import {
   setError,
   // setDataLoadedStatus,
 } from './action';
-import { saveToken, dropToken } from '../services/token';
+import { saveToken, removeToken } from '../services/token';
 import {store} from './index';
 
 // createAsyncThunk создает асинхронные действия - actions
@@ -184,7 +184,7 @@ export const logoutAction = createAsyncThunk<
   'user/logout',
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
-    dropToken();
+    removeToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );

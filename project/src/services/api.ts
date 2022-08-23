@@ -19,7 +19,7 @@ const StatusCodeMapping: Record<number, boolean> = {
 };
 
 // Тут принимаем ответ от сервера и возвращаем проверку кода ответа (response.status) через ранее созданное перечисление StatusCodeMapping
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
 
 const BACKEND_URL = 'https://10.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000;
