@@ -1,11 +1,18 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changingGenre, filmsByGenre} from './action';
-import {films} from '../mocks/films';
-import {promo} from '../mocks/promo';
-import {reviews} from '../mocks/reviews';
-import {filmReviews} from '../mocks/film-reviews';
-import {Films} from '../types/types';
-import {DEFAULT_GENRE} from '../const';
+import {
+  loadFilms,
+  loadPromoFilm,
+  loadFavoriteFilms,
+  loadCurrentFilm,
+  loadSimilarFilms,
+  changingGenre,
+  requireAuthorization,
+  loadReviews,
+  setError,
+  setDataLoadedStatus,
+} from './action';
+import {Films, Film, Reviews} from '../types/types';
+import {DEFAULT_GENRE, AuthorizationStatus} from '../const';
 
 const getGenres = (filmsArr: Films): string[] => {
   const genres = [DEFAULT_GENRE];
@@ -15,18 +22,40 @@ const getGenres = (filmsArr: Films): string[] => {
   return genres;
 };
 
-const initialState = {
+type InitialState = {
+  isDataLoaded: boolean;
+  genre: string;
+  films: Films;
+  film?: Film;
+  favoriteFilms: Films;
+  similarFilms: Films;
+  filmsByGenre: Films;
+  genres: string[];
+  promoFilm?: Film;
+  reviews: Reviews;
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+};
+
+const initialState: InitialState = {
+  isDataLoaded: false,
   genre: DEFAULT_GENRE,
-  films: films,
-  genres: getGenres(films),
-  promoFilm: promo,
-  reviews: reviews,
-  filmReviews: filmReviews,
+  films: [],
+  film: undefined,
+  favoriteFilms: [],
+  similarFilms: [],
+  filmsByGenre: [],
+  genres: [],
+  promoFilm: undefined,
+  reviews: [],
+  // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние, валидный ли наш токен, если он есть
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
 };
 
 const getFilmsByGenre = (genre: string, filmsArr: Films) => {
   if (genre === DEFAULT_GENRE) {
-    return films;
+    return filmsArr;
   } else {
     const filteredFilms = filmsArr.filter((film) => film.genre === genre);
     return filteredFilms;
@@ -36,11 +65,38 @@ const getFilmsByGenre = (genre: string, filmsArr: Films) => {
 const reducer = createReducer(initialState,
   (builder) => {
     builder
+      .addCase(setDataLoadedStatus, (state, action) => {
+        state.isDataLoaded = action.payload;
+      })
+      .addCase(loadFilms, (state, action) => {
+        state.films = action.payload;
+        state.genres = getGenres(state.films);
+        state.filmsByGenre = getFilmsByGenre(state.genre, state.films);
+      })
       .addCase(changingGenre, (state, action) => {
         state.genre = action.payload;
+        state.filmsByGenre = getFilmsByGenre(state.genre, state.films);
       })
-      .addCase(filmsByGenre, (state) => {
-        state.films = getFilmsByGenre(state.genre, films);
+      .addCase(loadFavoriteFilms, (state, action) => {
+        state.favoriteFilms = action.payload;
+      })
+      .addCase(loadCurrentFilm, (state, action) => {
+        state.film = action.payload;
+      })
+      .addCase(loadPromoFilm, (state, action) => {
+        state.promoFilm = action.payload;
+      })
+      .addCase(loadSimilarFilms, (state, action) => {
+        state.similarFilms = action.payload;
+      })
+      .addCase(loadReviews, (state, action) => {
+        state.reviews = action.payload;
+      })
+      .addCase(requireAuthorization, (state, action) => {
+        state.authorizationStatus = action.payload;
+      })
+      .addCase(setError, (state, action) => {
+        state.error = action.payload;
       });
   }
 );

@@ -13,6 +13,17 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Films = '/films',
+  Film = '/films/{filmId}',
+  SimilarFilms = '/films/{filmId}/similar',
+  PromoFilm = '/promo',
+  Reviews = '/comments/{filmId}',
+  FavoriteFilms = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export const filmTabs = [
   'Overview',
   'Details',
@@ -22,3 +33,5 @@ export const filmTabs = [
 export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;
+
+export const TIMEOUT_SHOW_ERROR = 10000;

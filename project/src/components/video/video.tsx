@@ -1,12 +1,12 @@
 import {useRef} from 'react';
-import {VideoContent} from '../../types/types';
 
 type VideoProps = {
-  video: VideoContent;
+  posterImage: string | undefined;
+  videoLink: string | undefined;
 }
 
 function Video(props: VideoProps): JSX.Element {
-  const {poster, link} = props.video;
+  const {posterImage, videoLink} = props;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const timeHover = useRef<NodeJS.Timeout | null>(null);
 
@@ -27,7 +27,7 @@ function Video(props: VideoProps): JSX.Element {
   };
 
   return (
-    <video src={link} className="player__video" style={ {pointerEvents: 'auto'} } poster={poster} ref={videoRef} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}> </video>
+    <video src={videoLink} className="player__video" style={ {pointerEvents: 'auto'} } poster={posterImage} ref={videoRef} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}> </video>
   );
 }
 export default Video;

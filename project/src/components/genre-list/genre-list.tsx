@@ -1,11 +1,13 @@
+import {useAppSelector} from '../../hooks';
+
 type GenreListProps = {
   activeGenre: string;
-  genres: string[];
   onClick: ((genre: string) => void);
 };
 
 function GenreList(props: GenreListProps):JSX.Element {
-  const {activeGenre, genres, onClick} = props;
+  const {activeGenre, onClick} = props;
+  const genres = useAppSelector((state) => state.genres);
 
   return (
     <ul className="catalog__genres-list">

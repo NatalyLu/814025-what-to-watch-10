@@ -1,5 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
@@ -10,7 +10,6 @@ import Error from '../../pages/error/error';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -27,9 +26,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
+            <PrivateRoute>
               <MyList />
             </PrivateRoute>
           }
