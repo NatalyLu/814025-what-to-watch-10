@@ -2,7 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 import { Films, Film, Reviews } from '../types/types';
 import { AuthorizationStatus } from '../const';
 
-export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
+export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedStatus');
+
+export const setPromoFilmLoadedStatus = createAction<boolean>('data/setPromoFilmLoadedStatus');
 
 export const loadFilms = createAction<Films>('data/loadFilms');
 

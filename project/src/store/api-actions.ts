@@ -14,7 +14,8 @@ import {
   loadReviews,
   requireAuthorization,
   setError,
-  // setDataLoadedStatus,
+  setFilmsLoadedStatus,
+  setPromoFilmLoadedStatus,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
 import {store} from './index';
@@ -34,11 +35,12 @@ export const fetchFilmsAction = createAsyncThunk<
   'data/fetchFilms',
   // Извлекаем из Axios dispatch и доп. аргументы (extra) и создаем запрос к серверу
   async (_arg, { dispatch, extra: api }) => {
+    store.dispatch(setFilmsLoadedStatus(true));
     const { data } = await api.get<Films>(APIRoute.Films);
+
     // *Ошибки запроса будем ловить в другом месте
-    // dispatch(setDataLoadedStatus(true));
     dispatch(loadFilms(data));
-    // dispatch(setDataLoadedStatus(false));
+    store.dispatch(setFilmsLoadedStatus(false));
   }
 );
 
@@ -54,8 +56,10 @@ export const fetchPromoFilmAction = createAsyncThunk<
 >(
   'data/fetchPromoFilm',
   async (id, { dispatch, extra: api }) => {
+    store.dispatch(setPromoFilmLoadedStatus(true));
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
+    store.dispatch(setPromoFilmLoadedStatus(false));
   }
 );
 

@@ -4,12 +4,15 @@ import {store} from '../../store';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
+import { useEffect } from 'react';
 
 
 function Main(): JSX.Element {
-  store.dispatch(fetchPromoFilmAction(2));
+  useEffect(() => {
+    store.dispatch(fetchPromoFilmAction(2));
+  }, []);
   const promoFilm = useAppSelector((state) => state.promoFilm);
-  const isLoaded = useAppSelector((state) => state.isDataLoaded);
+  const isPromoFilmLoaded = useAppSelector((state) => state.isPromoFilmLoaded);
 
   return (
     <>
@@ -35,7 +38,7 @@ function Main(): JSX.Element {
         </header>
 
         <div className="film-card__wrap">
-          {!promoFilm && isLoaded && <Spiner />}
+          {!promoFilm && isPromoFilmLoaded && <Spiner />}
           {promoFilm &&
             <div className="film-card__info">
               <div className="film-card__poster">
