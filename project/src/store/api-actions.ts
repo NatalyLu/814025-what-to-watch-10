@@ -17,9 +17,11 @@ import {
   setError,
   setFilmsLoadedStatus,
   setPromoFilmLoadedStatus,
+  redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
 import {store} from './index';
+import { AppRoute } from '../const';
 
 // createAsyncThunk создает асинхронные действия - actions
 
@@ -172,6 +174,7 @@ export const loginAction = createAsyncThunk<
     saveToken(data.token);
     dispatch(loadUserData(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 

@@ -1,18 +1,14 @@
 import { useRef, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
-import { AppRoute, AuthorizationStatus } from '../../const';
 
 function SignIn(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const error = useAppSelector((state) => state.error);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -25,10 +21,6 @@ function SignIn(): JSX.Element {
       passwordRef.current.value = '';
     }
   };
-
-  if (error === null && authorizationStatus === AuthorizationStatus.Auth) {
-    navigate(AppRoute.Main);
-  }
 
   return (
     <div className="user-page">

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {reducer} from './reducer';
 import {createAPI} from '../services/api';
+import { redirect } from './middlewares/redirect';
 
 // Сконфигурируем хранилище.
 // Создадим экземпляр axios
@@ -14,5 +15,5 @@ export const store = configureStore({
       thunk: {
         extraArgument: api,
       },
-    }),
+    }).concat(redirect), // Добавили iddleware для осуществления перенаправляния на другие страницы через api-actions
 });
