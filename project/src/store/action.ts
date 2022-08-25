@@ -1,8 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Films, Film, Reviews } from '../types/types';
-import { AuthorizationStatus } from '../const';
+import { UserData } from '../types/user-data';
+import { AuthorizationStatus, AppRoute } from '../const';
 
-export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
+export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedStatus');
+
+export const setPromoFilmLoadedStatus = createAction<boolean>('data/setPromoFilmLoadedStatus');
 
 export const loadFilms = createAction<Films>('data/loadFilms');
 
@@ -16,8 +19,12 @@ export const loadPromoFilm = createAction<Film>('data/loadPromoFilm');
 
 export const loadReviews = createAction<Reviews>('data/getReviews');
 
+export const loadUserData = createAction<UserData>('data/loadUserData');
+
 export const changingGenre = createAction<string>('films/changingGenre');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const setError = createAction<string | null>('data/setError');
+
+export const redirectToRoute = createAction<AppRoute>('films/redirectToRoute');

@@ -9,9 +9,9 @@ type PrivateRouteProps = {
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const {children} = props;
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isDataLoaded) {
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
   }
 

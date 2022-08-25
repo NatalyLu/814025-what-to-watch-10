@@ -12,12 +12,16 @@ import {
   loadCurrentFilm,
   loadSimilarFilms,
   loadReviews,
+  loadUserData,
   requireAuthorization,
   setError,
-  // setDataLoadedStatus,
+  setFilmsLoadedStatus,
+  setPromoFilmLoadedStatus,
+  redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
 import {store} from './index';
+import { AppRoute } from '../const';
 
 // createAsyncThunk создает асинхронные действия - actions
 
@@ -34,11 +38,12 @@ export const fetchFilmsAction = createAsyncThunk<
   'data/fetchFilms',
   // Извлекаем из Axios dispatch и доп. аргументы (extra) и создаем запрос к серверу
   async (_arg, { dispatch, extra: api }) => {
+    store.dispatch(setFilmsLoadedStatus(true));
     const { data } = await api.get<Films>(APIRoute.Films);
+
     // *Ошибки запроса будем ловить в другом месте
-    // dispatch(setDataLoadedStatus(true));
     dispatch(loadFilms(data));
-    // dispatch(setDataLoadedStatus(false));
+    store.dispatch(setFilmsLoadedStatus(false));
   }
 );
 
@@ -54,8 +59,10 @@ export const fetchPromoFilmAction = createAsyncThunk<
 >(
   'data/fetchPromoFilm',
   async (id, { dispatch, extra: api }) => {
+    store.dispatch(setPromoFilmLoadedStatus(true));
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
+    store.dispatch(setPromoFilmLoadedStatus(false));
   }
 );
 
@@ -161,13 +168,13 @@ export const loginAction = createAsyncThunk<
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // Передадим необходимые данные серверу (email, password)
-    // Взамен получим токен в переменную token
-    const {
-      data: { token },
-    } = await api.post<UserData>(APIRoute.Login, { email, password });
+    // Взамен получим данные пользователя и извлечем из них token
+    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
     // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище
-    saveToken(token);
+    saveToken(data.token);
+    dispatch(loadUserData(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 

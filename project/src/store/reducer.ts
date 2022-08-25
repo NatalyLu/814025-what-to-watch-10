@@ -5,13 +5,16 @@ import {
   loadFavoriteFilms,
   loadCurrentFilm,
   loadSimilarFilms,
+  loadUserData,
   changingGenre,
   requireAuthorization,
   loadReviews,
   setError,
-  setDataLoadedStatus,
+  setFilmsLoadedStatus,
+  setPromoFilmLoadedStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
+import {UserData} from '../types/user-data';
 import {DEFAULT_GENRE, AuthorizationStatus} from '../const';
 
 const getGenres = (filmsArr: Films): string[] => {
@@ -23,7 +26,8 @@ const getGenres = (filmsArr: Films): string[] => {
 };
 
 type InitialState = {
-  isDataLoaded: boolean;
+  isFilmsLoaded: boolean;
+  isPromoFilmLoaded: boolean;
   genre: string;
   films: Films;
   film?: Film;
@@ -34,11 +38,13 @@ type InitialState = {
   promoFilm?: Film;
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
+  user?: UserData,
   error: string | null;
 };
 
 const initialState: InitialState = {
-  isDataLoaded: false,
+  isFilmsLoaded: false,
+  isPromoFilmLoaded: false,
   genre: DEFAULT_GENRE,
   films: [],
   film: undefined,
@@ -48,8 +54,10 @@ const initialState: InitialState = {
   genres: [],
   promoFilm: undefined,
   reviews: [],
-  // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние, валидный ли наш токен, если он есть
+  // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние,
+  // валидный ли наш токен (если он есть)
   authorizationStatus: AuthorizationStatus.Unknown,
+  user: undefined,
   error: null,
 };
 
@@ -65,8 +73,11 @@ const getFilmsByGenre = (genre: string, filmsArr: Films) => {
 const reducer = createReducer(initialState,
   (builder) => {
     builder
-      .addCase(setDataLoadedStatus, (state, action) => {
-        state.isDataLoaded = action.payload;
+      .addCase(setFilmsLoadedStatus, (state, action) => {
+        state.isFilmsLoaded = action.payload;
+      })
+      .addCase(setPromoFilmLoadedStatus, (state, action) => {
+        state.isPromoFilmLoaded = action.payload;
       })
       .addCase(loadFilms, (state, action) => {
         state.films = action.payload;
@@ -91,6 +102,9 @@ const reducer = createReducer(initialState,
       })
       .addCase(loadReviews, (state, action) => {
         state.reviews = action.payload;
+      })
+      .addCase(loadUserData, (state, action) => {
+        state.user = action.payload;
       })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
