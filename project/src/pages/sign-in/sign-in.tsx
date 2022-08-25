@@ -17,8 +17,6 @@ function SignIn(): JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       }));
-      loginRef.current.value = '';
-      passwordRef.current.value = '';
     }
   };
 
