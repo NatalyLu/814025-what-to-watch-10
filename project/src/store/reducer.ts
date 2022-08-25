@@ -5,6 +5,7 @@ import {
   loadFavoriteFilms,
   loadCurrentFilm,
   loadSimilarFilms,
+  loadUserData,
   changingGenre,
   requireAuthorization,
   loadReviews,
@@ -13,6 +14,7 @@ import {
   setPromoFilmLoadedStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
+import {UserData} from '../types/user-data';
 import {DEFAULT_GENRE, AuthorizationStatus} from '../const';
 
 const getGenres = (filmsArr: Films): string[] => {
@@ -36,6 +38,7 @@ type InitialState = {
   promoFilm?: Film;
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
+  user?: UserData,
   error: string | null;
 };
 
@@ -54,6 +57,7 @@ const initialState: InitialState = {
   // authorizationStatus = Unknown, так при запуске приложения неизвестно состояние,
   // валидный ли наш токен (если он есть)
   authorizationStatus: AuthorizationStatus.Unknown,
+  user: undefined,
   error: null,
 };
 
@@ -98,6 +102,9 @@ const reducer = createReducer(initialState,
       })
       .addCase(loadReviews, (state, action) => {
         state.reviews = action.payload;
+      })
+      .addCase(loadUserData, (state, action) => {
+        state.user = action.payload;
       })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;

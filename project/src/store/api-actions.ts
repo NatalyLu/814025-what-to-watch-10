@@ -12,6 +12,7 @@ import {
   loadCurrentFilm,
   loadSimilarFilms,
   loadReviews,
+  loadUserData,
   requireAuthorization,
   setError,
   setFilmsLoadedStatus,
@@ -165,12 +166,11 @@ export const loginAction = createAsyncThunk<
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // Передадим необходимые данные серверу (email, password)
-    // Взамен получим токен в переменную token
-    const {
-      data: { token },
-    } = await api.post<UserData>(APIRoute.Login, { email, password });
+    // Взамен получим данные пользователя и извлечем из них token
+    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
     // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище
-    saveToken(token);
+    saveToken(data.token);
+    dispatch(loadUserData(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   },
 );

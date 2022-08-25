@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Films, Film, Reviews } from '../types/types';
+import { UserData } from '../types/user-data';
 import { AuthorizationStatus } from '../const';
 
 export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedStatus');
@@ -17,6 +18,8 @@ export const loadSimilarFilms = createAction<Films>('data/loadSimilarFilms');
 export const loadPromoFilm = createAction<Film>('data/loadPromoFilm');
 
 export const loadReviews = createAction<Reviews>('data/getReviews');
+
+export const loadUserData = createAction<UserData>('data/loadUserData');
 
 export const changingGenre = createAction<string>('films/changingGenre');
 
