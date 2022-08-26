@@ -1,15 +1,17 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
-import {useAppSelector} from '../../hooks';
-import {fetchPromoFilmAction} from '../../store/api-actions';
+import { useEffect } from 'react';
 import {store} from '../../store';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {fetchPromoFilmAction, logoutAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
-import { useEffect } from 'react';
 
 
 function Main(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     store.dispatch(fetchPromoFilmAction(2));
   }, []);
@@ -28,7 +30,7 @@ function Main(): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-          {authorizationStatus && userData
+          {authorizationStatus === AuthorizationStatus.Auth && userData
             ? (
               <ul className="user-block">
                 <li className="user-block__item">
@@ -37,7 +39,7 @@ function Main(): JSX.Element {
                   </div>
                 </li>
                 <li className="user-block__item">
-                  <a className="user-block__link">Sign out</a>
+                  <Link className="user-block__link" onClick={ (evt) => { evt.preventDefault(); dispatch(logoutAction());} } to='/'>Sign out</Link>
                 </li>
               </ul>
             )
