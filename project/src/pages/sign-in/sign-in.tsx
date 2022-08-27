@@ -7,7 +7,7 @@ function SignIn(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const error = useAppSelector((state) => state.error);
+  const isEmailCorrect = useAppSelector((state) => state.isEmailCorrect );
   const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -30,7 +30,7 @@ function SignIn(): JSX.Element {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
-          {error &&
+          {!isEmailCorrect &&
             <div className="sign-in__message">
               <p>We can’t recognize this email <br /> and password combination. Please try again.</p>
             </div>}

@@ -7,6 +7,8 @@ export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedSt
 
 export const setPromoFilmLoadedStatus = createAction<boolean>('data/setPromoFilmLoadedStatus');
 
+export const setCorrectEmailStatus = createAction<boolean>('user/setCorrectEmailStatus');
+
 export const loadFilms = createAction<Films>('data/loadFilms');
 
 export const loadFavoriteFilms = createAction<Films>('data/loadFavoriteFilms');
@@ -24,7 +26,5 @@ export const loadUserData = createAction<UserData>('data/loadUserData');
 export const changingGenre = createAction<string>('films/changingGenre');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
-
-export const setError = createAction<string | null>('data/setError');
 
 export const redirectToRoute = createAction<AppRoute>('films/redirectToRoute');

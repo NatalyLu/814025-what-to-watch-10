@@ -9,9 +9,9 @@ import {
   changingGenre,
   requireAuthorization,
   loadReviews,
-  setError,
   setFilmsLoadedStatus,
   setPromoFilmLoadedStatus,
+  setCorrectEmailStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
 import {UserData} from '../types/user-data';
@@ -39,7 +39,7 @@ type InitialState = {
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   user?: UserData,
-  error: string | null;
+  isEmailCorrect: boolean;
 };
 
 const initialState: InitialState = {
@@ -58,7 +58,7 @@ const initialState: InitialState = {
   // валидный ли наш токен (если он есть)
   authorizationStatus: AuthorizationStatus.Unknown,
   user: undefined,
-  error: null,
+  isEmailCorrect: true,
 };
 
 const getFilmsByGenre = (genre: string, filmsArr: Films) => {
@@ -78,6 +78,9 @@ const reducer = createReducer(initialState,
       })
       .addCase(setPromoFilmLoadedStatus, (state, action) => {
         state.isPromoFilmLoaded = action.payload;
+      })
+      .addCase(setCorrectEmailStatus, (state, action) => {
+        state.isEmailCorrect = action.payload;
       })
       .addCase(loadFilms, (state, action) => {
         state.films = action.payload;
@@ -108,9 +111,6 @@ const reducer = createReducer(initialState,
       })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
-      })
-      .addCase(setError, (state, action) => {
-        state.error = action.payload;
       });
   }
 );

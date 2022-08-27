@@ -4,7 +4,7 @@ import { AppDispatch, State } from '../types/state';
 import { Films, Film, Reviews } from '../types/types';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { APIRoute, AuthorizationStatus } from '../const';
 import {
   loadFilms,
   loadPromoFilm,
@@ -14,14 +14,13 @@ import {
   loadReviews,
   loadUserData,
   requireAuthorization,
-  setError,
   setFilmsLoadedStatus,
   setPromoFilmLoadedStatus,
+  setCorrectEmailStatus,
   redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
-import {store} from './index';
-import { AppRoute } from '../const';
+import { AppRoute, BAD_REQUESTERROR } from '../const';
 
 // createAsyncThunk создает асинхронные действия - actions
 
@@ -38,12 +37,12 @@ export const fetchFilmsAction = createAsyncThunk<
   'data/fetchFilms',
   // Извлекаем из Axios dispatch и доп. аргументы (extra) и создаем запрос к серверу
   async (_arg, { dispatch, extra: api }) => {
-    store.dispatch(setFilmsLoadedStatus(true));
+    dispatch(setFilmsLoadedStatus(true));
     const { data } = await api.get<Films>(APIRoute.Films);
 
     // *Ошибки запроса будем ловить в другом месте
     dispatch(loadFilms(data));
-    store.dispatch(setFilmsLoadedStatus(false));
+    dispatch(setFilmsLoadedStatus(false));
   }
 );
 
@@ -59,10 +58,10 @@ export const fetchPromoFilmAction = createAsyncThunk<
 >(
   'data/fetchPromoFilm',
   async (id, { dispatch, extra: api }) => {
-    store.dispatch(setPromoFilmLoadedStatus(true));
+    dispatch(setPromoFilmLoadedStatus(true));
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
-    store.dispatch(setPromoFilmLoadedStatus(false));
+    dispatch(setPromoFilmLoadedStatus(false));
   }
 );
 
@@ -169,12 +168,21 @@ export const loginAction = createAsyncThunk<
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // Передадим необходимые данные серверу (email, password)
     // Взамен получим данные пользователя и извлечем из них token
-    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
-    // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище
-    saveToken(data.token);
-    dispatch(loadUserData(data));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try {
+      const { data } = await api.post<UserData>(APIRoute.Login, {
+        email,
+        password,
+      });
+      // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище, а затем перенаправи на главную
+      saveToken(data.token);
+      dispatch(loadUserData(data));
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(redirectToRoute(AppRoute.Main));
+    } catch (err: any) {
+      if (err.status === BAD_REQUESTERROR) {
+        dispatch(setCorrectEmailStatus(false));
+      }
+    }
   },
 );
 
@@ -193,16 +201,5 @@ export const logoutAction = createAsyncThunk<
     await api.delete(APIRoute.Logout);
     removeToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  },
-);
-
-// Очистка поля error. Спустя некоторое время показа ошибки пользоователю, удаляем её из хранилища
-export const clearErrorAction = createAsyncThunk(
-  'data/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
   },
 );
