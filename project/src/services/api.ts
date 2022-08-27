@@ -4,9 +4,10 @@ import axios, {
   AxiosResponse,
   AxiosError,
 } from 'axios';
+import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import {getToken} from './token';
-import { processErrorHandle } from './process-error-handle';
+import { BAD_REQUESTERROR } from '../const';
 
 // Ключи - это коды ошибок ответа от сервера
 const StatusCodeMapping = [
@@ -48,7 +49,10 @@ export const createAPI = ():AxiosInstance => {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
-        processErrorHandle(error.response.data.error);
+        toast.error(error.response.data.error);
+        if (error.response.status === BAD_REQUESTERROR) {
+          throw error.response;
+        }
       }
 
       // И прокидываем ошибку дальше, чтобы её можно было бы отловить в другом месте

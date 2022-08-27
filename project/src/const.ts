@@ -33,5 +33,3 @@ export const filmTabs = [
 export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;
-
-export const TIMEOUT_SHOW_ERROR = 10000;
