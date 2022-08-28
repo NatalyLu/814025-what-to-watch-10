@@ -16,7 +16,9 @@ import {
   requireAuthorization,
   setFilmsLoadingStatus,
   setPromoFilmLoadingStatus,
+  setFilmReviewsStatus,
   // setCurrentFilmLoadingStatus,
+  setSimilarFilmsLoadingStatus,
   setCorrectEmailStatus,
   redirectToRoute,
 } from './action';
@@ -105,7 +107,7 @@ export const fetchCurrentFilmAction = createAsyncThunk<
 // SIMULAR FILM
 export const fetchSimilarFilmsAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -113,16 +115,18 @@ export const fetchSimilarFilmsAction = createAsyncThunk<
   }
 >(
   'data/fetchSimilarFilms',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Films>(APIRoute.SimilarFilms);
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setSimilarFilmsLoadingStatus(true));
+    const { data } = await api.get<Films>(`${APIRoute.Films}/${id}/similar`);
     dispatch(loadSimilarFilms(data));
+    dispatch(setSimilarFilmsLoadingStatus(false));
   }
 );
 
 // REVIEWS
 export const fetchReviewsAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -130,9 +134,11 @@ export const fetchReviewsAction = createAsyncThunk<
   }
 >(
   'data/fetchReviewsAction',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Reviews>(APIRoute.Reviews);
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setFilmReviewsStatus(true));
+    const { data } = await api.get<Reviews>(`${APIRoute.Reviews}/${id}`);
     dispatch(loadReviews(data));
+    dispatch(setFilmReviewsStatus(false));
   }
 );
 

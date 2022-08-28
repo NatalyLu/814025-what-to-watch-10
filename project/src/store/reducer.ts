@@ -12,6 +12,8 @@ import {
   setFilmsLoadingStatus,
   setPromoFilmLoadingStatus,
   // setCurrentFilmLoadingStatus,
+  setSimilarFilmsLoadingStatus,
+  setFilmReviewsStatus,
   setCorrectEmailStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
@@ -30,6 +32,8 @@ type InitialState = {
   isFilmsLoading: boolean;
   isPromoFilmLoading: boolean;
   // isCurrentFilmLoading: boolean;
+  isSimilarFilmsLoading: boolean;
+  isFilmReviewsLoading: boolean;
   // Если переходим на страницу фильма по клику на его карточку, то загрузка с сервера не требуется
   genre: string;
   films: Films;
@@ -49,6 +53,8 @@ const initialState: InitialState = {
   isFilmsLoading: false,
   isPromoFilmLoading: false,
   // isCurrentFilmLoading: false,
+  isSimilarFilmsLoading: false,
+  isFilmReviewsLoading: false,
   genre: DEFAULT_GENRE,
   films: [],
   film: undefined,
@@ -86,6 +92,12 @@ const reducer = createReducer(initialState,
       // .addCase(setCurrentFilmLoadingStatus, (state, action) => {
       //   state.isCurrentFilmLoading = action.payload;
       // })
+      .addCase(setSimilarFilmsLoadingStatus, (state, action) => {
+        state.isSimilarFilmsLoading = action.payload;
+      })
+      .addCase(setFilmReviewsStatus, (state, action) => {
+        state.isFilmReviewsLoading = action.payload;
+      })
       .addCase(setCorrectEmailStatus, (state, action) => {
         state.isEmailCorrect = action.payload;
       })

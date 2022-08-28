@@ -8,9 +8,10 @@ import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {filmTabs} from '../../const';
-import {fetchCurrentFilmAction} from '../../store/api-actions';
+import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
 import Signing from '../../components/signing/signing';
+import Spiner from '../../components/spiner/spiner';
 
 
 function Film(): JSX.Element {
@@ -19,6 +20,7 @@ function Film(): JSX.Element {
   const similarFilms = useAppSelector((state) => state.similarFilms);
   const allFilms = useAppSelector((state) => state.films);
   const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
+  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
 
   const id = Number(useParams().id);
 
@@ -34,6 +36,8 @@ function Film(): JSX.Element {
       if ( !film || (film && !(film.id === id)) ) {
         dispatch(fetchCurrentFilmAction(id));
       }
+      dispatch(fetchSimilarFilmsAction(id));
+      dispatch(fetchReviewsAction(id));
     }
   }, [allFilms, isFilmsLoading, id]);
 
@@ -107,7 +111,9 @@ function Film(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmCards films={similarFilms} />
+            {isSimilarFilmsLoading
+              ? <Spiner />
+              : <FilmCards films={similarFilms} />}
           </div>
         </section>
 
