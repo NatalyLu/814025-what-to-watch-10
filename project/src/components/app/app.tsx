@@ -1,4 +1,4 @@
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
@@ -49,6 +49,10 @@ function App(): JSX.Element {
           element={<Player />}
         />
 
+        <Route
+          path={'*'}
+          element={<Navigate to={AppRoute.NotFound} replace />}
+        />
         <Route
           path={AppRoute.NotFound}
           element={<Error />}
