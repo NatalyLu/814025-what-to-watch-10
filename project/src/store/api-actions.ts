@@ -16,6 +16,7 @@ import {
   requireAuthorization,
   setFilmsLoadedStatus,
   setPromoFilmLoadedStatus,
+  setCurrentFilmLoadedStatus,
   setCorrectEmailStatus,
   redirectToRoute,
 } from './action';
@@ -85,7 +86,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
 // CURRENT FILM
 export const fetchCurrentFilmAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -93,9 +94,11 @@ export const fetchCurrentFilmAction = createAsyncThunk<
   }
 >(
   'data/fetchCurrentFilm',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Film>(APIRoute.Film);
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setCurrentFilmLoadedStatus(true));
+    const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
     dispatch(loadCurrentFilm(data));
+    dispatch(setCurrentFilmLoadedStatus(false));
   }
 );
 

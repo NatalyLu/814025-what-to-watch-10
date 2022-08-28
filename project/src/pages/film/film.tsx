@@ -1,6 +1,6 @@
-import {Link} from 'react-router-dom';
-import {useState} from 'react';
-import {useAppSelector} from '../../hooks';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
@@ -8,10 +8,31 @@ import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {filmTabs} from '../../const';
+import {fetchCurrentFilmAction} from '../../store/api-actions';
+import {checkId} from '../../utils/utils';
 
 
 function Film(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const similarFilms = useAppSelector((state) => state.similarFilms);
+  const allFilms = useAppSelector((state) => state.films);
+
+  const id = Number(useParams().id);
+  console.log(id);
+  const isIdCorrect = checkId(allFilms, id);
+
+  useEffect(() => {
+    if (!isIdCorrect) {
+      navigate(AppRoute.NotFound);
+    }
+    // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
+    // При клике на карточку данные фильма были сохранены в state.
+    // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
+    if ( !film || (film && !(film.id === id)) ) {
+      dispatch(fetchCurrentFilmAction(id));
+    }
+  }, [id]);
   const film = useAppSelector((state) => state.film);
 
   const [type, setType] = useState(filmTabs[0]);

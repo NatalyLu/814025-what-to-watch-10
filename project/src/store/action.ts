@@ -7,6 +7,8 @@ export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedSt
 
 export const setPromoFilmLoadedStatus = createAction<boolean>('data/setPromoFilmLoadedStatus');
 
+export const setCurrentFilmLoadedStatus = createAction<boolean>('data/setCurrentFilmLoadedStatus');
+
 export const setCorrectEmailStatus = createAction<boolean>('user/setCorrectEmailStatus');
 
 export const loadFilms = createAction<Films>('data/loadFilms');
