@@ -9,9 +9,9 @@ import {
   changingGenre,
   requireAuthorization,
   loadReviews,
-  setFilmsLoadedStatus,
-  setPromoFilmLoadedStatus,
-  setCurrentFilmLoadedStatus,
+  setFilmsLoadingStatus,
+  setPromoFilmLoadingStatus,
+  // setCurrentFilmLoadingStatus,
   setCorrectEmailStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
@@ -27,9 +27,9 @@ const getGenres = (filmsArr: Films): string[] => {
 };
 
 type InitialState = {
-  isFilmsLoaded: boolean;
-  isPromoFilmLoaded: boolean;
-  isCurrentFilmLoaded: boolean;
+  isFilmsLoading: boolean;
+  isPromoFilmLoading: boolean;
+  // isCurrentFilmLoading: boolean;
   // Если переходим на страницу фильма по клику на его карточку, то загрузка с сервера не требуется
   genre: string;
   films: Films;
@@ -46,9 +46,9 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  isFilmsLoaded: false,
-  isPromoFilmLoaded: false,
-  isCurrentFilmLoaded: false,
+  isFilmsLoading: false,
+  isPromoFilmLoading: false,
+  // isCurrentFilmLoading: false,
   genre: DEFAULT_GENRE,
   films: [],
   film: undefined,
@@ -77,15 +77,15 @@ const getFilmsByGenre = (genre: string, filmsArr: Films) => {
 const reducer = createReducer(initialState,
   (builder) => {
     builder
-      .addCase(setFilmsLoadedStatus, (state, action) => {
-        state.isFilmsLoaded = action.payload;
+      .addCase(setFilmsLoadingStatus, (state, action) => {
+        state.isFilmsLoading = action.payload;
       })
-      .addCase(setPromoFilmLoadedStatus, (state, action) => {
-        state.isPromoFilmLoaded = action.payload;
+      .addCase(setPromoFilmLoadingStatus, (state, action) => {
+        state.isPromoFilmLoading = action.payload;
       })
-      .addCase(setCurrentFilmLoadedStatus, (state, action) => {
-        state.isCurrentFilmLoaded = action.payload;
-      })
+      // .addCase(setCurrentFilmLoadingStatus, (state, action) => {
+      //   state.isCurrentFilmLoading = action.payload;
+      // })
       .addCase(setCorrectEmailStatus, (state, action) => {
         state.isEmailCorrect = action.payload;
       })

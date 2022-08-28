@@ -10,6 +10,7 @@ import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {filmTabs} from '../../const';
 import {fetchCurrentFilmAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
+import Signing from '../../components/signing/signing';
 
 
 function Film(): JSX.Element {
@@ -17,22 +18,25 @@ function Film(): JSX.Element {
   const navigate = useNavigate();
   const similarFilms = useAppSelector((state) => state.similarFilms);
   const allFilms = useAppSelector((state) => state.films);
+  const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
 
   const id = Number(useParams().id);
-  console.log(id);
-  const isIdCorrect = checkId(allFilms, id);
 
   useEffect(() => {
-    if (!isIdCorrect) {
-      navigate(AppRoute.NotFound);
+    if (!isFilmsLoading) {
+      const isIdCorrect = checkId(allFilms, id);
+      if (!isIdCorrect) {
+        navigate(AppRoute.NotFound);
+      }
+      // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
+      // При клике на карточку данные фильма были сохранены в state.
+      // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
+      if ( !film || (film && !(film.id === id)) ) {
+        dispatch(fetchCurrentFilmAction(id));
+      }
     }
-    // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
-    // При клике на карточку данные фильма были сохранены в state.
-    // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
-    if ( !film || (film && !(film.id === id)) ) {
-      dispatch(fetchCurrentFilmAction(id));
-    }
-  }, [id]);
+  }, [allFilms, isFilmsLoading, id]);
+
   const film = useAppSelector((state) => state.film);
 
   const [type, setType] = useState(filmTabs[0]);
@@ -52,17 +56,7 @@ function Film(): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <Signing />
           </header>
           {film &&
             <div className="film-card__wrap">

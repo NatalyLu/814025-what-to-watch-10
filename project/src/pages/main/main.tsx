@@ -1,23 +1,21 @@
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import { useEffect } from 'react';
 import {store} from '../../store';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {useAppSelector, useAppDispatch} from '../../hooks';
-import {fetchPromoFilmAction, logoutAction} from '../../store/api-actions';
+import {useAppSelector} from '../../hooks';
+import {fetchPromoFilmAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
+import Signing from '../../components/signing/signing';
 
 
 function Main(): JSX.Element {
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     store.dispatch(fetchPromoFilmAction(2));
   }, []);
 
-  const {promoFilm, authorizationStatus, isPromoFilmLoaded} = useAppSelector((state) => state);
-  const userData = useAppSelector((state) => state.user);
+  const {promoFilm, isPromoFilmLoading} = useAppSelector((state) => state);
 
   return (
     <>
@@ -30,28 +28,11 @@ function Main(): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-          {authorizationStatus === AuthorizationStatus.Auth && userData
-            ? (
-              <ul className="user-block">
-                <li className="user-block__item">
-                  <div className="user-block__avatar">
-                    <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
-                  </div>
-                </li>
-                <li className="user-block__item">
-                  <Link className="user-block__link" onClick={ (evt) => { evt.preventDefault(); dispatch(logoutAction());} } to='/'>Sign out</Link>
-                </li>
-              </ul>
-            )
-            : (
-              <div className="user-block">
-                <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
-              </div>
-            )}
+          <Signing />
         </header>
 
         <div className="film-card__wrap">
-          {!promoFilm && isPromoFilmLoaded && <Spiner />}
+          {!promoFilm && isPromoFilmLoading && <Spiner />}
           {promoFilm &&
             <div className="film-card__info">
               <div className="film-card__poster">

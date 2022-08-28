@@ -3,11 +3,11 @@ import { Films, Film, Reviews } from '../types/types';
 import { UserData } from '../types/user-data';
 import { AuthorizationStatus, AppRoute } from '../const';
 
-export const setFilmsLoadedStatus = createAction<boolean>('data/setFilmsLoadedStatus');
+export const setFilmsLoadingStatus = createAction<boolean>('data/setFilmsLoadingStatus');
 
-export const setPromoFilmLoadedStatus = createAction<boolean>('data/setPromoFilmLoadedStatus');
+export const setPromoFilmLoadingStatus = createAction<boolean>('data/setPromoFilmLoadingStatus');
 
-export const setCurrentFilmLoadedStatus = createAction<boolean>('data/setCurrentFilmLoadedStatus');
+// export const setCurrentFilmLoadingStatus = createAction<boolean>('data/setCurrentFilmLoadingStatus');
 
 export const setCorrectEmailStatus = createAction<boolean>('user/setCorrectEmailStatus');
 

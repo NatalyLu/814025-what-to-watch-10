@@ -14,9 +14,9 @@ import {
   loadReviews,
   loadUserData,
   requireAuthorization,
-  setFilmsLoadedStatus,
-  setPromoFilmLoadedStatus,
-  setCurrentFilmLoadedStatus,
+  setFilmsLoadingStatus,
+  setPromoFilmLoadingStatus,
+  // setCurrentFilmLoadingStatus,
   setCorrectEmailStatus,
   redirectToRoute,
 } from './action';
@@ -38,12 +38,12 @@ export const fetchFilmsAction = createAsyncThunk<
   'data/fetchFilms',
   // Извлекаем из Axios dispatch и доп. аргументы (extra) и создаем запрос к серверу
   async (_arg, { dispatch, extra: api }) => {
-    dispatch(setFilmsLoadedStatus(true));
+    dispatch(setFilmsLoadingStatus(true));
     const { data } = await api.get<Films>(APIRoute.Films);
 
     // *Ошибки запроса будем ловить в другом месте
     dispatch(loadFilms(data));
-    dispatch(setFilmsLoadedStatus(false));
+    dispatch(setFilmsLoadingStatus(false));
   }
 );
 
@@ -59,10 +59,10 @@ export const fetchPromoFilmAction = createAsyncThunk<
 >(
   'data/fetchPromoFilm',
   async (id, { dispatch, extra: api }) => {
-    dispatch(setPromoFilmLoadedStatus(true));
+    dispatch(setPromoFilmLoadingStatus(true));
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
-    dispatch(setPromoFilmLoadedStatus(false));
+    dispatch(setPromoFilmLoadingStatus(false));
   }
 );
 
@@ -95,10 +95,10 @@ export const fetchCurrentFilmAction = createAsyncThunk<
 >(
   'data/fetchCurrentFilm',
   async (id, { dispatch, extra: api }) => {
-    dispatch(setCurrentFilmLoadedStatus(true));
+    // dispatch(setCurrentFilmLoadingStatus(true));
     const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
     dispatch(loadCurrentFilm(data));
-    dispatch(setCurrentFilmLoadedStatus(false));
+    // dispatch(setCurrentFilmLoadingStatus(false));
   }
 );
 

@@ -23,7 +23,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         <Video posterImage={film.posterImage} videoLink={film.videoLink} />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.Film + film.id} onClick={handleFilmTitleClick}>{film.name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.Film.replace(':id', String(film.id))} onClick={handleFilmTitleClick}>{film.name}</Link>
       </h3>
     </article>
   );
