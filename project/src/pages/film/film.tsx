@@ -7,7 +7,7 @@ import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs} from '../../const';
+import {filmTabs, AuthorizationStatus} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
 import Signing from '../../components/signing/signing';
@@ -21,6 +21,7 @@ function Film(): JSX.Element {
   const allFilms = useAppSelector((state) => state.films);
   const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
   const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const id = Number(useParams().id);
 
@@ -85,7 +86,7 @@ function Film(): JSX.Element {
                     <span>My list</span>
                     <span className="film-card__count">9</span>
                   </button>
-                  <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                  { authorizationStatus === AuthorizationStatus.Auth && <Link to={AppRoute.AddReview.replace(':id', String(film.id))} className="btn film-card__button">Add review</Link>}
                 </div>
               </div>
             </div>}
