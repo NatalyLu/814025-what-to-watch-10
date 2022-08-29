@@ -15,6 +15,7 @@ export const setFilmReviewsStatus = createAction<boolean>('user/setFilmReviewsSt
 
 export const setCorrectEmailStatus = createAction<boolean>('user/setCorrectEmailStatus');
 
+
 export const loadFilms = createAction<Films>('data/loadFilms');
 
 export const loadFavoriteFilms = createAction<Films>('data/loadFavoriteFilms');
@@ -28,6 +29,7 @@ export const loadPromoFilm = createAction<Film>('data/loadPromoFilm');
 export const loadReviews = createAction<Reviews>('data/getReviews');
 
 export const loadUserData = createAction<UserData>('data/loadUserData');
+
 
 export const changingGenre = createAction<string>('films/changingGenre');
 

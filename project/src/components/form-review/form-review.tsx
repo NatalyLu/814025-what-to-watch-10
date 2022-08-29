@@ -1,4 +1,6 @@
-import {useState, ChangeEvent, SyntheticEvent, Fragment} from 'react';
+import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {sendReviewAction} from '../../store/api-actions';
 
 function FormReview(): JSX.Element {
   const starsArray = [
@@ -48,7 +50,6 @@ function FormReview(): JSX.Element {
     stars: '8', // Инпут с этим значением активен по умолчанию
     text: '',
   });
-  const [isHideValues, setIsHideValue] = useState(false);
 
   const handleReviewChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
@@ -63,20 +64,26 @@ function FormReview(): JSX.Element {
     }
   };
 
-  const handleDetailsShow = (evt: SyntheticEvent) => {
+
+  const dispatch = useAppDispatch();
+  const filmId = useAppSelector((state) => state.film)?.id;
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleReviewSend = (evt: SyntheticEvent) => {
     evt.preventDefault();
-    setIsHideValue (true);
+    dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: Number(review.stars)}} ));
+    formRef.current?.reset();
   };
 
   return(
-    <form onSubmit={handleDetailsShow} action="#" className="add-review__htmlForm">
+    <form onSubmit={handleReviewSend} ref={formRef} action="#" className="add-review__htmlForm">
       <div className="rating">
         <div className="rating__stars">
           {
             starsArray.map((star) =>
               (
                 <Fragment key={`key-star-${star.value}`}>
-                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.checked} />
+                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.value === Number(review.stars)} />
                   <label className="rating__label" htmlFor={`star-${star.value}`}>Rating {star.value}</label>
                 </Fragment>
               )
@@ -91,16 +98,6 @@ function FormReview(): JSX.Element {
           <button className="add-review__btn" type="submit">Post</button>
         </div>
       </div>
-
-      {/* Временно создала блок для показа состояния */}
-      {
-        isHideValues ?
-          <div>
-            <span style={ {marginRight: '20px'} }>Rating: {review.stars}</span>
-            <span>Review: {review.text}</span>
-          </div>
-          : null
-      }
     </form>
   );
 }

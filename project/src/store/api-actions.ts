@@ -2,8 +2,10 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { Films, Film, Reviews } from '../types/types';
+import { MyError } from '../types/errors';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { NewReviewWithID } from '../types/new-review';
 import { APIRoute, AuthorizationStatus } from '../const';
 import {
   loadFilms,
@@ -23,7 +25,7 @@ import {
   redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
-import { AppRoute, BAD_REQUESTERROR } from '../const';
+import { AppRoute, BAD_REQUEST_ERROR } from '../const';
 
 // createAsyncThunk создает асинхронные действия - actions
 
@@ -49,6 +51,7 @@ export const fetchFilmsAction = createAsyncThunk<
   }
 );
 
+
 // PROMO FILM
 export const fetchPromoFilmAction = createAsyncThunk<
   void,
@@ -68,6 +71,7 @@ export const fetchPromoFilmAction = createAsyncThunk<
   }
 );
 
+
 // FAVORITE FILM
 export const fetchFavoriteFilmsAction = createAsyncThunk<
   void,
@@ -84,6 +88,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
     dispatch(loadFavoriteFilms(data));
   }
 );
+
 
 // CURRENT FILM
 export const fetchCurrentFilmAction = createAsyncThunk<
@@ -104,6 +109,7 @@ export const fetchCurrentFilmAction = createAsyncThunk<
   }
 );
 
+
 // SIMULAR FILM
 export const fetchSimilarFilmsAction = createAsyncThunk<
   void,
@@ -123,6 +129,7 @@ export const fetchSimilarFilmsAction = createAsyncThunk<
   }
 );
 
+
 // REVIEWS
 export const fetchReviewsAction = createAsyncThunk<
   void,
@@ -141,6 +148,7 @@ export const fetchReviewsAction = createAsyncThunk<
     dispatch(setFilmReviewsStatus(false));
   }
 );
+
 
 // AUTH
 export const checkAuthAction = createAsyncThunk<
@@ -162,6 +170,7 @@ export const checkAuthAction = createAsyncThunk<
     }
   },
 );
+
 
 //LOGIN
 export const loginAction = createAsyncThunk<
@@ -187,13 +196,14 @@ export const loginAction = createAsyncThunk<
       dispatch(loadUserData(data));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(redirectToRoute(AppRoute.Main));
-    } catch (err: any) {
-      if (err.status === BAD_REQUESTERROR) {
+    } catch (err) {
+      if ((err as MyError).status === BAD_REQUEST_ERROR) {
         dispatch(setCorrectEmailStatus(false));
       }
     }
   },
 );
+
 
 // LOGOUT
 export const logoutAction = createAsyncThunk<
@@ -212,3 +222,18 @@ export const logoutAction = createAsyncThunk<
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
+
+
+// NEW REVIEW
+export const sendReviewAction = createAsyncThunk<
+  void,
+  NewReviewWithID,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
+  const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
+  dispatch(loadReviews(data));
+});
