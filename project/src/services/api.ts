@@ -7,7 +7,7 @@ import axios, {
 import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import {getToken} from './token';
-import { BAD_REQUESTERROR } from '../const';
+import { BAD_REQUEST_ERROR } from '../const';
 
 // Ключи - это коды ошибок ответа от сервера
 const StatusCodeMapping = [
@@ -50,7 +50,7 @@ export const createAPI = ():AxiosInstance => {
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
         toast.error(error.response.data.error);
-        if (error.response.status === BAD_REQUESTERROR) {
+        if (error.response.status === BAD_REQUEST_ERROR) {
           throw error.response;
         }
       }
