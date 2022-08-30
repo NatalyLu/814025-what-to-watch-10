@@ -1,4 +1,3 @@
-// import {Link} from 'react-router-dom';
 import { useEffect } from 'react';
 import {store} from '../../store';
 import {useAppSelector} from '../../hooks';
@@ -6,7 +5,7 @@ import {fetchPromoFilmAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
-import Signing from '../../components/signing/signing';
+import SignIn from '../../components/sign-in/sign-in';
 
 
 function Main(): JSX.Element {
@@ -28,7 +27,7 @@ function Main(): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-          <Signing />
+          <SignIn />
         </header>
 
         <div className="film-card__wrap">

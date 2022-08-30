@@ -10,7 +10,7 @@ import NavTabs from '../../components/nav-tabs/nav-tabs';
 import {filmTabs, AuthorizationStatus} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
-import Signing from '../../components/signing/signing';
+import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 
 
@@ -31,18 +31,22 @@ function Film(): JSX.Element {
       if (!isIdCorrect) {
         navigate(AppRoute.NotFound);
       }
-      // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
-      // При клике на карточку данные фильма были сохранены в state.
-      // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
-      if ( !film || (film && !(film.id === id)) ) {
-        dispatch(fetchCurrentFilmAction(id));
-      }
-      dispatch(fetchSimilarFilmsAction(id));
-      dispatch(fetchReviewsAction(id));
     }
   }, [allFilms, isFilmsLoading, id]);
 
   const film = useAppSelector((state) => state.film);
+
+  useEffect(() => {
+    // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
+    // При клике на карточку данные фильма были сохранены в state.
+    // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
+    if ( !film || (film && !(film.id === id)) ) {
+      dispatch(fetchCurrentFilmAction(id));
+      dispatch(fetchSimilarFilmsAction(id));
+      dispatch(fetchReviewsAction(id));
+    }
+  }, [id, film]);
+
 
   const [type, setType] = useState(filmTabs[0]);
   const handleListClick = (active: string): void => {
@@ -61,7 +65,7 @@ function Film(): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo />
-            <Signing />
+            <SignIn />
           </header>
           {film &&
             <div className="film-card__wrap">

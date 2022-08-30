@@ -64,9 +64,8 @@ function FormReview(): JSX.Element {
     }
   };
 
-
   const dispatch = useAppDispatch();
-  const filmId = useAppSelector((state) => state.film)?.id;
+  const filmId = useAppSelector((state) => state.film?.id);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleReviewSend = (evt: SyntheticEvent) => {

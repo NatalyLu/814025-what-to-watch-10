@@ -1,3 +1,3 @@
-export type MyError = {
+export type ResponseError = {
   status: number;
 }

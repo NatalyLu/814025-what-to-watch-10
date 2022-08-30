@@ -1,7 +1,7 @@
 import {useAppSelector} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
-import Signing from '../../components/signing/signing';
+import SignIn from '../../components/sign-in/sign-in';
 
 function MyList(): JSX.Element {
   // Пока подгружаем несколько фильмов из хранилища, позже добавить логику избранных фильмов
@@ -13,7 +13,7 @@ function MyList(): JSX.Element {
         <Logo />
 
         <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
-        <Signing />
+        <SignIn />
       </header>
 
       <section className="catalog">

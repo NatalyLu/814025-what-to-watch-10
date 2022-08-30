@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { Films, Film, Reviews } from '../types/types';
-import { MyError } from '../types/errors';
+import { ResponseError } from '../types/errors';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { NewReviewWithID } from '../types/new-review';
@@ -19,7 +19,6 @@ import {
   setFilmsLoadingStatus,
   setPromoFilmLoadingStatus,
   setFilmReviewsStatus,
-  // setCurrentFilmLoadingStatus,
   setSimilarFilmsLoadingStatus,
   setCorrectEmailStatus,
   redirectToRoute,
@@ -102,10 +101,8 @@ export const fetchCurrentFilmAction = createAsyncThunk<
 >(
   'data/fetchCurrentFilm',
   async (id, { dispatch, extra: api }) => {
-    // dispatch(setCurrentFilmLoadingStatus(true));
     const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
     dispatch(loadCurrentFilm(data));
-    // dispatch(setCurrentFilmLoadingStatus(false));
   }
 );
 
@@ -197,7 +194,7 @@ export const loginAction = createAsyncThunk<
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(redirectToRoute(AppRoute.Main));
     } catch (err) {
-      if ((err as MyError).status === BAD_REQUEST_ERROR) {
+      if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
         dispatch(setCorrectEmailStatus(false));
       }
     }

@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import Logo from '../../components/logo/logo';
 import FormReview from '../../components/form-review/form-review';
-import Signing from '../../components/signing/signing';
+import SignIn from '../../components/sign-in/sign-in';
 
 function AddReview(): JSX.Element {
   return (
@@ -28,7 +28,7 @@ function AddReview(): JSX.Element {
             </ul>
           </nav>
 
-          <Signing />
+          <SignIn />
         </header>
 
         <div className="film-card__poster film-card__poster--small">

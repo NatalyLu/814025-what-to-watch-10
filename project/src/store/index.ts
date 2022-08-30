@@ -15,5 +15,5 @@ export const store = configureStore({
       thunk: {
         extraArgument: api,
       },
-    }).concat(redirect), // Добавили iddleware для осуществления перенаправляния на другие страницы через api-actions
+    }).concat(redirect), // Добавили middleware для осуществления перенаправляния на другие страницы через api-actions
 });

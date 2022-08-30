@@ -4,7 +4,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
 
-function Signing(): JSX.Element {
+function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.user);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -35,4 +35,4 @@ function Signing(): JSX.Element {
   );
 }
 
-export default Signing;
+export default SignIn;
