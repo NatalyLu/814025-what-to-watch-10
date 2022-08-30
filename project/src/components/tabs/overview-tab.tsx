@@ -7,7 +7,6 @@ type OverviewTabProps = {
 
 function OverviewTab(props: OverviewTabProps): JSX.Element {
   const {film} = props;
-  // По id фильма будем получать описание
   const review = useAppSelector((store) => store.reviews.find((item) => film.id === item.id));
 
   let level = '';

@@ -2,6 +2,8 @@ import {Link} from 'react-router-dom';
 import {Film} from '../../types/types';
 import {AppRoute} from '../../const';
 import Video from '../video/video';
+import {useAppDispatch} from '../../hooks';
+import {loadCurrentFilm} from '../../store/action';
 
 type FilmCardProps = {
   film: Film;
@@ -9,6 +11,11 @@ type FilmCardProps = {
 
 function FilmCard(props: FilmCardProps): JSX.Element {
   const {film} = props;
+  const dispatch = useAppDispatch();
+
+  const handleFilmTitleClick = (): void => {
+    dispatch(loadCurrentFilm(film));
+  };
 
   return (
     <article className="small-film-card catalog__films-card">
@@ -16,7 +23,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         <Video posterImage={film.posterImage} videoLink={film.videoLink} />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.Film}>{film.name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.Film.replace(':id', String(film.id))} onClick={handleFilmTitleClick}>{film.name}</Link>
       </h3>
     </article>
   );

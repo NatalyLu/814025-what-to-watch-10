@@ -1,21 +1,20 @@
-import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import { useEffect } from 'react';
+import {store} from '../../store';
 import {useAppSelector} from '../../hooks';
 import {fetchPromoFilmAction} from '../../store/api-actions';
-import {store} from '../../store';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
-import { useEffect } from 'react';
+import SignIn from '../../components/sign-in/sign-in';
 
 
 function Main(): JSX.Element {
+
   useEffect(() => {
     store.dispatch(fetchPromoFilmAction(2));
   }, []);
 
-  const {promoFilm, authorizationStatus, isPromoFilmLoaded} = useAppSelector((state) => state);
-  const userData = useAppSelector((state) => state.user);
+  const {promoFilm, isPromoFilmLoading} = useAppSelector((state) => state);
 
   return (
     <>
@@ -28,28 +27,11 @@ function Main(): JSX.Element {
 
         <header className="page-header film-card__head">
           <Logo />
-          {authorizationStatus && userData
-            ? (
-              <ul className="user-block">
-                <li className="user-block__item">
-                  <div className="user-block__avatar">
-                    <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
-                  </div>
-                </li>
-                <li className="user-block__item">
-                  <a className="user-block__link">Sign out</a>
-                </li>
-              </ul>
-            )
-            : (
-              <div className="user-block">
-                <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
-              </div>
-            )}
+          <SignIn />
         </header>
 
         <div className="film-card__wrap">
-          {!promoFilm && isPromoFilmLoaded && <Spiner />}
+          {!promoFilm && isPromoFilmLoading && <Spiner />}
           {promoFilm &&
             <div className="film-card__info">
               <div className="film-card__poster">

@@ -4,7 +4,8 @@ export enum AppRoute {
   MyList = '/mylist',
   Film = '/films/:id',
   AddReview = '/films/:id/review',
-  Player = '/player/:id'
+  Player = '/player/:id',
+  NotFound = '/404',
 }
 
 export enum AuthorizationStatus {
@@ -15,10 +16,8 @@ export enum AuthorizationStatus {
 
 export enum APIRoute {
   Films = '/films',
-  Film = '/films/{filmId}',
-  SimilarFilms = '/films/{filmId}/similar',
   PromoFilm = '/promo',
-  Reviews = '/comments/{filmId}',
+  Reviews = '/comments',
   FavoriteFilms = '/favorite',
   Login = '/login',
   Logout = '/logout',
@@ -34,4 +33,4 @@ export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;
 
-export const TIMEOUT_SHOW_ERROR = 10000;
+export const BAD_REQUEST_ERROR = 400;

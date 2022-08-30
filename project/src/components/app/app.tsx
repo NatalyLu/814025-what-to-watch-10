@@ -1,6 +1,6 @@
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
@@ -50,7 +50,11 @@ function App(): JSX.Element {
         />
 
         <Route
-          path='*'
+          path={'*'}
+          element={<Navigate to={AppRoute.NotFound} replace />}
+        />
+        <Route
+          path={AppRoute.NotFound}
           element={<Error />}
         />
       </Routes>

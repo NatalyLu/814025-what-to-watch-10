@@ -1,8 +1,10 @@
 import {useAppSelector} from '../../hooks';
 import {Review, Reviews} from '../../types/types';
+import Spiner from '../spiner/spiner';
 
 function ReviewsTab(): JSX.Element {
   const reviews = useAppSelector((store) => store.reviews);
+  const isFilmReviewsLoading = useAppSelector((state) => state.isFilmReviewsLoading);
   // Так как отзывы выводятся в 2 колонки, то
   // необходимо разбить массив напополам =>
   // находим индекс центрального элемента массива (делением на 2 :))
@@ -39,13 +41,18 @@ function ReviewsTab(): JSX.Element {
 
   return (
     <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col">
-        {getReviews(firstColumn)}
-      </div>
-      {secondColumn.length > 0 &&
-        <div className="film-card__reviews-col">
-          {getReviews(secondColumn)}
-        </div>}
+      {isFilmReviewsLoading
+        ? <Spiner />
+        :
+        <>
+          <div className="film-card__reviews-col">
+            {getReviews(firstColumn)}
+          </div>
+          {secondColumn.length > 0 &&
+            <div className="film-card__reviews-col">
+              {getReviews(secondColumn)}
+            </div>}
+        </>}
     </div>
   );
 }

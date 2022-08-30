@@ -1,18 +1,52 @@
-import {Link} from 'react-router-dom';
-import {useState} from 'react';
-import {useAppSelector} from '../../hooks';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs} from '../../const';
+import {filmTabs, AuthorizationStatus} from '../../const';
+import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
+import {checkId} from '../../utils/utils';
+import SignIn from '../../components/sign-in/sign-in';
+import Spiner from '../../components/spiner/spiner';
 
 
 function Film(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const similarFilms = useAppSelector((state) => state.similarFilms);
+  const allFilms = useAppSelector((state) => state.films);
+  const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
+  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const id = Number(useParams().id);
+
+  useEffect(() => {
+    if (!isFilmsLoading) {
+      const isIdCorrect = checkId(allFilms, id);
+      if (!isIdCorrect) {
+        navigate(AppRoute.NotFound);
+      }
+    }
+  }, [allFilms, isFilmsLoading, id]);
+
   const film = useAppSelector((state) => state.film);
+
+  useEffect(() => {
+    // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
+    // При клике на карточку данные фильма были сохранены в state.
+    // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
+    if ( !film || (film && !(film.id === id)) ) {
+      dispatch(fetchCurrentFilmAction(id));
+    }
+    dispatch(fetchSimilarFilmsAction(id));
+    dispatch(fetchReviewsAction(id));
+  }, [id, film]);
+
 
   const [type, setType] = useState(filmTabs[0]);
   const handleListClick = (active: string): void => {
@@ -31,17 +65,7 @@ function Film(): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <SignIn />
           </header>
           {film &&
             <div className="film-card__wrap">
@@ -66,7 +90,7 @@ function Film(): JSX.Element {
                     <span>My list</span>
                     <span className="film-card__count">9</span>
                   </button>
-                  <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                  { authorizationStatus === AuthorizationStatus.Auth && <Link to={AppRoute.AddReview.replace(':id', String(film.id))} className="btn film-card__button">Add review</Link>}
                 </div>
               </div>
             </div>}
@@ -92,7 +116,9 @@ function Film(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmCards films={similarFilms} />
+            {isSimilarFilmsLoading
+              ? <Spiner />
+              : <FilmCards films={similarFilms} />}
           </div>
         </section>
 

@@ -9,9 +9,11 @@ import {
   changingGenre,
   requireAuthorization,
   loadReviews,
-  setError,
-  setFilmsLoadedStatus,
-  setPromoFilmLoadedStatus,
+  setFilmsLoadingStatus,
+  setPromoFilmLoadingStatus,
+  setSimilarFilmsLoadingStatus,
+  setFilmReviewsStatus,
+  setCorrectEmailStatus,
 } from './action';
 import {Films, Film, Reviews} from '../types/types';
 import {UserData} from '../types/user-data';
@@ -26,8 +28,11 @@ const getGenres = (filmsArr: Films): string[] => {
 };
 
 type InitialState = {
-  isFilmsLoaded: boolean;
-  isPromoFilmLoaded: boolean;
+  isFilmsLoading: boolean;
+  isPromoFilmLoading: boolean;
+  isSimilarFilmsLoading: boolean;
+  isFilmReviewsLoading: boolean;
+  // Если переходим на страницу фильма по клику на его карточку, то загрузка с сервера не требуется
   genre: string;
   films: Films;
   film?: Film;
@@ -38,13 +43,15 @@ type InitialState = {
   promoFilm?: Film;
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
-  user?: UserData,
-  error: string | null;
+  user?: UserData;
+  isEmailCorrect: boolean;
 };
 
 const initialState: InitialState = {
-  isFilmsLoaded: false,
-  isPromoFilmLoaded: false,
+  isFilmsLoading: false,
+  isPromoFilmLoading: false,
+  isSimilarFilmsLoading: false,
+  isFilmReviewsLoading: false,
   genre: DEFAULT_GENRE,
   films: [],
   film: undefined,
@@ -58,7 +65,7 @@ const initialState: InitialState = {
   // валидный ли наш токен (если он есть)
   authorizationStatus: AuthorizationStatus.Unknown,
   user: undefined,
-  error: null,
+  isEmailCorrect: true,
 };
 
 const getFilmsByGenre = (genre: string, filmsArr: Films) => {
@@ -73,11 +80,20 @@ const getFilmsByGenre = (genre: string, filmsArr: Films) => {
 const reducer = createReducer(initialState,
   (builder) => {
     builder
-      .addCase(setFilmsLoadedStatus, (state, action) => {
-        state.isFilmsLoaded = action.payload;
+      .addCase(setFilmsLoadingStatus, (state, action) => {
+        state.isFilmsLoading = action.payload;
       })
-      .addCase(setPromoFilmLoadedStatus, (state, action) => {
-        state.isPromoFilmLoaded = action.payload;
+      .addCase(setPromoFilmLoadingStatus, (state, action) => {
+        state.isPromoFilmLoading = action.payload;
+      })
+      .addCase(setSimilarFilmsLoadingStatus, (state, action) => {
+        state.isSimilarFilmsLoading = action.payload;
+      })
+      .addCase(setFilmReviewsStatus, (state, action) => {
+        state.isFilmReviewsLoading = action.payload;
+      })
+      .addCase(setCorrectEmailStatus, (state, action) => {
+        state.isEmailCorrect = action.payload;
       })
       .addCase(loadFilms, (state, action) => {
         state.films = action.payload;
@@ -108,9 +124,6 @@ const reducer = createReducer(initialState,
       })
       .addCase(requireAuthorization, (state, action) => {
         state.authorizationStatus = action.payload;
-      })
-      .addCase(setError, (state, action) => {
-        state.error = action.payload;
       });
   }
 );

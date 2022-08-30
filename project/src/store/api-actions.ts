@@ -2,9 +2,11 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { Films, Film, Reviews } from '../types/types';
+import { ResponseError } from '../types/errors';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { NewReviewWithID } from '../types/new-review';
+import { APIRoute, AuthorizationStatus } from '../const';
 import {
   loadFilms,
   loadPromoFilm,
@@ -14,14 +16,15 @@ import {
   loadReviews,
   loadUserData,
   requireAuthorization,
-  setError,
-  setFilmsLoadedStatus,
-  setPromoFilmLoadedStatus,
+  setFilmsLoadingStatus,
+  setPromoFilmLoadingStatus,
+  setFilmReviewsStatus,
+  setSimilarFilmsLoadingStatus,
+  setCorrectEmailStatus,
   redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
-import {store} from './index';
-import { AppRoute } from '../const';
+import { AppRoute, BAD_REQUEST_ERROR } from '../const';
 
 // createAsyncThunk создает асинхронные действия - actions
 
@@ -38,14 +41,15 @@ export const fetchFilmsAction = createAsyncThunk<
   'data/fetchFilms',
   // Извлекаем из Axios dispatch и доп. аргументы (extra) и создаем запрос к серверу
   async (_arg, { dispatch, extra: api }) => {
-    store.dispatch(setFilmsLoadedStatus(true));
+    dispatch(setFilmsLoadingStatus(true));
     const { data } = await api.get<Films>(APIRoute.Films);
 
     // *Ошибки запроса будем ловить в другом месте
     dispatch(loadFilms(data));
-    store.dispatch(setFilmsLoadedStatus(false));
+    dispatch(setFilmsLoadingStatus(false));
   }
 );
+
 
 // PROMO FILM
 export const fetchPromoFilmAction = createAsyncThunk<
@@ -59,12 +63,13 @@ export const fetchPromoFilmAction = createAsyncThunk<
 >(
   'data/fetchPromoFilm',
   async (id, { dispatch, extra: api }) => {
-    store.dispatch(setPromoFilmLoadedStatus(true));
+    dispatch(setPromoFilmLoadingStatus(true));
     const { data } = await api.get<Film>(APIRoute.PromoFilm);
     dispatch(loadPromoFilm(data));
-    store.dispatch(setPromoFilmLoadedStatus(false));
+    dispatch(setPromoFilmLoadingStatus(false));
   }
 );
+
 
 // FAVORITE FILM
 export const fetchFavoriteFilmsAction = createAsyncThunk<
@@ -83,10 +88,11 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
   }
 );
 
+
 // CURRENT FILM
 export const fetchCurrentFilmAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -94,16 +100,17 @@ export const fetchCurrentFilmAction = createAsyncThunk<
   }
 >(
   'data/fetchCurrentFilm',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Film>(APIRoute.Film);
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
     dispatch(loadCurrentFilm(data));
   }
 );
 
+
 // SIMULAR FILM
 export const fetchSimilarFilmsAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -111,16 +118,19 @@ export const fetchSimilarFilmsAction = createAsyncThunk<
   }
 >(
   'data/fetchSimilarFilms',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Films>(APIRoute.SimilarFilms);
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setSimilarFilmsLoadingStatus(true));
+    const { data } = await api.get<Films>(`${APIRoute.Films}/${id}/similar`);
     dispatch(loadSimilarFilms(data));
+    dispatch(setSimilarFilmsLoadingStatus(false));
   }
 );
+
 
 // REVIEWS
 export const fetchReviewsAction = createAsyncThunk<
   void,
-  undefined,
+  number,
   {
     dispatch: AppDispatch;
     state: State;
@@ -128,11 +138,14 @@ export const fetchReviewsAction = createAsyncThunk<
   }
 >(
   'data/fetchReviewsAction',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Reviews>(APIRoute.Reviews);
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setFilmReviewsStatus(true));
+    const { data } = await api.get<Reviews>(`${APIRoute.Reviews}/${id}`);
     dispatch(loadReviews(data));
+    dispatch(setFilmReviewsStatus(false));
   }
 );
+
 
 // AUTH
 export const checkAuthAction = createAsyncThunk<
@@ -147,13 +160,15 @@ export const checkAuthAction = createAsyncThunk<
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<UserData>(APIRoute.Login);
+      dispatch(loadUserData(data));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
 );
+
 
 //LOGIN
 export const loginAction = createAsyncThunk<
@@ -169,14 +184,24 @@ export const loginAction = createAsyncThunk<
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // Передадим необходимые данные серверу (email, password)
     // Взамен получим данные пользователя и извлечем из них token
-    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
-    // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище
-    saveToken(data.token);
-    dispatch(loadUserData(data));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try {
+      const { data } = await api.post<UserData>(APIRoute.Login, {
+        email,
+        password,
+      });
+      // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище, а затем перенаправи на главную
+      saveToken(data.token);
+      dispatch(loadUserData(data));
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(redirectToRoute(AppRoute.Main));
+    } catch (err) {
+      if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
+        dispatch(setCorrectEmailStatus(false));
+      }
+    }
   },
 );
+
 
 // LOGOUT
 export const logoutAction = createAsyncThunk<
@@ -196,13 +221,17 @@ export const logoutAction = createAsyncThunk<
   },
 );
 
-// Очистка поля error. Спустя некоторое время показа ошибки пользоователю, удаляем её из хранилища
-export const clearErrorAction = createAsyncThunk(
-  'data/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
+
+// NEW REVIEW
+export const sendReviewAction = createAsyncThunk<
+  void,
+  NewReviewWithID,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
+  const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
+  dispatch(loadReviews(data));
+});
