@@ -42,9 +42,9 @@ function Film(): JSX.Element {
     // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
     if ( !film || (film && !(film.id === id)) ) {
       dispatch(fetchCurrentFilmAction(id));
-      dispatch(fetchSimilarFilmsAction(id));
-      dispatch(fetchReviewsAction(id));
     }
+    dispatch(fetchSimilarFilmsAction(id));
+    dispatch(fetchReviewsAction(id));
   }, [id, film]);
 
 
