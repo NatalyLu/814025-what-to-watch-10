@@ -11,7 +11,7 @@ import SignIn from '../../components/sign-in/sign-in';
 function Main(): JSX.Element {
 
   useEffect(() => {
-    store.dispatch(fetchPromoFilmAction(2));
+    store.dispatch(fetchPromoFilmAction());
   }, []);
 
   const {promoFilm, isPromoFilmLoading} = useAppSelector((state) => state);
@@ -20,7 +20,7 @@ function Main(): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,11 +31,11 @@ function Main(): JSX.Element {
         </header>
 
         <div className="film-card__wrap">
-          {!promoFilm && isPromoFilmLoading && <Spiner />}
+          {(!promoFilm || isPromoFilmLoading) && <Spiner />}
           {promoFilm &&
             <div className="film-card__info">
               <div className="film-card__poster">
-                <img src="img/the-grand-budapest-hotel-poster.jpg" alt={promoFilm.name} width="218" height="327" />
+                <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />
               </div>
 
               <div className="film-card__desc">

@@ -30,9 +30,7 @@ function FilmCatalog():JSX.Element {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <GenreList activeGenre={activeGenre} onClick={handleGenreClick} />
-      <div className="catalog__films-list">
-        <FilmCards films={someFilteredFilms} />
-      </div>
+      <FilmCards films={someFilteredFilms} />
       {(isFilms) && <ShowMore onClick={handleButtonClick}/> }
     </section>
   );

@@ -18,9 +18,9 @@ function SignIn(): JSX.Element {
       ? (
         <ul className="user-block">
           <li className="user-block__item">
-            <div className="user-block__avatar">
+            <Link className="user-block__avatar" style={{display: 'block'}} to={AppRoute.MyList}>
               <img src={userData && userData.avatarUrl} alt="User avatar" width="63" height="63" />
-            </div>
+            </Link>
           </li>
           <li className="user-block__item">
             <Link className="user-block__link" onClick={handleLinkClick} to='/'>Sign out</Link>
