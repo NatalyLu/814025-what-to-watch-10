@@ -1,17 +1,17 @@
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {AppRoute} from '../../const';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs, AuthorizationStatus} from '../../const';
+import {filmTabs, AppRoute} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
+import FilmButtons from '../../components/film-buttons/film-buttons';
 
 
 function Film(): JSX.Element {
@@ -21,7 +21,6 @@ function Film(): JSX.Element {
   const allFilms = useAppSelector((state) => state.films);
   const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
   const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const id = Number(useParams().id);
 
@@ -75,23 +74,7 @@ function Film(): JSX.Element {
                   <span className="film-card__genre">{film.genre}</span>
                   <span className="film-card__year">{film.released}</span>
                 </p>
-
-                <div className="film-card__buttons">
-                  <button className="btn btn--play film-card__button" type="button">
-                    <svg viewBox="0 0 19 19" width="19" height="19">
-                      <use xlinkHref="#play-s"></use>
-                    </svg>
-                    <span>Play</span>
-                  </button>
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">9</span>
-                  </button>
-                  { authorizationStatus === AuthorizationStatus.Auth && <Link to={AppRoute.AddReview.replace(':id', String(film.id))} className="btn film-card__button">Add review</Link>}
-                </div>
+                <FilmButtons film={film} />
               </div>
             </div>}
         </div>

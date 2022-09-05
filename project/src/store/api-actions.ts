@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
-import { Films, Film, Reviews } from '../types/types';
+import { Films, Film, Reviews, FavoriteFilmStatus } from '../types/types';
 import { ResponseError } from '../types/errors';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -85,6 +85,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<Films>(APIRoute.FavoriteFilms);
     dispatch(loadFavoriteFilms(data));
+    console.log({'data': data});
   }
 );
 
@@ -234,4 +235,20 @@ export const sendReviewAction = createAsyncThunk<
 >('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
   const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
   dispatch(loadReviews(data));
+});
+
+
+// ADD/REMOVE FAVORITE FILM
+export const sendFavoriteFilmAction = createAsyncThunk<
+  void,
+  FavoriteFilmStatus,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('user/FavoriteFilmAction', async ({ id, status }, { dispatch, extra: api }) => {
+  const { data } = await api.post<Film>(`${APIRoute.FavoriteFilms}/${id}/${status}`, {id, status});
+  console.log({'Send FAAVORITE': data});
+  dispatch(fetchFavoriteFilmsAction());
 });
