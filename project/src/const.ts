@@ -33,4 +33,6 @@ export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;
 
+export const MAX_GENRES_COUNT = 2;
+
 export const BAD_REQUEST_ERROR = 400;

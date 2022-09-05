@@ -1,10 +1,10 @@
-import {useState} from 'react';
 import {changingGenre} from '../../store/action';
 import {MAX_FILMS_COUNT} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import GenreList from '../../components/genre-list/genre-list';
 import FilmCards from '../../components/film-cards/film-cards';
 import ShowMore from '../show-more/show-more';
+import useShowMore from '../../hooks/useShowMore';
 
 function FilmCatalog():JSX.Element {
   const films = useAppSelector((state) => state.filmsByGenre);
@@ -16,22 +16,14 @@ function FilmCatalog():JSX.Element {
     dispatch(changingGenre(genre));
   };
 
-  const [filmIndex, setFilmIndex] = useState(MAX_FILMS_COUNT);
-
-  // Берём первые n фильмов для отрисовки, если фильмов больше не осталось, то скрываем кнопку ShowMore
-  const someFilteredFilms = films.slice(0, filmIndex);
-  const isFilms = Boolean(films.length - someFilteredFilms.length);
-
-  const handleButtonClick = (): void => {
-    setFilmIndex(filmIndex + MAX_FILMS_COUNT);
-  };
+  const {isItems, handleButtonClick, someFilteredItems} = useShowMore(MAX_FILMS_COUNT, films);
 
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <GenreList activeGenre={activeGenre} onClick={handleGenreClick} />
-      <FilmCards films={someFilteredFilms} />
-      {(isFilms) && <ShowMore onClick={handleButtonClick}/> }
+      <FilmCards films={someFilteredItems} />
+      {(isItems) && <ShowMore onClick={handleButtonClick}/> }
     </section>
   );
 }
