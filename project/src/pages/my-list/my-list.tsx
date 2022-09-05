@@ -4,7 +4,6 @@ import Logo from '../../components/logo/logo';
 import SignIn from '../../components/sign-in/sign-in';
 
 function MyList(): JSX.Element {
-  // Пока подгружаем несколько фильмов из хранилища, позже добавить логику избранных фильмов
   const films = useAppSelector((state) => state.favoriteFilms);
 
   return (
@@ -19,9 +18,7 @@ function MyList(): JSX.Element {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <div className="catalog__films-list">
-          <FilmCards films={films} />
-        </div>
+        <FilmCards films={films} />
       </section>
 
       <footer className="page-footer">
