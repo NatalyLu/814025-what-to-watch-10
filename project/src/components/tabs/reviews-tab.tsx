@@ -1,6 +1,7 @@
 import {useAppSelector} from '../../hooks';
 import {Review, Reviews} from '../../types/types';
 import Spiner from '../spiner/spiner';
+import {getDate} from '../../utils/utils';
 
 function ReviewsTab(): JSX.Element {
   const reviews = useAppSelector((store) => store.reviews);
@@ -23,20 +24,21 @@ function ReviewsTab(): JSX.Element {
   }
 
   const getReviews = (array: Review[]): JSX.Element[] => (
-    array.map((item) =>
-      (
+    array.map((item) => {
+      const date: Date = new Date(item.date);
+      return (
         <div className="review" key={item.id}>
           <blockquote className="review__quote">
             <p className="review__text">{item.comment}</p>
             <footer className="review__details">
               <cite className="review__author">{item.user.name}</cite>
-              <time className="review__date" dateTime={item.date}>{item.date}</time>
+              <time className="review__date" dateTime={item.date}>{getDate(date)}</time>
             </footer>
           </blockquote>
           <div className="review__rating">{item.rating}</div>
         </div>
-      )
-    )
+      );
+    })
   );
 
   return (
