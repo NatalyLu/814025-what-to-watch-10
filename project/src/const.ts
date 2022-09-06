@@ -35,4 +35,6 @@ export const MAX_FILMS_COUNT = 8;
 
 export const MAX_GENRES_COUNT = 2;
 
+export const MAX_SIMILAR_FILM_COUNT = 4;
+
 export const BAD_REQUEST_ERROR = 400;

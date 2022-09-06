@@ -6,12 +6,14 @@ import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs, AppRoute} from '../../const';
+import {filmTabs, AppRoute, MAX_SIMILAR_FILM_COUNT} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import {checkId} from '../../utils/utils';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 import FilmButtons from '../../components/film-buttons/film-buttons';
+import ShowMore from '../../components/show-more/show-more';
+import useShowMore from '../../hooks/useShowMore';
 
 
 function Film(): JSX.Element {
@@ -23,6 +25,8 @@ function Film(): JSX.Element {
   const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
 
   const id = Number(useParams().id);
+
+  const {isItems, handleButtonClick, someFilteredItems} = useShowMore(MAX_SIMILAR_FILM_COUNT, similarFilms);
 
   useEffect(() => {
     if (!isFilmsLoading) {
@@ -98,11 +102,13 @@ function Film(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {isSimilarFilmsLoading
-              ? <Spiner />
-              : <FilmCards films={similarFilms} />}
-          </div>
+          {isSimilarFilmsLoading
+            ? <Spiner />
+            :
+            <>
+              <FilmCards films={someFilteredItems} />
+              {(isItems) && <ShowMore onClick={handleButtonClick}/> }
+            </>}
         </section>
 
         <footer className="page-footer">
