@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
@@ -6,36 +6,25 @@ import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
 import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs, AppRoute, MAX_SIMILAR_FILM_COUNT} from '../../const';
+import {filmTabs, MAX_SIMILAR_FILM_COUNT} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
-import {checkId} from '../../utils/utils';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 import FilmButtons from '../../components/film-buttons/film-buttons';
 import ShowMore from '../../components/show-more/show-more';
 import useShowMore from '../../hooks/useShowMore';
-
+import useCheckFilmId from '../../hooks/useCheckFilmId';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const similarFilms = useAppSelector((state) => state.similarFilms);
-  const allFilms = useAppSelector((state) => state.films);
-  const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
   const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
 
   const id = Number(useParams().id);
 
   const {isItems, handleButtonClick, someFilteredItems} = useShowMore(MAX_SIMILAR_FILM_COUNT, similarFilms);
 
-  useEffect(() => {
-    if (!isFilmsLoading) {
-      const isIdCorrect = checkId(allFilms, id);
-      if (!isIdCorrect) {
-        navigate(AppRoute.NotFound);
-      }
-    }
-  }, [allFilms, isFilmsLoading, id]);
+  useCheckFilmId(id);
 
   const film = useAppSelector((state) => state.film);
 
