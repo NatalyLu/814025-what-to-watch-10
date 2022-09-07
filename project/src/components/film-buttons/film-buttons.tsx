@@ -37,9 +37,9 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
 
       console.log({'isFavoriteFirstState': isFavoriteFirstState, 'isFilmFavorite': isFilmFavorite});
       // if(isFavoriteFirstState !== isFilmFavorite) {
-        console.log('We are inside!');
-        dispatch(sendFavoriteFilmAction({id: film.id, status: Number(isFilmFavorite)}));
-        // dispatch(fetchFavoriteFilmsAction);
+      console.log('We are inside!');
+      dispatch(sendFavoriteFilmAction({id: film.id, status: Number(isFilmFavorite)}));
+      // dispatch(fetchFavoriteFilmsAction);
       // }
     };
   }, [dispatch, authorizationStatus, film.id]);
@@ -49,7 +49,7 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
   };
 
   const handleMyListClick = (): void => {
-    
+
     // console.log('/////////////////////////////');
     // Меняем статус фильма по нажатию на кнопку
     setIsFilmFavorite((prev) => !prev);

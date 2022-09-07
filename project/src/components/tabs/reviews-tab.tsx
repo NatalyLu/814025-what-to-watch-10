@@ -23,7 +23,7 @@ function ReviewsTab(): JSX.Element {
     firstColumn = reviews;
   }
 
-  const getReviews = (array: Review[]): JSX.Element[] => (
+  const showReviews = (array: Review[]): JSX.Element[] => (
     array.map((item) => {
       const date: Date = new Date(item.date);
       return (
@@ -41,20 +41,29 @@ function ReviewsTab(): JSX.Element {
     })
   );
 
+  const getReviews = (): JSX.Element => {
+    if (reviews.length) {
+      return (
+        <>
+          <div className="film-card__reviews-col">
+            {showReviews(firstColumn)}
+          </div>
+          {secondColumn.length > 0 &&
+            <div className="film-card__reviews-col">
+              {showReviews(secondColumn)}
+            </div>}
+        </>
+      );
+    } else {
+      return (<p style={{color: '#252525',}}>Sorry, no reviews were found. You can be the first to leave a review!</p>);
+    }
+  };
+
   return (
     <div className="film-card__reviews film-card__row">
       {isFilmReviewsLoading
         ? <Spiner />
-        :
-        <>
-          <div className="film-card__reviews-col">
-            {getReviews(firstColumn)}
-          </div>
-          {secondColumn.length > 0 &&
-            <div className="film-card__reviews-col">
-              {getReviews(secondColumn)}
-            </div>}
-        </>}
+        : getReviews()}
     </div>
   );
 }

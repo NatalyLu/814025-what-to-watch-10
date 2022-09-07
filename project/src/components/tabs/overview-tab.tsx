@@ -1,4 +1,5 @@
 import {Film} from '../../types/types';
+import {getStarsCount} from '../../utils/utils';
 
 type OverviewTabProps = {
   film: Film;
@@ -7,20 +8,7 @@ type OverviewTabProps = {
 function OverviewTab(props: OverviewTabProps): JSX.Element {
   const {film} = props;
 
-  let level = '';
-  if (film) {
-    if (film.rating < 3){
-      level = 'Bad';
-    } else if(film.rating < 5){
-      level = 'Normal';
-    } else if (film.rating < 8) {
-      level = 'Good';
-    } else if (film.rating < 10) {
-      level = 'Very good';
-    } else {
-      level = 'Awesome';
-    }
-  }
+  const level = getStarsCount(film.rating);
 
   return (
     <>

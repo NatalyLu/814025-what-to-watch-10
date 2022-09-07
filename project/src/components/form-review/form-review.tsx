@@ -1,8 +1,15 @@
 import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
-import {useAppSelector, useAppDispatch} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {sendReviewAction} from '../../store/api-actions';
 
-function FormReview(): JSX.Element {
+type FormReviewProps = {
+  filmId: number;
+  rating: number;
+}
+
+function FormReview(props: FormReviewProps): JSX.Element {
+  const {filmId, rating} = props;
+
   const starsArray = [
     {
       value: 10,
@@ -47,7 +54,7 @@ function FormReview(): JSX.Element {
   ];
 
   const [review, setReview] = useState({
-    stars: '8', // Инпут с этим значением активен по умолчанию
+    stars: Math.floor(rating), // Инпут с этим значением активен по умолчанию
     text: '',
   });
 
@@ -56,7 +63,7 @@ function FormReview(): JSX.Element {
 
     switch (name) {
       case 'rating':
-        return setReview({...review, stars: value});
+        return setReview({...review, stars: Number(value)});
       case 'review-text':
         return setReview({...review, text: value});
       default:
@@ -65,12 +72,11 @@ function FormReview(): JSX.Element {
   };
 
   const dispatch = useAppDispatch();
-  const filmId = useAppSelector((state) => state.film?.id);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleReviewSend = (evt: SyntheticEvent) => {
     evt.preventDefault();
-    dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: Number(review.stars)}} ));
+    dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: review.stars}} ));
     formRef.current?.reset();
   };
 
@@ -82,7 +88,7 @@ function FormReview(): JSX.Element {
             starsArray.map((star) =>
               (
                 <Fragment key={`key-star-${star.value}`}>
-                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.value === Number(review.stars)} />
+                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.value === review.stars} />
                   <label className="rating__label" htmlFor={`star-${star.value}`}>Rating {star.value}</label>
                 </Fragment>
               )

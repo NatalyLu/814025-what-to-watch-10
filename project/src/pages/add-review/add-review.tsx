@@ -1,15 +1,34 @@
-import {Link} from 'react-router-dom';
+import {useEffect} from 'react';
+import {Link, useParams} from 'react-router-dom';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AppRoute} from '../../const';
+import {fetchCurrentFilmAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
 import FormReview from '../../components/form-review/form-review';
 import SignIn from '../../components/sign-in/sign-in';
+import useCheckFilmId from '../../hooks/useCheckFilmId';
 
 function AddReview(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const id = Number(useParams().id);
+  const film = useAppSelector((state) => state.film);
+
+  useCheckFilmId(id);
+
+  useEffect(() => {
+    // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
+    // При клике на карточку данные фильма были сохранены в state.
+    // Загрузка данных произойдет только, если id из стейта НЕ совпадает с id из url
+    if ( !film || (film && !(film.id === id)) ) {
+      dispatch(fetchCurrentFilmAction(id));
+    }
+  }, [id]);
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={film?.backgroundImage} alt={film?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -20,7 +39,7 @@ function AddReview(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={AppRoute.Film} className="breadcrumbs__link">The Grand Budapest Hotel</Link>
+                <Link to={AppRoute.Film} className="breadcrumbs__link">{film?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -32,12 +51,12 @@ function AddReview(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
         </div>
       </div>
 
       <div className="add-review">
-        <FormReview />
+        {film ? <FormReview filmId={film.id} rating={film.rating} /> : null}
       </div>
     </section>
   );
