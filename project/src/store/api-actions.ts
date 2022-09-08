@@ -21,6 +21,8 @@ import {
   setFilmReviewsStatus,
   setSimilarFilmsLoadingStatus,
   setCorrectEmailStatus,
+  setReviewSendingStatus,
+  setReviewCorrectStatus,
   redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
@@ -144,6 +146,7 @@ export const fetchReviewsAction = createAsyncThunk<
     const { data } = await api.get<Reviews>(`${APIRoute.Reviews}/${id}`);
     dispatch(loadReviews(data));
     dispatch(setFilmReviewsStatus(false));
+
   }
 );
 
@@ -233,8 +236,15 @@ export const sendReviewAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
-  const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
-  dispatch(loadReviews(data));
+  dispatch(setReviewSendingStatus(true));
+  try {
+    const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
+    dispatch(setReviewSendingStatus(false));
+    dispatch(setReviewCorrectStatus(true));
+    dispatch(loadReviews(data));
+  } catch {
+    dispatch(setReviewCorrectStatus(false));
+  }
 });
 
 

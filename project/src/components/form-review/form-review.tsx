@@ -1,6 +1,9 @@
 import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
-import {useAppDispatch} from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {sendReviewAction} from '../../store/api-actions';
+import {setReviewCorrectStatus} from '../../store/action';
+import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH, APIRoute} from '../../const';
 
 type FormReviewProps = {
   filmId: number;
@@ -9,6 +12,12 @@ type FormReviewProps = {
 
 function FormReview(props: FormReviewProps): JSX.Element {
   const {filmId, rating} = props;
+
+  // !!! Пока выходит, что при каждом введенном символе лезем в state, на следующим шаге мемоизировать это!
+  const isReviewSending = useAppSelector((state) => state.isReviewSending);
+  const isNewReviewCorrect = useAppSelector((state) => state.isNewReviewCorrect);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const starsArray = [
     {
@@ -54,7 +63,7 @@ function FormReview(props: FormReviewProps): JSX.Element {
   ];
 
   const [review, setReview] = useState({
-    stars: Math.floor(rating), // Инпут с этим значением активен по умолчанию
+    stars: Math.floor(rating),
     text: '',
   });
 
@@ -71,13 +80,17 @@ function FormReview(props: FormReviewProps): JSX.Element {
     }
   };
 
-  const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleReviewSend = (evt: SyntheticEvent) => {
     evt.preventDefault();
     dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: review.stars}} ));
     formRef.current?.reset();
+
+    if (isNewReviewCorrect) {
+      dispatch(setReviewCorrectStatus(false));
+      navigate(`${APIRoute.Films}/${filmId}`);
+    } 
   };
 
   return(
@@ -88,19 +101,43 @@ function FormReview(props: FormReviewProps): JSX.Element {
             starsArray.map((star) =>
               (
                 <Fragment key={`key-star-${star.value}`}>
-                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.value === review.stars} />
+                  <input
+                    onChange={handleReviewChange}
+                    className="rating__input"
+                    id={`star-${star.value}`}
+                    type="radio" name="rating"
+                    value={star.value}
+                    checked={star.value === review.stars}
+                    disabled={isReviewSending}
+                  />
                   <label className="rating__label" htmlFor={`star-${star.value}`}>Rating {star.value}</label>
                 </Fragment>
-              )
-            )
+              ))
           }
         </div>
       </div>
 
       <div className="add-review__text">
-        <textarea onChange={handleReviewChange} className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+        <textarea
+          onChange={handleReviewChange}
+          value={review.text}
+          minLength={TEXTAREA_MIN_LENGTH}
+          maxLength={TEXTAREA_MAX_LENGTH}
+          className="add-review__textarea"
+          name="review-text"
+          id="review-text"
+          placeholder="Review text"
+          disabled={isReviewSending}
+        >
+        </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={review.text.length < TEXTAREA_MIN_LENGTH || !review.stars || isReviewSending}
+          >
+            Post
+          </button>
         </div>
       </div>
     </form>

@@ -38,3 +38,6 @@ export const MAX_GENRES_COUNT = 2;
 export const MAX_SIMILAR_FILM_COUNT = 4;
 
 export const BAD_REQUEST_ERROR = 400;
+
+export const TEXTAREA_MIN_LENGTH = 50;
+export const TEXTAREA_MAX_LENGTH = 400;
