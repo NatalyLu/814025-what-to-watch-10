@@ -22,7 +22,6 @@ import {
   setSimilarFilmsLoadingStatus,
   setCorrectEmailStatus,
   setReviewSendingStatus,
-  setReviewCorrectStatus,
   redirectToRoute,
 } from './action';
 import { saveToken, removeToken } from '../services/token';
@@ -240,11 +239,9 @@ export const sendReviewAction = createAsyncThunk<
   try {
     const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
     dispatch(setReviewSendingStatus(false));
-    dispatch(setReviewCorrectStatus(true));
+    dispatch(redirectToRoute(AppRoute.Film.replace(':id', String(id))));
     dispatch(loadReviews(data));
-  } catch {
-    dispatch(setReviewCorrectStatus(false));
-  }
+  } catch {}
 });
 
 

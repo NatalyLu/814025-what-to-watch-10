@@ -1,9 +1,7 @@
 import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
-import { useNavigate } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {sendReviewAction} from '../../store/api-actions';
-import {setReviewCorrectStatus} from '../../store/action';
-import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH, APIRoute} from '../../const';
+import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH} from '../../const';
 
 type FormReviewProps = {
   filmId: number;
@@ -15,9 +13,7 @@ function FormReview(props: FormReviewProps): JSX.Element {
 
   // !!! Пока выходит, что при каждом введенном символе лезем в state, на следующим шаге мемоизировать это!
   const isReviewSending = useAppSelector((state) => state.isReviewSending);
-  const isNewReviewCorrect = useAppSelector((state) => state.isNewReviewCorrect);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const starsArray = [
     {
@@ -86,11 +82,6 @@ function FormReview(props: FormReviewProps): JSX.Element {
     evt.preventDefault();
     dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: review.stars}} ));
     formRef.current?.reset();
-
-    if (isNewReviewCorrect) {
-      dispatch(setReviewCorrectStatus(false));
-      navigate(`${APIRoute.Films}/${filmId}`);
-    } 
   };
 
   return(

@@ -9,8 +9,6 @@ export const setPromoFilmLoadingStatus = createAction<boolean>('data/setPromoFil
 
 export const setReviewSendingStatus = createAction<boolean>('data/setReviewSendingStatus');
 
-export const setReviewCorrectStatus = createAction<boolean>('daa/setReviewCorrectStatus');
-
 export const setSimilarFilmsLoadingStatus = createAction<boolean>('user/setSimilarFilmsLoadingStatus');
 
 export const setFilmReviewsStatus = createAction<boolean>('user/setFilmReviewsStatus');
@@ -37,4 +35,4 @@ export const changingGenre = createAction<string>('films/changingGenre');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-export const redirectToRoute = createAction<AppRoute>('films/redirectToRoute');
+export const redirectToRoute = createAction<AppRoute | string>('films/redirectToRoute');
