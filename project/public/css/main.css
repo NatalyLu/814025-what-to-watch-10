@@ -1451,3 +1451,10 @@ main {
   color: #fff;
   background: #fd612ead;
   border-radius: 15px; }
+
+.loading-spiner__absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
