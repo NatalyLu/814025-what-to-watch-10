@@ -49,3 +49,20 @@ export const checkPassword = (password: string) => {
 
   return hasLetters && hasNumbers && hasMinLength;
 };
+
+// Принимает время в секундах
+// Возвращает hh:mm:ss или mm:ss, если часов нет
+export const getFullTimeFromSeconds = (time: number) => {
+  const hours = Math.floor(time / 3600);
+  const minuts = Math.floor((time - hours * 3600) / 60);
+  const seconds = Math.floor(time - hours * 3600 - minuts * 60);
+  const timeWithPad = (num: number) => num.toString().padStart(2, '0');
+
+  if (!hours) {
+    return `${timeWithPad(minuts)}:${timeWithPad(seconds)}`;
+  } else {
+    return `${timeWithPad(hours)}:${timeWithPad(minuts)}:${timeWithPad(
+      seconds
+    )}`;
+  }
+};
