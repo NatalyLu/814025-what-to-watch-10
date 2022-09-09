@@ -4,6 +4,7 @@ import { loginAction } from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
 import { checkPassword } from '../../utils/utils';
 import { toast } from 'react-toastify';
+import { ErrorText } from '../../const';
 
 function SignIn(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -23,7 +24,7 @@ function SignIn(): JSX.Element {
           password: passwordRef.current.value,
         }));
       } else {
-        toast.error('Wrong password! It must contain at least one letter and one number');
+        toast.error(ErrorText.WrongPassword);
       }
     }
   };

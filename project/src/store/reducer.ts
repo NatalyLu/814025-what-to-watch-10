@@ -34,7 +34,6 @@ type InitialState = {
   isSimilarFilmsLoading: boolean;
   isFilmReviewsLoading: boolean;
   isReviewSending: boolean;
-  // Если переходим на страницу фильма по клику на его карточку, то загрузка с сервера не требуется
   genre: string;
   films: Films;
   film?: Film;

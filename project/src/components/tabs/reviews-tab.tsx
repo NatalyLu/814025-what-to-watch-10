@@ -2,6 +2,7 @@ import {useAppSelector} from '../../hooks';
 import {Review, Reviews} from '../../types/types';
 import Spiner from '../spiner/spiner';
 import {getDate} from '../../utils/utils';
+import { ErrorText } from '../../const';
 
 function ReviewsTab(): JSX.Element {
   const reviews = useAppSelector((store) => store.reviews);
@@ -55,7 +56,7 @@ function ReviewsTab(): JSX.Element {
         </>
       );
     } else {
-      return (<p style={{color: '#252525',}}>Sorry, no reviews were found. You can be the first to leave a review!</p>);
+      return (<p style={{color: '#252525',}}>{ErrorText.NoReviews}</p>);
     }
   };
 

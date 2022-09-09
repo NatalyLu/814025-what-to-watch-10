@@ -1,7 +1,7 @@
 import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {sendReviewAction} from '../../store/api-actions';
-import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH} from '../../const';
+import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH, ErrorText} from '../../const';
 
 type FormReviewProps = {
   filmId: number;
@@ -72,7 +72,7 @@ function FormReview(props: FormReviewProps): JSX.Element {
       case 'review-text':
         return setReview({...review, text: value});
       default:
-        throw new Error('The new field has been edited. Please, describe the state of this field');
+        throw new Error(ErrorText.NewField);
     }
   };
 

@@ -29,6 +29,20 @@ export const filmTabs = [
   'Reviews',
 ];
 
+export enum ErrorText {
+  NewField = 'The new field has been edited. Please, describe the state of this field',
+  NoReviews = 'Sorry, no reviews were found. You can be the first to leave a review!',
+  WrongPassword = 'Wrong password! It must contain at least one letter and one number',
+}
+
+export const filmTextRating = {
+  bad: 'Bad',
+  normal: 'Normal',
+  good: 'Good',
+  better: 'Very good',
+  awesome: 'Awesome',
+};
+
 export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;

@@ -1,3 +1,4 @@
+import { filmTextRating } from '../const';
 import {Films} from '../types/types';
 
 export const checkId = (films: Films, id: number) => films.some((film) => film.id === id);
@@ -25,15 +26,15 @@ export const getDate = (date: Date) => {
 
 export const getStarsCount = (rating: number) => {
   if (rating < 3){
-    return 'Bad';
+    return filmTextRating.bad;
   } else if(rating < 5){
-    return 'Normal';
+    return filmTextRating.normal;
   } else if (rating < 8) {
-    return 'Good';
+    return filmTextRating.good;
   } else if (rating < 10) {
-    return 'Very good';
+    return filmTextRating.better;
   } else {
-    return 'Awesome';
+    return filmTextRating.awesome;
   }
 };
 
