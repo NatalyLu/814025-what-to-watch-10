@@ -1,60 +1,30 @@
-import {useRef, useState, useEffect} from 'react';
+import {useRef} from 'react';
+import {FullScreen, useFullScreenHandle} from 'react-full-screen';
 import Spiner from '../../components/spiner/spiner';
 import {useAppSelector} from '../../hooks';
+import useVideoPlayer from '../../hooks/useVideoPlayer';
 
 function Player(): JSX.Element {
   const film = useAppSelector((state) => state.film);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const handleFullScreenAction = useFullScreenHandle();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const handleVideoLoading = () => {
-    setIsLoading(!isLoading);
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Тут тоже isLoading наоборот. вначале false
-    console.log('isLoading', isLoading);
-  };
-  
-  // Если задавать разные обработчики для onWaiting и onCanPlay, то все работает ожидаемо
-  
-  // const handleVideoCanPlay = () => {
-  //   setIsLoading(false);
-  //   console.log('END', isLoading);
-  // };
-
-  const getFilmTime = (time: number) => {
-    if(time >= 60) {
-      return (`${ String(Math.trunc(time / 60)).padStart(2, '0') }:${ String(time % 60).padStart(2, '0') }:${String(time % 1).padStart(2, '0')}`);
-    } else {
-      return (`${ String(time % 60).padStart(2, '0') }:${String(time % 1).padStart(2, '0')}`);
-    }
-  };
-
-  // console.log('ttttttttttttt', videoRef.current?.duration);
-  // console.log('ttttttttttttt', videoRef.current?.onprogress);
-  const filmTime = film && getFilmTime(film.runTime);
-
-  const [isPause, setIsPause] = useState(false);
-
-  const handleVideoPlay = () => {
-    setIsPause(!isPause);
-    if (!isPause) {
-      videoRef.current?.pause();
-    } else {
-      videoRef.current?.play();
-    }
-  };
-
-  const handleFullScreenClick = () => {
-
-  };
+  const {
+    isLoading,
+    handleVideoLoading,
+    handleProgressUpdate,
+    progressState,
+    handleVideoPlay,
+    isPause,
+    handleExitClick} = useVideoPlayer(videoRef);
 
   return (
-    <div className="player">
-      {film ?
-        <>
-        {/* Изначально планировалось, что Когда isLoading true спинер должен показываться,
-        в консоле он true и спинер показывается при настройке slow3g, но ниже условие обратное записано, что когда isLoading покажи спинер, а работает наоборот
-        я не понимаю почему ;( */}
+    film ?
+      <FullScreen handle={handleFullScreenAction}>
+        <div className="player">
+          {/* Изначально планировалось, что Когда isLoading true спинер должен показываться,
+          в консоле он true и спинер показывается при настройке slow3g, но ниже условие обратное записано, что когда isLoading покажи спинер, а работает наоборот
+          я не понимаю почему ;( */}
           {!isLoading && <Spiner classes='loading-spiner__absolute' />}
           <video
             src={film.videoLink}
@@ -64,18 +34,19 @@ function Player(): JSX.Element {
             ref={videoRef}
             onWaiting={handleVideoLoading}
             onCanPlay={handleVideoLoading}
+            onTimeUpdate={handleProgressUpdate}
           >
           </video>
 
-          <button type="button" className="player__exit">Exit</button>
+          <button type="button" className="player__exit" onClick={handleExitClick}>Exit</button>
 
           <div className="player__controls">
             <div className="player__controls-row">
               <div className="player__time">
-                <progress className="player__progress" value="30" max="100"></progress>
-                <div className="player__toggler" style={{left: '30%',}}>Toggler</div>
+                <progress className="player__progress" value={progressState.progress} max="100"></progress>
+                <div className="player__toggler" style={{left: `${Math.trunc(progressState.progress)}%`,}}>Toggler</div>
               </div>
-              <div className="player__time-value">{filmTime}</div>
+              <div className="player__time-value">{progressState.time}</div>
             </div>
 
             <div className="player__controls-row">
@@ -93,9 +64,9 @@ function Player(): JSX.Element {
                   </svg>
                   <span>Pause</span>
                 </button>}
-              <div className="player__name">Transpotting</div>
+              <div className="player__name">{film.name}</div>
 
-              <button type="button" className="player__full-screen" onClick={handleFullScreenClick}>
+              <button type="button" className="player__full-screen" onClick={handleFullScreenAction.enter}>
                 <svg viewBox="0 0 27 27" width="27" height="27">
                   <use xlinkHref="#full-screen"></use>
                 </svg>
@@ -103,9 +74,9 @@ function Player(): JSX.Element {
               </button>
             </div>
           </div>
-        </>
-        : <Spiner />}
-    </div>
+        </div>
+      </FullScreen>
+      : <Spiner />
   );
 }
 
