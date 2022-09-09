@@ -2,7 +2,7 @@ import {Films} from '../types/types';
 
 export const checkId = (films: Films, id: number) => films.some((film) => film.id === id);
 
-export const getDate = (date: Date): string => {
+export const getDate = (date: Date) => {
   const monthMap = [
     'January',
     'February',
@@ -23,7 +23,7 @@ export const getDate = (date: Date): string => {
   return `${month} ${day}, ${year}`;
 };
 
-export const getStarsCount = (rating: number): string => {
+export const getStarsCount = (rating: number) => {
   if (rating < 3){
     return 'Bad';
   } else if(rating < 5){
@@ -35,4 +35,16 @@ export const getStarsCount = (rating: number): string => {
   } else {
     return 'Awesome';
   }
+};
+
+export const checkPassword = (password: string) => {
+  const letterPattern = /(?=.*?[a-z])/;
+  const numberPattern = /(?=.*?[0-9])/;
+  const minLength = /.{2,}/;
+
+  const hasLetters = letterPattern.test(password.toLowerCase());
+  const hasNumbers = numberPattern.test(password);
+  const hasMinLength = minLength.test(password);
+
+  return hasLetters && hasNumbers && hasMinLength;
 };
