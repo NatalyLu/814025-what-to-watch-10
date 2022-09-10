@@ -1,10 +1,9 @@
 import {Link} from 'react-router-dom';
-import {AuthorizationStatus, AppRoute} from '../../const';
+import {AppRoute} from '../../const';
 import {loadCurrentFilm} from '../../store/action';
-import {fetchFavoriteFilmsAction, sendFavoriteFilmAction} from '../../store/api-actions';
-import {useAppSelector, useAppDispatch} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {Film} from '../../types/types';
-import { useEffect, useState } from 'react';
+import useChangeFavoriteFilm from '../../hooks/useChangeFavoriteFilm';
 
 type FilmButtonsProps = {
   film: Film;
@@ -12,50 +11,11 @@ type FilmButtonsProps = {
 
 function FilmButtons(props: FilmButtonsProps):JSX.Element {
   const {film} = props;
+  const {isAuth, handleMyListClick, isFilmFavorite, filmsCount} = useChangeFavoriteFilm(film.id, film.isFavorite);
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const favoriteFilms = useAppSelector((state) => state.favoriteFilms);
-  // console.log({'favoriteFilms': favoriteFilms});
-
-  const isFavoriteFirstState = film.isFavorite;
-  // console.log({'isFavoriteFirstState': film.isFavorite});
-
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-
-  const [isFilmFavorite, setIsFilmFavorite] = useState (isFavoriteFirstState);
-  const [filmsCount, setFilmsCount] = useState (favoriteFilms.length);
-
-  useEffect(() => {
-    console.log('/////////////////////////////');
-    console.log('UseEffect First');
-    console.log({'authorizationStatus': authorizationStatus});
-    authorizationStatus === AuthorizationStatus.Auth && dispatch(fetchFavoriteFilmsAction());
-    // При размонтировании компонента фиксируем данные о статусе фильма(выбран ли он как favorite), отправив их на сервер
-    return () => {
-      console.log('/////////////////////////////');
-      console.log('UseEffect Second');
-
-      console.log({'isFavoriteFirstState': isFavoriteFirstState, 'isFilmFavorite': isFilmFavorite});
-      // if(isFavoriteFirstState !== isFilmFavorite) {
-      console.log('We are inside!');
-      dispatch(sendFavoriteFilmAction({id: film.id, status: Number(isFilmFavorite)}));
-      // dispatch(fetchFavoriteFilmsAction);
-      // }
-    };
-  }, [dispatch, authorizationStatus, film.id]);
 
   const handlePlayClick = (): void => {
     dispatch(loadCurrentFilm(film));
-  };
-
-  const handleMyListClick = (): void => {
-
-    // console.log('/////////////////////////////');
-    // Меняем статус фильма по нажатию на кнопку
-    setIsFilmFavorite((prev) => !prev);
-    // + меняем количество фильмов
-    isFilmFavorite ? setFilmsCount((prev) => prev + 1) : setFilmsCount((prev) => prev - 1);
-    // console.log({'CLICK newstate ': isFilmFavorite});
   };
 
   return(

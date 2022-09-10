@@ -1,20 +1,21 @@
 import { SyntheticEvent } from 'react';
 import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
+import useCheckAuthStatus from '../../hooks/useCheckAuthStatus';
 import {logoutAction} from '../../store/api-actions';
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.user);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isAuth = useCheckAuthStatus();
   const handleLinkClick = (evt: SyntheticEvent) : void=> {
     evt.preventDefault();
     dispatch(logoutAction());
   };
 
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    isAuth
       ? (
         <ul className="user-block">
           <li className="user-block__item">
