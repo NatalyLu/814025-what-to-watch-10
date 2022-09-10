@@ -24,10 +24,10 @@ function OverviewTab(props: OverviewTabProps): JSX.Element {
         <p>{film.description}</p>
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>
         <p className="film-card__starring">
-          <strong>Starring: {film.starring.map((item) => (
-            <>
-              {' '}{item},
-            </>
+          <strong>Starring: {film.starring.map((item, index) => (
+            <span key={item}>
+              {' '}{item}{Boolean(film.starring.length - index - 1) && ','}
+            </span>
           ))}
           </strong>
         </p>
