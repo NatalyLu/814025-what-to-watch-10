@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import {fetchFavoriteFilmsAction, sendFavoriteFilmAction} from '../store/api-actions';
 import useCheckAuthStatus from './useCheckAuthStatus';
@@ -6,49 +6,44 @@ import useCheckAuthStatus from './useCheckAuthStatus';
 function useChangeFavoriteFilm(id: number, isFavorite: boolean) {
   const dispatch = useAppDispatch();
   const isAuth = useCheckAuthStatus();
-
   const favoriteFilms = useAppSelector((state) => state.favoriteFilms);
-
-  const [isFilmFavorite, setIsFilmFavorite] = useState(isFavorite);
   const [filmsCount, setFilmsCount] = useState(favoriteFilms.length);
 
-  useEffect(() => {
-    console.log('Start loading favorite films');
-    isAuth && dispatch(fetchFavoriteFilmsAction());
+  // Используем реф, чтобы в useEffect было актуальное значение переменой
+  const latestState = useRef(isFavorite);
 
-    console.log('Got Favorite films!');
-    // При размонтировании компонента фиксируем данные о статусе фильма(выбран ли он как favorite), отправив их на сервер
-    return () => {
-      console.log('Delete component!');
+  useEffect(() => {
+    isAuth && dispatch(fetchFavoriteFilmsAction());
+  }, [isAuth, dispatch]);
+
+  useEffect(() => () => {
+    // При размонтировании компонента сравниваем, изменилось ли значение флага добавления фильма
+    // и отправляем данные о статусе фильма(выбран ли он как favorite) на сервер
+    if (latestState.current !== isFavorite) {
       dispatch(
         sendFavoriteFilmAction({
           id: id,
-          status: Number(isFilmFavorite),
+          status: Number(latestState.current),
         })
       );
-    };
-  }, [dispatch, isAuth, id]);
+    }
+  }, [dispatch, id, isFavorite]);
 
   const handleMyListClick = (): void => {
-    setIsFilmFavorite((prev) => {
-      console.log("INSIDE");
-      const toggleValue = !prev;
+    const toggleValue = !latestState.current;
 
-      if (toggleValue) {
-        setFilmsCount((prevCount) => {
-          console.log('PREV', prevCount);
-          console.log('PREV+1', prevCount + 1);
-          return prevCount + 1;
-        })
-      } else {
-        setFilmsCount((prevCount) => prevCount - 1);
-      }
-
-      return toggleValue;
-    });
+    latestState.current = toggleValue;
+    toggleValue
+      ? setFilmsCount((prev) => prev + 1)
+      : setFilmsCount((prev) => prev - 1);
   };
 
-  return { isAuth, handleMyListClick, isFilmFavorite, filmsCount };
+  return {
+    isAuth,
+    handleMyListClick,
+    isFilmFavorite: latestState.current,
+    filmsCount: filmsCount,
+  };
 }
 
 export default useChangeFavoriteFilm;
