@@ -17,20 +17,10 @@ function useVideoPlayer(videoRef: RefObject<HTMLVideoElement>) {
 
 
   // Меняем флаг загрузки воспроизведенного видео
-  const [isLoading, setIsLoading] = useState(false);
-  const handleVideoLoading = () => {
-    setIsLoading(!isLoading);
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Тут тоже isLoading наоборот. вначале false
-    console.log('isLoading', isLoading);
+  const [isLoading, setIsLoading] = useState(true);
+  const handleVideoLoading = (waiting: boolean) => {
+    setIsLoading(waiting);
   };
-  // Если задавать разные обработчики для onWaiting и onCanPlay, то все работает ожидаемо
-
-  // const handleVideoCanPlay = () => {
-  //   setIsLoading(false);
-  //   console.log('END', isLoading);
-  // };
-
 
   // Прогресс бар
   const filmDuraction = videoRef.current?.duration;
@@ -55,16 +45,14 @@ function useVideoPlayer(videoRef: RefObject<HTMLVideoElement>) {
     }
   };
 
-
   // Пауза/Воспроизведение
   const [isPause, setIsPause] = useState(false);
-
   const handleVideoPlay = () => {
     setIsPause(!isPause);
-    if (!isPause) {
-      videoRef.current?.pause();
-    } else {
+    if (isPause) {
       videoRef.current?.play();
+    } else {
+      videoRef.current?.pause();
     }
   };
 

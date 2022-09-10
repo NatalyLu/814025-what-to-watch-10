@@ -22,18 +22,15 @@ function Player(): JSX.Element {
     film ?
       <FullScreen handle={handleFullScreenAction}>
         <div className="player">
-          {/* Изначально планировалось, что Когда isLoading true спинер должен показываться,
-          в консоле он true и спинер показывается при настройке slow3g, но ниже условие обратное записано, что когда isLoading покажи спинер, а работает наоборот
-          я не понимаю почему ;( */}
-          {!isLoading && <Spiner classes='loading-spiner__absolute' />}
+          {isLoading && <Spiner classes='loading-spiner__absolute' />}
           <video
             src={film.videoLink}
             poster={film.posterImage}
             className="player__video"
             autoPlay
             ref={videoRef}
-            onWaiting={handleVideoLoading}
-            onCanPlay={handleVideoLoading}
+            onWaiting={() => {handleVideoLoading(true);}}
+            onCanPlay={() => {handleVideoLoading(false);}}
             onTimeUpdate={handleProgressUpdate}
           >
           </video>
