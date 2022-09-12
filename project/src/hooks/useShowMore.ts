@@ -1,12 +1,11 @@
 import { useState } from 'react';
-// import { Films } from '../types/types';
+import { Films } from '../types/types';
 
-// запись вида Films | string[] приводит к ошибкам в файлах genre-list.tsx и film-catalog.tsx
-function useShowMore(maxCount: number, array: any[]) {
+function useShowMore<T extends Films | string[]>(maxCount: number, array: T) {
   const [index, setIndex] = useState(maxCount);
 
   // Берём первые n элементов для отрисовки, если элементов больше не осталось, то скрываем кнопку ShowMore
-  const someFilteredItems = array.slice(0, index);
+  const someFilteredItems = array.slice(0, index) as T;
   const isItems = Boolean(array.length - someFilteredItems.length);
 
   const handleButtonClick = (): void => {
