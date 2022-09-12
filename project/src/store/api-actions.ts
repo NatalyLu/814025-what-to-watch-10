@@ -86,7 +86,6 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<Films>(APIRoute.FavoriteFilms);
     dispatch(loadFavoriteFilms(data));
-    console.log({'data': data});
   }
 );
 
@@ -236,12 +235,10 @@ export const sendReviewAction = createAsyncThunk<
   }
 >('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
   dispatch(setReviewSendingStatus(true));
-  try {
-    const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
-    dispatch(setReviewSendingStatus(false));
-    dispatch(redirectToRoute(AppRoute.Film.replace(':id', String(id))));
-    dispatch(loadReviews(data));
-  } catch {}
+  const { data } = await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
+  dispatch(setReviewSendingStatus(false));
+  dispatch(redirectToRoute(AppRoute.Film.replace(':id', String(id))));
+  dispatch(loadReviews(data));
 });
 
 
@@ -255,7 +252,6 @@ export const sendFavoriteFilmAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('user/FavoriteFilmAction', async ({ id, status }, { dispatch, extra: api }) => {
-  const { data } = await api.post<Film>(`${APIRoute.FavoriteFilms}/${id}/${status}`, {id, status});
-  console.log({'Send FAAVORITE': data});
+  await api.post<Film>(`${APIRoute.FavoriteFilms}/${id}/${status}`, {id, status});
   dispatch(fetchFavoriteFilmsAction());
 });
