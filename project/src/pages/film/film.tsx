@@ -1,7 +1,6 @@
 import {useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import Tabs from '../../components/tabs/tabs';
@@ -11,22 +10,17 @@ import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} fro
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 import FilmButtons from '../../components/film-buttons/film-buttons';
-import ShowMore from '../../components/show-more/show-more';
-import useShowMore from '../../hooks/useShowMore';
 import useCheckFilmId from '../../hooks/useCheckFilmId';
+import FilmShortList from '../../components/film-short-list/film-short-list';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
   const similarFilms = useAppSelector((state) => state.similarFilms);
   const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
-
+  const film = useAppSelector((state) => state.film);
   const id = Number(useParams().id);
 
-  const {isItems, handleButtonClick, someFilteredItems} = useShowMore(MAX_SIMILAR_FILM_COUNT, similarFilms);
-
   useCheckFilmId(id);
-
-  const film = useAppSelector((state) => state.film);
 
   useEffect(() => {
     // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
@@ -93,11 +87,7 @@ function Film(): JSX.Element {
 
           {isSimilarFilmsLoading
             ? <Spiner />
-            :
-            <>
-              <FilmCards films={someFilteredItems} />
-              {(isItems) && <ShowMore onClick={handleButtonClick}/> }
-            </>}
+            : <FilmShortList maxCount={MAX_SIMILAR_FILM_COUNT} films={similarFilms} />}
         </section>
 
         <footer className="page-footer">

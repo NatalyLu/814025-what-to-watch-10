@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {Link} from 'react-router-dom';
 import {Film} from '../../types/types';
 import {AppRoute} from '../../const';
@@ -29,4 +30,4 @@ function FilmCard(props: FilmCardProps): JSX.Element {
   );
 }
 
-export default FilmCard;
+export default memo(FilmCard);
