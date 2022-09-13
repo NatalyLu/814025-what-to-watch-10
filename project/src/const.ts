@@ -30,7 +30,6 @@ export const filmTabs = [
 ];
 
 export enum ErrorText {
-  NewField = 'The new field has been edited. Please, describe the state of this field',
   NoReviews = 'Sorry, no reviews were found. You can be the first to leave a review!',
   WrongPassword = 'Wrong password! It must contain at least one letter and one number',
 }
