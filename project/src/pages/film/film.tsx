@@ -1,17 +1,16 @@
 import {useParams} from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
-import Tabs from '../../components/tabs/tabs';
-import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs, MAX_SIMILAR_FILM_COUNT} from '../../const';
+import {MAX_SIMILAR_FILM_COUNT} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 import FilmButtons from '../../components/film-buttons/film-buttons';
 import useCheckFilmId from '../../hooks/useCheckFilmId';
 import FilmShortList from '../../components/film-short-list/film-short-list';
+import FilmNav from '../../components/film-nav/film-nav';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -32,12 +31,6 @@ function Film(): JSX.Element {
     dispatch(fetchSimilarFilmsAction(id));
     dispatch(fetchReviewsAction(id));
   }, [id, film]);
-
-
-  const [type, setType] = useState(filmTabs[0]);
-  const handleListClick = (active: string): void => {
-    setType(active);
-  };
 
   return (
     <>
@@ -72,11 +65,7 @@ function Film(): JSX.Element {
               <div className="film-card__poster film-card__poster--big">
                 <Video posterImage={film.posterImage} videoLink={film.videoLink} />
               </div>
-
-              <div className="film-card__desc">
-                <NavTabs onClick={handleListClick} filmTabs={filmTabs} />
-                <Tabs activeType={type} film={film} />
-              </div>
+              <FilmNav film={film} />
             </div>
           </div>}
       </section>
