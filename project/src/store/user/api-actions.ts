@@ -8,6 +8,7 @@ import { Films, Film, FavoriteFilmStatus } from '../../types/types';
 import { saveToken, removeToken } from '../../services/token';
 import { AppRoute, APIRoute } from '../../const'; //BAD_REQUEST_ERROR
 import {redirectToRoute} from '../action';
+// import {setCorrectEmailStatus} from './actions';
 
 // AUTH
 export const checkAuthAction = createAsyncThunk<
@@ -48,10 +49,10 @@ export const loginAction = createAsyncThunk<
     dispatch(redirectToRoute(AppRoute.Main));
     return data;
     // } catch (err) {
-    //     if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
-    //       dispatch(setCorrectEmailStatus(false));
-    //     }
+    //   if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
+    //     dispatch(setCorrectEmailStatus(false));
     //   }
+    //   return err;
     // }
   }
 );

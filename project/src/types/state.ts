@@ -15,6 +15,7 @@ export type UserState = {
     isLoaded: boolean;
     isSendFavoriteAction: boolean;
   };
+  isDataCorrect: boolean;
 };
 
 export type CurrentFilmState = {

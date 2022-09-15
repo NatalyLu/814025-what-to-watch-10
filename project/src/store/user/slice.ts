@@ -19,12 +19,17 @@ const userInitialState: UserState = {
     isLoaded: false,
     isSendFavoriteAction: false,
   },
+  isDataCorrect: false,
 };
 
 export const userSlice = createSlice({
   name: NameSpace.User,
   initialState: userInitialState,
-  reducers: {},
+  reducers: {
+    setCorrectEmailStatus: (state, action) => {
+      state.isDataCorrect = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
