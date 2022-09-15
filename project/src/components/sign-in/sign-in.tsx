@@ -3,12 +3,14 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import useCheckAuthStatus from '../../hooks/useCheckAuthStatus';
-import {logoutAction} from '../../store/api-actions';
+import {logoutAction} from '../../store/user/api-actions';
+import { getUserData } from '../../store/user/selectors';
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector(getUserData);
   const isAuth = useCheckAuthStatus();
+
   const handleLinkClick = (evt: SyntheticEvent) : void=> {
     evt.preventDefault();
     dispatch(logoutAction());

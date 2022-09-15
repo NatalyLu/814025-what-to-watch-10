@@ -4,7 +4,7 @@ import browserHistory from '../browser-history';
 import { useAppDispatch } from '../hooks';
 import { getFullTimeFromSeconds } from '../utils/utils';
 import useCheckFilmId from '../hooks/useCheckFilmId';
-import { fetchCurrentFilmAction } from '../store/api-actions';
+import { fetchCurrentFilmAction } from '../store/current-film/api-actions';
 
 function useVideoPlayer(videoRef: RefObject<HTMLVideoElement>) {
   // Проверяем ID

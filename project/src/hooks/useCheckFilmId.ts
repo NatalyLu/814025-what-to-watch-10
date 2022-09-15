@@ -3,20 +3,21 @@ import {useNavigate} from 'react-router-dom';
 import { checkId } from '../utils/utils';
 import { AppRoute } from '../const';
 import {useAppSelector} from '../hooks';
+import { getFilms, getFilmsStatus } from '../store/main/selectors';
 
 function useCheckFilmId(id: number) {
-  const allFilms = useAppSelector((state) => state.films);
-  const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
+  const allFilms = useAppSelector(getFilms);
+  const isFilmsLoaded = useAppSelector(getFilmsStatus);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isFilmsLoading) {
+    if (isFilmsLoaded) {
       const isIdCorrect = checkId(allFilms, id);
       if (!isIdCorrect) {
         navigate(AppRoute.NotFound);
       }
     }
-  }, [allFilms, isFilmsLoading, id]);
+  }, [allFilms, isFilmsLoaded, id]);
 }
 
 export default useCheckFilmId;

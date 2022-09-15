@@ -3,10 +3,11 @@ import {Review, Reviews} from '../../types/types';
 import Spiner from '../spiner/spiner';
 import {getDate} from '../../utils/utils';
 import { ErrorText } from '../../const';
+import {getReviews, getReviewsStatus} from '../../store/current-film/selectors';
 
 function ReviewsTab(): JSX.Element {
-  const reviews = useAppSelector((store) => store.reviews);
-  const isFilmReviewsLoading = useAppSelector((state) => state.isFilmReviewsLoading);
+  const reviews = useAppSelector(getReviews);
+  const isFilmReviewsLoading = useAppSelector(getReviewsStatus);
   // Так как отзывы выводятся в 2 колонки, то
   // необходимо разбить массив напополам =>
   // находим индекс центрального элемента массива (делением на 2 :))
@@ -42,7 +43,7 @@ function ReviewsTab(): JSX.Element {
     })
   );
 
-  const getReviews = (): JSX.Element => {
+  const getFilmReviews = (): JSX.Element => {
     if (reviews.length) {
       return (
         <>
@@ -64,7 +65,7 @@ function ReviewsTab(): JSX.Element {
     <div className="film-card__reviews film-card__row">
       {isFilmReviewsLoading
         ? <Spiner />
-        : getReviews()}
+        : getFilmReviews()}
     </div>
   );
 }

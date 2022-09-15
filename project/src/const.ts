@@ -42,6 +42,12 @@ export const filmTextRating = {
   awesome: 'Awesome',
 };
 
+export enum NameSpace {
+  User = 'USER',
+  Film = 'FILM',
+  Main = 'MAIN',
+}
+
 export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_FILMS_COUNT = 8;

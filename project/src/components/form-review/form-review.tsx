@@ -1,9 +1,10 @@
 import {useState, ChangeEvent, SyntheticEvent, useCallback, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {sendReviewAction} from '../../store/api-actions';
+import {sendReviewAction} from '../../store/current-film/api-actions';
 import {TEXTAREA_MIN_LENGTH} from '../../const';
 import FormStars from '../form-stars/form-stars';
 import FormTextarea from '../form-textarea/form-textarea';
+import { getSendingReviewStatus } from '../../store/current-film/selectors';
 
 type FormReviewProps = {
   filmId: number;
@@ -12,7 +13,7 @@ type FormReviewProps = {
 
 function FormReview(props: FormReviewProps): JSX.Element {
   const {filmId, rating} = props;
-  const isReviewSending = useAppSelector((state) => state.isReviewSending);
+  const isReviewSending = useAppSelector(getSendingReviewStatus);
   const dispatch = useAppDispatch();
 
   const [stars, setStar] = useState(Math.floor(rating));

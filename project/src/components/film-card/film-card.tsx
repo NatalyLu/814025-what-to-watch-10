@@ -4,7 +4,7 @@ import {Film} from '../../types/types';
 import {AppRoute} from '../../const';
 import Video from '../video/video';
 import {useAppDispatch} from '../../hooks';
-import {loadCurrentFilm} from '../../store/action';
+import { changeCurrentFilm } from '../../store/current-film/actions';
 
 type FilmCardProps = {
   film: Film;
@@ -15,7 +15,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const handleFilmTitleClick = (): void => {
-    dispatch(loadCurrentFilm(film));
+    dispatch(changeCurrentFilm(film));
   };
 
   return (

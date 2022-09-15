@@ -2,16 +2,18 @@ import {useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AppRoute} from '../../const';
-import {fetchCurrentFilmAction} from '../../store/api-actions';
+import {fetchCurrentFilmAction} from '../../store/current-film/api-actions';
 import Logo from '../../components/logo/logo';
 import FormReview from '../../components/form-review/form-review';
 import SignIn from '../../components/sign-in/sign-in';
 import useCheckFilmId from '../../hooks/useCheckFilmId';
+import { getFilm } from '../../store/current-film/selectors';
+import Spiner from '../../components/spiner/spiner';
 
 function AddReview(): JSX.Element {
   const dispatch = useAppDispatch();
   const id = Number(useParams().id);
-  const film = useAppSelector((state) => state.film);
+  const film = useAppSelector(getFilm);
 
   useCheckFilmId(id);
 
@@ -56,7 +58,7 @@ function AddReview(): JSX.Element {
       </div>
 
       <div className="add-review">
-        {film ? <FormReview filmId={film.id} rating={film.rating} /> : null}
+        {film ? <FormReview filmId={film.id} rating={film.rating} /> : <Spiner />}
       </div>
     </section>
   );

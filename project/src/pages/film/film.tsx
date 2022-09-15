@@ -4,19 +4,20 @@ import {useAppSelector, useAppDispatch} from '../../hooks';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
 import {MAX_SIMILAR_FILM_COUNT} from '../../const';
-import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
+import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/current-film/api-actions';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
 import FilmButtons from '../../components/film-buttons/film-buttons';
 import useCheckFilmId from '../../hooks/useCheckFilmId';
 import FilmShortList from '../../components/film-short-list/film-short-list';
 import FilmNav from '../../components/film-nav/film-nav';
+import { getFilm, getSimilar, getSimilarStatus } from '../../store/current-film/selectors';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
-  const similarFilms = useAppSelector((state) => state.similarFilms);
-  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
-  const film = useAppSelector((state) => state.film);
+  const similarFilms = useAppSelector(getSimilar);
+  const isSimilarFilmsLoaded = useAppSelector(getSimilarStatus);
+  const film = useAppSelector(getFilm);
   const id = Number(useParams().id);
 
   useCheckFilmId(id);
@@ -59,7 +60,7 @@ function Film(): JSX.Element {
             </div>}
         </div>
 
-        {film &&
+        {film ?
           <div className="film-card__wrap film-card__translate-top">
             <div className="film-card__info">
               <div className="film-card__poster film-card__poster--big">
@@ -67,16 +68,17 @@ function Film(): JSX.Element {
               </div>
               <FilmNav film={film} />
             </div>
-          </div>}
+          </div>
+          : <Spiner />}
       </section>
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          {isSimilarFilmsLoading
-            ? <Spiner />
-            : <FilmShortList maxCount={MAX_SIMILAR_FILM_COUNT} films={similarFilms} />}
+          {isSimilarFilmsLoaded
+            ? <FilmShortList maxCount={MAX_SIMILAR_FILM_COUNT} films={similarFilms} />
+            : <Spiner />}
         </section>
 
         <footer className="page-footer">

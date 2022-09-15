@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import {store} from '../../store';
 import {useAppSelector} from '../../hooks';
-import {fetchPromoFilmAction} from '../../store/api-actions';
+import {fetchPromoFilmAction} from '../../store/main/api-actions';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
 import SignIn from '../../components/sign-in/sign-in';
 import FilmButtons from '../../components/film-buttons/film-buttons';
+import { getPromo, getPromoStatus } from '../../store/main/selectors';
 
 
 function Main(): JSX.Element {
@@ -14,7 +15,8 @@ function Main(): JSX.Element {
     store.dispatch(fetchPromoFilmAction());
   }, []);
 
-  const {promoFilm, isPromoFilmLoading} = useAppSelector((state) => state);
+  const promoFilm = useAppSelector(getPromo);
+  const isPromoFilmLoading = useAppSelector(getPromoStatus);
 
   return (
     <>

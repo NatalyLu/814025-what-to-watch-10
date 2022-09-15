@@ -3,9 +3,10 @@ import {FullScreen, useFullScreenHandle} from 'react-full-screen';
 import Spiner from '../../components/spiner/spiner';
 import {useAppSelector} from '../../hooks';
 import useVideoPlayer from '../../hooks/useVideoPlayer';
+import { getFilm } from '../../store/current-film/selectors';
 
 function Player(): JSX.Element {
-  const film = useAppSelector((state) => state.film);
+  const film = useAppSelector(getFilm);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const handleFullScreenAction = useFullScreenHandle();
 

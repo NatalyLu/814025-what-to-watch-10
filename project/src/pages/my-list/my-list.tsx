@@ -2,9 +2,10 @@ import {useAppSelector} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import SignIn from '../../components/sign-in/sign-in';
+import { getFavorites } from '../../store/user/selectors';
 
 function MyList(): JSX.Element {
-  const films = useAppSelector((state) => state.favoriteFilms);
+  const films = useAppSelector(getFavorites);
 
   return (
     <div className="user-page">

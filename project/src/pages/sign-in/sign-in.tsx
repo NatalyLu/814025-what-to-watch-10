@@ -1,6 +1,6 @@
 import { useRef, FormEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../store/user/api-actions';
 import Logo from '../../components/logo/logo';
 import { checkPassword } from '../../utils/utils';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ function SignIn(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const isEmailCorrect = useAppSelector((state) => state.isEmailCorrect );
+  // const isEmailCorrect = useAppSelector((state) => state.isEmailCorrect );
   const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -39,10 +39,10 @@ function SignIn(): JSX.Element {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
-          {!isEmailCorrect &&
+          {/* {!isEmailCorrect &&
             <div className="sign-in__message">
               <p>We can’t recognize this email <br /> and password combination. Please try again.</p>
-            </div>}
+            </div>} */}
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
