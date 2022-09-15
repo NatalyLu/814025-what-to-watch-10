@@ -16,7 +16,7 @@ function Main(): JSX.Element {
   }, []);
 
   const promoFilm = useAppSelector(getPromo);
-  const isPromoFilmLoading = useAppSelector(getPromoStatus);
+  const isPromoFilmLoaded = useAppSelector(getPromoStatus);
 
   return (
     <>
@@ -33,8 +33,9 @@ function Main(): JSX.Element {
         </header>
 
         <div className="film-card__wrap">
-          {(!promoFilm || isPromoFilmLoading) && <Spiner />}
-          {promoFilm &&
+          {(!promoFilm || !isPromoFilmLoaded)
+            ? <Spiner />
+            :
             <div className="film-card__info">
               <div className="film-card__poster">
                 <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />

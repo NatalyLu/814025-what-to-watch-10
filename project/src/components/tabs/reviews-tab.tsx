@@ -7,7 +7,7 @@ import {getReviews, getReviewsStatus} from '../../store/current-film/selectors';
 
 function ReviewsTab(): JSX.Element {
   const reviews = useAppSelector(getReviews);
-  const isFilmReviewsLoading = useAppSelector(getReviewsStatus);
+  const isFilmReviewsLoaded = useAppSelector(getReviewsStatus);
   // Так как отзывы выводятся в 2 колонки, то
   // необходимо разбить массив напополам =>
   // находим индекс центрального элемента массива (делением на 2 :))
@@ -63,9 +63,9 @@ function ReviewsTab(): JSX.Element {
 
   return (
     <div className="film-card__reviews film-card__row">
-      {isFilmReviewsLoading
-        ? <Spiner />
-        : getFilmReviews()}
+      {isFilmReviewsLoaded
+        ? getFilmReviews()
+        : <Spiner />}
     </div>
   );
 }
