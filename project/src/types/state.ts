@@ -39,7 +39,6 @@ export type MainState = {
     data: Films;
     isLoaded: boolean;
   };
-  filmsByGenre: Films;
   promo: {
     data?: Film;
     isLoaded: boolean;

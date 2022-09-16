@@ -2,12 +2,13 @@ import {MAX_FILMS_COUNT} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import GenreList from '../../components/genre-list/genre-list';
 import FilmShortList from '../film-short-list/film-short-list';
-import { getActiveGenre, getFilms } from '../../store/main/selectors';
+import { getFilterFilmsByGenre, getActiveGenre } from '../../store/main/selectors';
 import { changeGenre } from '../../store/main/actions';
 
 function FilmCatalog():JSX.Element {
-  const films = useAppSelector(getFilms);
   const activeGenre = useAppSelector(getActiveGenre);
+  const films = useAppSelector(getFilterFilmsByGenre);
+
   const dispatch = useAppDispatch();
 
   // По клику на жанр обновляем активный таб с жанром и формируем новый список фильмов
