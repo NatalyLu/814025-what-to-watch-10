@@ -7,6 +7,7 @@ export const getAuthorizationStatus = (state: State): AuthorizationStatus => sta
 
 export const getFavorites = (state: State): Films => state[NameSpace.User].favorites.data;
 export const getFavoritesStatus = (state: State): boolean => state[NameSpace.User].favorites.isLoaded;
+// пока нигде не используется
 export const getSendFavoriteStatus = (state: State): boolean => state[NameSpace.User].favorites.isSendFavoriteAction;
 
 export const getUserData = (state: State): UserData | undefined => state[NameSpace.User].userData;

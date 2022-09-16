@@ -67,6 +67,7 @@ export const userSlice = createSlice({
         state.favorites.isLoaded = true;
       })
 
+      // Возможно не понадобится
       .addCase(sendFavoriteFilmAction.pending, (state) => {
         state.favorites.isSendFavoriteAction = false;
       })

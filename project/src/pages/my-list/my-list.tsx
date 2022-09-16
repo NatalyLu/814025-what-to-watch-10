@@ -2,9 +2,11 @@ import {useAppSelector} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import SignIn from '../../components/sign-in/sign-in';
-import { getFavorites } from '../../store/user/selectors';
+import { getFavorites, getFavoritesStatus } from '../../store/user/selectors';
+import Spiner from '../../components/spiner/spiner';
 
 function MyList(): JSX.Element {
+  const filmsStatus = useAppSelector(getFavoritesStatus);
   const films = useAppSelector(getFavorites);
 
   return (
@@ -18,8 +20,7 @@ function MyList(): JSX.Element {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <FilmCards films={films} />
+        {filmsStatus ? <FilmCards films={films} /> : <Spiner /> }
       </section>
 
       <footer className="page-footer">
