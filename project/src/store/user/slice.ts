@@ -17,7 +17,7 @@ const userInitialState: UserState = {
   favorites: {
     data: [],
     isLoaded: false,
-    isSendFavoriteAction: false,
+    isFavoriteActionSending: false,
   },
   isDataCorrect: false,
 };
@@ -67,12 +67,14 @@ export const userSlice = createSlice({
         state.favorites.isLoaded = true;
       })
 
-      // Возможно не понадобится
       .addCase(sendFavoriteFilmAction.pending, (state) => {
-        state.favorites.isSendFavoriteAction = false;
+        state.favorites.isFavoriteActionSending = true;
       })
       .addCase(sendFavoriteFilmAction.fulfilled, (state) => {
-        state.favorites.isSendFavoriteAction = true;
+        state.favorites.isFavoriteActionSending = false;
+      })
+      .addCase(sendFavoriteFilmAction.rejected, (state) => {
+        state.favorites.isFavoriteActionSending = null;
       });
   },
 });

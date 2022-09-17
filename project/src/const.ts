@@ -32,6 +32,7 @@ export const filmTabs = [
 export enum ErrorText {
   NoReviews = 'Sorry, no reviews were found. You can be the first to leave a review!',
   WrongPassword = 'Wrong password! It must contain at least one letter and one number',
+  Default = 'Sorry, something went wrong. Please reload the page and try it again',
 }
 
 export const filmTextRating = {

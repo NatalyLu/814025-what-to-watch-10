@@ -107,6 +107,6 @@ export const sendFavoriteFilmAction = createAsyncThunk<
         status,
       }
     );
-    // dispatch(fetchFavoriteFilmsAction());
+    dispatch(fetchFavoriteFilmsAction());
   }
 );

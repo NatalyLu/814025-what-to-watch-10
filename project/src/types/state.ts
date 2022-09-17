@@ -13,7 +13,7 @@ export type UserState = {
   favorites: {
     data: Films;
     isLoaded: boolean;
-    isSendFavoriteAction: boolean;
+    isFavoriteActionSending: boolean | null;
   };
   isDataCorrect: boolean;
 };
