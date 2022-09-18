@@ -1,14 +1,14 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-// import { ResponseError } from '../../types/errors';
+import { ResponseError } from '../../types/errors';
 import { AppDispatch, State } from '../../types/state';
 import { AuthData } from '../../types/auth-data';
 import { UserData } from '../../types/user-data';
 import { Films, Film, FavoriteFilmStatus } from '../../types/types';
 import { saveToken, removeToken } from '../../services/token';
-import { AppRoute, APIRoute } from '../../const'; //BAD_REQUEST_ERROR
+import { AppRoute, APIRoute, BAD_REQUEST_ERROR } from '../../const'; //BAD_REQUEST_ERROR
 import {redirectToRoute} from '../action';
-// import {setCorrectEmailStatus} from './actions';
+import {setCorrectEmailStatus} from './actions';
 
 // AUTH
 export const checkAuthAction = createAsyncThunk<
@@ -27,7 +27,7 @@ export const checkAuthAction = createAsyncThunk<
 
 //LOGIN
 export const loginAction = createAsyncThunk<
-  UserData,
+  UserData | undefined,
   AuthData,
   {
     dispatch: AppDispatch;
@@ -39,21 +39,21 @@ export const loginAction = createAsyncThunk<
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // Передадим необходимые данные серверу (email, password)
     // Взамен получим данные пользователя и извлечем из них token
-    // try {
-    const { data } = await api.post<UserData>(APIRoute.Login, {
-      email,
-      password,
-    });
-    // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище, а затем перенаправи на главную
-    saveToken(data.token);
-    dispatch(redirectToRoute(AppRoute.Main));
-    return data;
-    // } catch (err) {
-    //   if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
-    //     dispatch(setCorrectEmailStatus(false));
-    //   }
-    //   return err;
-    // }
+    try {
+      const { data } = await api.post<UserData>(APIRoute.Login, {
+        email,
+        password,
+      });
+      // Сохраним токен в localStorage и поменяем зачение авторизации в хранилище, а затем перенаправи на главную
+      saveToken(data.token);
+      dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(setCorrectEmailStatus(true));
+      return data;
+    } catch (err) {
+      if ((err as ResponseError).status === BAD_REQUEST_ERROR) {
+        dispatch(setCorrectEmailStatus(false));
+      }
+    }
   }
 );
 

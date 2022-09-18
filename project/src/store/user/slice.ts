@@ -8,6 +8,7 @@ import {
   fetchFavoriteFilmsAction,
   sendFavoriteFilmAction,
 } from './api-actions';
+import {setCorrectEmailStatus} from './actions';
 
 const userInitialState: UserState = {
   // authorizationStatus = Unknown, при запуске приложения неизвестно состояние,
@@ -19,17 +20,13 @@ const userInitialState: UserState = {
     isLoaded: false,
     isFavoriteActionSending: false,
   },
-  isDataCorrect: false,
+  isDataCorrect: true,
 };
 
 export const userSlice = createSlice({
   name: NameSpace.User,
   initialState: userInitialState,
-  reducers: {
-    setCorrectEmailStatus: (state, action) => {
-      state.isDataCorrect = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
@@ -42,14 +39,13 @@ export const userSlice = createSlice({
 
       .addCase(loginAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.userData = action.payload;
+        action.payload && (state.userData = action.payload);
+      })
+      .addCase(setCorrectEmailStatus, (state, action) => {
+        state.isDataCorrect = action.payload;
       })
       .addCase(loginAction.rejected, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        ///////////////////////////////////////////////
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        ///////////////////////////////////////////////
-        console.log('Error', action.payload);
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
