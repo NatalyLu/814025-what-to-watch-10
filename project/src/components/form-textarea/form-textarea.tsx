@@ -1,4 +1,4 @@
-import {ChangeEvent, memo} from 'react';
+import {ChangeEvent} from 'react';
 import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH} from '../../const';
 
 type FormTextareaProps = {
@@ -26,4 +26,4 @@ function FormTextarea (props: FormTextareaProps):JSX.Element {
   );
 }
 
-export default memo(FormTextarea);
+export default FormTextarea;

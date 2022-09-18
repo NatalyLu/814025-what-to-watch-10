@@ -1,4 +1,4 @@
-import {useState, ChangeEvent, SyntheticEvent, useCallback, useRef} from 'react';
+import {useState, ChangeEvent, SyntheticEvent, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {sendReviewAction} from '../../store/current-film/api-actions';
 import {TEXTAREA_MIN_LENGTH} from '../../const';
@@ -17,10 +17,10 @@ function FormReview(props: FormReviewProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const [stars, setStar] = useState(Math.floor(rating));
-  const handleStarsChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => ( setStar(Number(evt.target.value)) ), []);
+  const handleStarsChange = (evt: ChangeEvent<HTMLInputElement>) => ( setStar(Number(evt.target.value)) );
 
   const [text, setText] = useState('');
-  const handleTextChange = useCallback((evt: ChangeEvent<HTMLTextAreaElement>) => ( setText(evt.target.value) ), []);
+  const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => ( setText(evt.target.value) );
 
   const formRef = useRef<HTMLFormElement>(null);
   const handleReviewSend = (evt: SyntheticEvent) => {
