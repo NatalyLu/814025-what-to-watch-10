@@ -57,7 +57,7 @@ function FormStars (props: FormStarsProps): JSX.Element {
       {
         starsArray.map((star) =>
           (
-            <Fragment key={`key-star-${star.value}`}>
+            <Fragment key={star.value}>
               <input
                 onChange={handleStarsChange}
                 className="rating__input"

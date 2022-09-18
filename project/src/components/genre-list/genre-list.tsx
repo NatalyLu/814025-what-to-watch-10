@@ -13,7 +13,7 @@ function GenreList(props: GenreListProps):JSX.Element {
   const {activeGenre, onClick} = props;
   const genres = useAppSelector(getGenres);
 
-  const {isItems, handleButtonClick, someFilteredItems} = useShowMore(MAX_GENRES_COUNT, genres);
+  const {isMoreItemsExist, handleButtonClick, someFilteredItems} = useShowMore(MAX_GENRES_COUNT, genres);
 
   return (
     <ul className="catalog__genres-list">
@@ -23,7 +23,7 @@ function GenreList(props: GenreListProps):JSX.Element {
         </li>
       ))}
 
-      {(isItems) && <ShowMore classes="catalog__genres-button" onClick={handleButtonClick}/> }
+      {(isMoreItemsExist) && <ShowMore classes="catalog__genres-button" onClick={handleButtonClick}/> }
     </ul>
   );
 }

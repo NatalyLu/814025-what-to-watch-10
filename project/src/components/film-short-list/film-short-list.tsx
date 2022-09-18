@@ -10,12 +10,12 @@ type FilmShortListProps ={
 
 function FilmShortList (props: FilmShortListProps):JSX.Element {
   const {maxCount, films} = props;
-  const {isItems, handleButtonClick, someFilteredItems} = useShowMore(maxCount, films);
+  const {isMoreItemsExist, handleButtonClick, someFilteredItems} = useShowMore(maxCount, films);
 
   return (
     <>
       <FilmCards films={someFilteredItems} />
-      {(isItems) && <ShowMore onClick={handleButtonClick}/> }
+      {(isMoreItemsExist) && <ShowMore onClick={handleButtonClick}/> }
     </>
   );
 }

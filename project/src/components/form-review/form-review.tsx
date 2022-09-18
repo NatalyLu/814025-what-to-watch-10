@@ -15,14 +15,13 @@ function FormReview(props: FormReviewProps): JSX.Element {
   const {filmId, rating} = props;
   const isReviewSending = useAppSelector(getSendingReviewStatus);
   const dispatch = useAppDispatch();
-
   const [stars, setStar] = useState(Math.floor(rating));
-  const handleStarsChange = (evt: ChangeEvent<HTMLInputElement>) => ( setStar(Number(evt.target.value)) );
-
   const [text, setText] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleStarsChange = (evt: ChangeEvent<HTMLInputElement>) => ( setStar(Number(evt.target.value)) );
   const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => ( setText(evt.target.value) );
 
-  const formRef = useRef<HTMLFormElement>(null);
   const handleReviewSend = (evt: SyntheticEvent) => {
     evt.preventDefault();
     dispatch(sendReviewAction( {id: filmId, review: {comment: text, rating: stars}} ));

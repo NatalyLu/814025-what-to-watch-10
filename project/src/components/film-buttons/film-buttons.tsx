@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Film} from '../../types/types';
 import useChangeFavoriteFilm from '../../hooks/useChangeFavoriteFilm';
 import {getFavoriteStatus} from '../../store/user/selectors';
+import { useEffect } from 'react';
 
 type FilmButtonsProps = {
   film: Film;
@@ -16,11 +17,16 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
   const {isAuth, handleMyListClick, isFilmFavorite, filmsCount} = useChangeFavoriteFilm(film.id, film.isFavorite);
   const dispatch = useAppDispatch();
 
-  // true - если мы ещё в процессе отправляния статуса фильма, false - если ответ получен, null - отклонен
+  // true - если мы ещё в процессе отправления статуса фильма, false - если ответ получен, null - отклонен
   const isFavoriteStatusSending = useAppSelector(getFavoriteStatus);
-  if (isFavoriteStatusSending === null) {
-    toast.error(ErrorText.Default);
-  }
+  const isStatusNull = isFavoriteStatusSending === null;
+
+  useEffect(()=> {
+    if (isStatusNull) {
+      toast.error(ErrorText.Default);
+    }
+  }, [isFavoriteStatusSending]);
+
   const handlePlayClick = (): void => {
     dispatch(changeCurrentFilm(film));
   };
@@ -38,7 +44,7 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
         <span>Play</span>
       </Link>
 
-      {isAuth && (isFavoriteStatusSending !== null) &&
+      {isAuth && !isStatusNull &&
         <>
           <button
             className="btn btn--list film-card__button"

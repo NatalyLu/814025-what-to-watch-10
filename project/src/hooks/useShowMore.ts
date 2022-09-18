@@ -13,7 +13,7 @@ function useShowMore<T extends Films | string[]>(maxCount: number, array: T) {
   };
 
   return {
-    isItems: isItems,
+    isMoreItemsExist: isItems,
     handleButtonClick: handleButtonClick,
     someFilteredItems: someFilteredItems,
   };
