@@ -4,7 +4,7 @@ import { loginAction } from '../../store/user/api-actions';
 import Logo from '../../components/logo/logo';
 import { checkPassword } from '../../utils/utils';
 import { toast } from 'react-toastify';
-import { ErrorText } from '../../const';
+import { ErrorText } from '../../enums';
 import { getDataStatus } from '../../store/user/selectors';
 
 function SignIn(): JSX.Element {

@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../enums';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import useCheckAuthStatus from '../../hooks/useCheckAuthStatus';
 import {logoutAction} from '../../store/user/api-actions';

@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../../types/state';
 import { Film, Films, Reviews } from '../../types/types';
 import { NewReviewWithID } from '../../types/new-review';
-import { APIRoute, AppRoute } from '../../const';
+import { APIRoute, AppRoute } from '../../enums';
 import { redirectToRoute } from '../action';
 
 // CURRENT FILM
@@ -66,5 +66,4 @@ export const sendReviewAction = createAsyncThunk<
 >('user/newReview', async ({ id, review }, { dispatch, extra: api }) => {
   await api.post<Reviews>(`${APIRoute.Reviews}/${id}`, review);
   dispatch(redirectToRoute(AppRoute.Film.replace(':id', String(id))));
-  // dispatch(loadReviews(data));
 });

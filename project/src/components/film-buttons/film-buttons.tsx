@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {AppRoute, ErrorText} from '../../const';
+import {AppRoute, ErrorText} from '../../enums';
 import {changeCurrentFilm} from '../../store/current-film/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Film} from '../../types/types';

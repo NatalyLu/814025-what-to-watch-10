@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {Link} from 'react-router-dom';
 import {Film} from '../../types/types';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../enums';
 import Video from '../video/video';
 import {useAppDispatch} from '../../hooks';
 import { changeCurrentFilm } from '../../store/current-film/actions';

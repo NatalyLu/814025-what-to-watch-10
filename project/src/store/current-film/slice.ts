@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { NameSpace } from '../../enums';
 import { CurrentFilmState } from '../../types/state';
 import {
   fetchCurrentFilmAction,

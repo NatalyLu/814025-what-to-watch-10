@@ -1,4 +1,4 @@
-import { AuthorizationStatus, NameSpace } from '../../const';
+import { AuthorizationStatus, NameSpace } from '../../enums';
 import { State } from '../../types/state';
 import { Films } from '../../types/types';
 import { UserData } from '../../types/user-data';

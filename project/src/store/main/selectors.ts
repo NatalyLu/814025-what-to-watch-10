@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { NameSpace } from '../../const';
+import { NameSpace } from '../../enums';
 import { State } from '../../types/state';
 import { Film, Films } from '../../types/types';
 import { getFilmsByGenre } from '../../utils/utils';

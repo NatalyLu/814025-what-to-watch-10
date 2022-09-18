@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../enums';
 import Logo from '../../components/logo/logo';
 
 function Error(): JSX.Element {

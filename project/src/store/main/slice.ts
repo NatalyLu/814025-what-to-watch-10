@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, DEFAULT_GENRE } from '../../const';
+import { NameSpace } from '../../enums';
+import { DEFAULT_GENRE } from '../../const';
 import { MainState } from '../../types/state';
 import { getGenres } from '../../utils/utils';
 import { changeGenre } from './actions';

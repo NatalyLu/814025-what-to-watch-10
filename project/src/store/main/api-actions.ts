@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../../types/state';
 import { Films, Film } from '../../types/types';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../enums';
 
 // FILMS
 export const fetchFilmsAction = createAsyncThunk<

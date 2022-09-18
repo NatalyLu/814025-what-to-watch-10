@@ -2,7 +2,7 @@ import {useAppSelector} from '../../hooks';
 import {Review, Reviews} from '../../types/types';
 import Spiner from '../spiner/spiner';
 import {getDate} from '../../utils/utils';
-import { ErrorText } from '../../const';
+import { ErrorText } from '../../enums';
 import {getReviews, getReviewsStatus} from '../../store/current-film/selectors';
 
 function ReviewsTab(): JSX.Element {

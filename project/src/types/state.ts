@@ -1,5 +1,5 @@
 import {store} from '../store';
-import {AuthorizationStatus} from '../const';
+import {AuthorizationStatus} from '../enums';
 import { UserData } from './user-data';
 import { Films, Film, Reviews } from './types';
 

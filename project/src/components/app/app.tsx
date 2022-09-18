@@ -1,5 +1,5 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../enums';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import Main from '../../pages/main/main';

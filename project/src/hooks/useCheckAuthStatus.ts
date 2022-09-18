@@ -1,5 +1,5 @@
 import { useAppSelector } from '../hooks';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus } from '../enums';
 import { getAuthorizationStatus } from '../store/user/selectors';
 
 function useCheckAuthStatus() {

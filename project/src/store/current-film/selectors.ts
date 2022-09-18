@@ -1,4 +1,4 @@
-import { NameSpace } from '../../const';
+import { NameSpace } from '../../enums';
 import { State } from '../../types/state';
 import { Film, Films, Reviews } from '../../types/types';
 

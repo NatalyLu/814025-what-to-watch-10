@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { checkId } from '../utils/utils';
-import { AppRoute } from '../const';
+import { AppRoute } from '../enums';
 import {useAppSelector} from '../hooks';
 import { getFilms, getFilmsStatus } from '../store/main/selectors';
 

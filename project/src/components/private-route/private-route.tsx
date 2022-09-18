@@ -1,5 +1,5 @@
 import {Navigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../enums';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading/loading';
 import { getAuthorizationStatus } from '../../store/user/selectors';

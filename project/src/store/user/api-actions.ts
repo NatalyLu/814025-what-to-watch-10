@@ -6,7 +6,8 @@ import { AuthData } from '../../types/auth-data';
 import { UserData } from '../../types/user-data';
 import { Films, Film, FavoriteFilmStatus } from '../../types/types';
 import { saveToken, removeToken } from '../../services/token';
-import { AppRoute, APIRoute, BAD_REQUEST_ERROR } from '../../const'; //BAD_REQUEST_ERROR
+import { AppRoute, APIRoute } from '../../enums';
+import {BAD_REQUEST_ERROR} from '../../const';
 import {redirectToRoute} from '../action';
 import {setCorrectEmailStatus} from './actions';
 

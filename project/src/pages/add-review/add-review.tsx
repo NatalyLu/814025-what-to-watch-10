@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {AppRoute} from '../../const';
+import {AppRoute} from '../../enums';
 import {fetchCurrentFilmAction} from '../../store/current-film/api-actions';
 import Logo from '../../components/logo/logo';
 import FormReview from '../../components/form-review/form-review';
