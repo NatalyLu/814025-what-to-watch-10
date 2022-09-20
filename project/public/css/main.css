@@ -877,7 +877,10 @@ main {
   color: #EEE5B5;
   text-decoration: none;
   position: relative;
-  padding-bottom: 19px; }
+  padding-bottom: 19px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer; }
   .film-nav__link::after {
     content: '';
     position: absolute;
@@ -1458,3 +1461,7 @@ main {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+  .page-footer {
+    margin-top: auto;
+  }
