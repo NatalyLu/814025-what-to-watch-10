@@ -7,6 +7,7 @@ import {Film} from '../../types/types';
 import useChangeFavoriteFilm from '../../hooks/useChangeFavoriteFilm';
 import {getFavoriteStatus} from '../../store/user/selectors';
 import { useEffect } from 'react';
+import { replaceId } from '../../utils/utils';
 
 type FilmButtonsProps = {
   film: Film;
@@ -19,10 +20,10 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
 
   // true - если мы ещё в процессе отправления статуса фильма, false - если ответ получен, null - отклонен
   const isFavoriteStatusSending = useAppSelector(getFavoriteStatus);
-  const isStatusNull = isFavoriteStatusSending === null;
+  const isStatusDefault = isFavoriteStatusSending === null;
 
   useEffect(()=> {
-    if (isStatusNull) {
+    if (isStatusDefault) {
       toast.error(ErrorText.Default);
     }
   }, [isFavoriteStatusSending]);
@@ -35,7 +36,7 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
     <div className="film-card__buttons">
       <Link
         className="btn btn--play film-card__button"
-        to={AppRoute.Player.replace(':id', String(film.id))}
+        to={replaceId(AppRoute.Player, film.id)}
         onClick={handlePlayClick}
       >
         <svg viewBox="0 0 19 19" width="19" height="19">
@@ -44,7 +45,7 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
         <span>Play</span>
       </Link>
 
-      {isAuth && !isStatusNull &&
+      {isAuth && !isStatusDefault &&
         <>
           <button
             className="btn btn--list film-card__button"
@@ -64,7 +65,7 @@ function FilmButtons(props: FilmButtonsProps):JSX.Element {
             <span>My list</span>
             <span className="film-card__count">{filmsCount}</span>
           </button>
-          <Link to={AppRoute.AddReview.replace(':id', String(film.id))} className="btn film-card__button">Add review</Link>
+          <Link to={replaceId(AppRoute.AddReview, film.id)} className="btn film-card__button">Add review</Link>
         </>}
     </div>
   );

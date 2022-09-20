@@ -69,3 +69,5 @@ export const getFullTimeFromSeconds = (time: number) => {
     )}`;
   }
 };
+
+export const replaceId = (route: string, id: number) => route.replace(':id', String(id));

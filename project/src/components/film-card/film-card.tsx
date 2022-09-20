@@ -5,6 +5,7 @@ import {AppRoute} from '../../enums';
 import Video from '../video/video';
 import {useAppDispatch} from '../../hooks';
 import { changeCurrentFilm } from '../../store/current-film/actions';
+import { replaceId } from '../../utils/utils';
 
 type FilmCardProps = {
   film: Film;
@@ -24,7 +25,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         <Video posterImage={film.posterImage} videoLink={film.videoLink} />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.Film.replace(':id', String(film.id))} onClick={handleFilmTitleClick}>{film.name}</Link>
+        <Link className="small-film-card__link" to={replaceId(AppRoute.Film, film.id)} onClick={handleFilmTitleClick}>{film.name}</Link>
       </h3>
     </article>
   );
