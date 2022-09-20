@@ -1,6 +1,5 @@
 import { useState, useEffect, RefObject } from 'react';
 import { useParams } from 'react-router-dom';
-import browserHistory from '../browser-history';
 import { useAppDispatch } from '../hooks';
 import { getFullTimeFromSeconds } from '../utils/utils';
 import useCheckFilmId from '../hooks/useCheckFilmId';
@@ -56,11 +55,6 @@ function useVideoPlayer(videoRef: RefObject<HTMLVideoElement>) {
     }
   };
 
-  // Закрытие
-  const handleExitClick = () => {
-    browserHistory.back();
-  };
-
   return {
     isLoading,
     handleVideoLoading,
@@ -68,7 +62,6 @@ function useVideoPlayer(videoRef: RefObject<HTMLVideoElement>) {
     progressState,
     handleVideoPlay,
     isPause,
-    handleExitClick,
   };
 }
 

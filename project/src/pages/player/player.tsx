@@ -1,9 +1,12 @@
 import {useRef} from 'react';
 import {FullScreen, useFullScreenHandle} from 'react-full-screen';
+import { Link } from 'react-router-dom';
 import Spiner from '../../components/spiner/spiner';
+import { AppRoute } from '../../enums';
 import {useAppSelector} from '../../hooks';
 import useVideoPlayer from '../../hooks/useVideoPlayer';
 import { getFilm } from '../../store/current-film/selectors';
+import { replaceId } from '../../utils/utils';
 
 function Player(): JSX.Element {
   const film = useAppSelector(getFilm);
@@ -16,8 +19,7 @@ function Player(): JSX.Element {
     handleProgressUpdate,
     progressState,
     handleVideoPlay,
-    isPause,
-    handleExitClick} = useVideoPlayer(videoRef);
+    isPause} = useVideoPlayer(videoRef);
 
   return (
     film ?
@@ -36,7 +38,7 @@ function Player(): JSX.Element {
           >
           </video>
 
-          <button type="button" className="player__exit" onClick={handleExitClick}>Exit</button>
+          <Link className="player__exit" to={replaceId(AppRoute.Film, film.id)}>Exit</Link>
 
           <div className="player__controls">
             <div className="player__controls-row">
