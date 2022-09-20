@@ -1,22 +1,32 @@
 import { useRef, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import { loginAction } from '../../store/user/api-actions';
 import Logo from '../../components/logo/logo';
+import { checkPassword } from '../../utils/utils';
+import { toast } from 'react-toastify';
+import { ErrorText } from '../../enums';
+import { getDataStatus } from '../../store/user/selectors';
 
 function SignIn(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const isEmailCorrect = useAppSelector((state) => state.isEmailCorrect );
+  const isEmailCorrect = useAppSelector(getDataStatus);
   const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      }));
+      const isValidPassword = checkPassword(passwordRef.current.value);
+
+      if (isValidPassword) {
+        dispatch(loginAction({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        }));
+      } else {
+        toast.error(ErrorText.WrongPassword);
+      }
     }
   };
 
@@ -36,11 +46,25 @@ function SignIn(): JSX.Element {
             </div>}
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" ref={loginRef} />
+              <input
+                className="sign-in__input"
+                type="email"
+                placeholder="Email address"
+                name="user-email"
+                id="user-email"
+                ref={loginRef}
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" ref={passwordRef} />
+              <input
+                className="sign-in__input"
+                type="password"
+                placeholder="Password"
+                name="user-password"
+                id="user-password"
+                ref={passwordRef}
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>

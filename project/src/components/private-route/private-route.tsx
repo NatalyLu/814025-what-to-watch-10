@@ -1,7 +1,8 @@
 import {Navigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../enums';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading/loading';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 type PrivateRouteProps = {
   children: JSX.Element;
@@ -9,7 +10,7 @@ type PrivateRouteProps = {
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const {children} = props;
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;

@@ -1,8 +1,13 @@
 import './spiner.css';
 
-function Spiner(): JSX.Element {
+type SpinerProps = {
+  classes?: string;
+}
+
+function Spiner(props: SpinerProps): JSX.Element {
+  const {classes} = props;
   return (
-    <div className="loading-spiner"></div>
+    <div className={`loading-spiner ${classes && classes}`}></div>
   );
 }
 

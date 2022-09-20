@@ -1,4 +1,8 @@
 import {useAppSelector} from '../../hooks';
+import ShowMore from '../show-more/show-more';
+import useShowMore from '../../hooks/useShowMore';
+import {MAX_GENRES_COUNT} from '../../const';
+import { getGenres } from '../../store/main/selectors';
 
 type GenreListProps = {
   activeGenre: string;
@@ -7,15 +11,19 @@ type GenreListProps = {
 
 function GenreList(props: GenreListProps):JSX.Element {
   const {activeGenre, onClick} = props;
-  const genres = useAppSelector((state) => state.genres);
+  const genres = useAppSelector(getGenres);
+
+  const {isMoreItemsExist, handleButtonClick, someFilteredItems} = useShowMore(MAX_GENRES_COUNT, genres);
 
   return (
     <ul className="catalog__genres-list">
-      {genres.map((genre) => (
+      {someFilteredItems.map((genre) => (
         <li key={genre} className={`catalog__genres-item${genre === activeGenre ? ' catalog__genres-item--active' : ''}`} onClick={() => {onClick(genre);}} >
           <a href="#" className="catalog__genres-link">{genre}</a>
         </li>
       ))}
+
+      {(isMoreItemsExist) && <ShowMore classes="catalog__genres-button" onClick={handleButtonClick}/> }
     </ul>
   );
 }

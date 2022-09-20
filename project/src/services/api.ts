@@ -31,7 +31,6 @@ export const createAPI = ():AxiosInstance => {
   // Извлекаем токен из localStorage (с помощью перехватчиков - interceptors)
   // Перехватываем запрос - request
   api.interceptors.request.use((config: AxiosRequestConfig) => {
-
     // Настраиваем перехватчик, который будет вызывать формирования запроса, но до его отправки серверу.
     // Здесь мы сможем модифицировать конфигурацию axios.
     const token = getToken();
@@ -44,7 +43,7 @@ export const createAPI = ():AxiosInstance => {
   });
 
   // С помощью интерсетера проверяем наличие ошибки
-  // Если имеется, то передаем в processErrorHandle текст ошибки
+  // Если имеется, то передаем текст ошибки в toast
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {

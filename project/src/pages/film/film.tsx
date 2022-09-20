@@ -1,40 +1,26 @@
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import {useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {AppRoute} from '../../const';
-import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
-import Tabs from '../../components/tabs/tabs';
-import NavTabs from '../../components/nav-tabs/nav-tabs';
-import {filmTabs, AuthorizationStatus} from '../../const';
-import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/api-actions';
-import {checkId} from '../../utils/utils';
+import {MAX_SIMILAR_FILM_COUNT} from '../../const';
+import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/current-film/api-actions';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
-
+import FilmButtons from '../../components/film-buttons/film-buttons';
+import useCheckFilmId from '../../hooks/useCheckFilmId';
+import FilmShortList from '../../components/film-short-list/film-short-list';
+import FilmNav from '../../components/film-nav/film-nav';
+import { getFilm, getSimilar, getSimilarStatus } from '../../store/current-film/selectors';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const similarFilms = useAppSelector((state) => state.similarFilms);
-  const allFilms = useAppSelector((state) => state.films);
-  const isFilmsLoading = useAppSelector((state) => state.isFilmsLoading);
-  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
+  const similarFilms = useAppSelector(getSimilar);
+  const isSimilarFilmsLoaded = useAppSelector(getSimilarStatus);
+  const film = useAppSelector(getFilm);
   const id = Number(useParams().id);
 
-  useEffect(() => {
-    if (!isFilmsLoading) {
-      const isIdCorrect = checkId(allFilms, id);
-      if (!isIdCorrect) {
-        navigate(AppRoute.NotFound);
-      }
-    }
-  }, [allFilms, isFilmsLoading, id]);
-
-  const film = useAppSelector((state) => state.film);
+  useCheckFilmId(id);
 
   useEffect(() => {
     // Если перешли сюда по ссылке на карточке фильма, то загрузка с сервера не требуется.
@@ -47,18 +33,12 @@ function Film(): JSX.Element {
     dispatch(fetchReviewsAction(id));
   }, [id, film]);
 
-
-  const [type, setType] = useState(filmTabs[0]);
-  const handleListClick = (active: string): void => {
-    setType(active);
-  };
-
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={film?.backgroundImage} alt={film?.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -75,51 +55,30 @@ function Film(): JSX.Element {
                   <span className="film-card__genre">{film.genre}</span>
                   <span className="film-card__year">{film.released}</span>
                 </p>
-
-                <div className="film-card__buttons">
-                  <button className="btn btn--play film-card__button" type="button">
-                    <svg viewBox="0 0 19 19" width="19" height="19">
-                      <use xlinkHref="#play-s"></use>
-                    </svg>
-                    <span>Play</span>
-                  </button>
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">9</span>
-                  </button>
-                  { authorizationStatus === AuthorizationStatus.Auth && <Link to={AppRoute.AddReview.replace(':id', String(film.id))} className="btn film-card__button">Add review</Link>}
-                </div>
+                <FilmButtons film={film} />
               </div>
             </div>}
         </div>
 
-        {film &&
+        {film ?
           <div className="film-card__wrap film-card__translate-top">
             <div className="film-card__info">
               <div className="film-card__poster film-card__poster--big">
                 <Video posterImage={film.posterImage} videoLink={film.videoLink} />
               </div>
-
-              <div className="film-card__desc">
-                <NavTabs onClick={handleListClick} filmTabs={filmTabs} />
-                <Tabs activeType={type} film={film} />
-              </div>
+              <FilmNav film={film} />
             </div>
-          </div>}
+          </div>
+          : <Spiner />}
       </section>
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            {isSimilarFilmsLoading
-              ? <Spiner />
-              : <FilmCards films={similarFilms} />}
-          </div>
+          {isSimilarFilmsLoaded
+            ? <FilmShortList maxCount={MAX_SIMILAR_FILM_COUNT} films={similarFilms} />
+            : <Spiner />}
         </section>
 
         <footer className="page-footer">

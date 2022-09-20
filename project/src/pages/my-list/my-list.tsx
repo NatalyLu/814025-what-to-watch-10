@@ -2,10 +2,12 @@ import {useAppSelector} from '../../hooks';
 import FilmCards from '../../components/film-cards/film-cards';
 import Logo from '../../components/logo/logo';
 import SignIn from '../../components/sign-in/sign-in';
+import { getFavorites, getFavoritesStatus } from '../../store/user/selectors';
+import Spiner from '../../components/spiner/spiner';
 
 function MyList(): JSX.Element {
-  // Пока подгружаем несколько фильмов из хранилища, позже добавить логику избранных фильмов
-  const films = useAppSelector((state) => state.favoriteFilms);
+  const filmsStatus = useAppSelector(getFavoritesStatus);
+  const films = useAppSelector(getFavorites);
 
   return (
     <div className="user-page">
@@ -18,10 +20,7 @@ function MyList(): JSX.Element {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <div className="catalog__films-list">
-          <FilmCards films={films} />
-        </div>
+        {filmsStatus ? <FilmCards films={films} /> : <Spiner /> }
       </section>
 
       <footer className="page-footer">

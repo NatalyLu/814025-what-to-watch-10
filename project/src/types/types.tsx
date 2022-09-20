@@ -31,4 +31,9 @@ export type Review = {
   };
 }
 
+export type FavoriteFilmStatus = {
+  id: number | undefined;
+  status: number;
+};
+
 export type Reviews = Review[];

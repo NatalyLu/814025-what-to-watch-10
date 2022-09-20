@@ -1,5 +1,5 @@
-import {useAppSelector} from '../../hooks';
 import {Film} from '../../types/types';
+import {getStarsCount} from '../../utils/utils';
 
 type OverviewTabProps = {
   film: Film;
@@ -7,27 +7,13 @@ type OverviewTabProps = {
 
 function OverviewTab(props: OverviewTabProps): JSX.Element {
   const {film} = props;
-  const review = useAppSelector((store) => store.reviews.find((item) => film.id === item.id));
 
-  let level = '';
-  if (review) {
-    if (review.rating < 3){
-      level = 'Bad';
-    } else if(review.rating < 5){
-      level = 'Normal';
-    } else if (review.rating < 8) {
-      level = 'Good';
-    } else if (review.rating < 10) {
-      level = 'Very good';
-    } else {
-      level = 'Awesome';
-    }
-  }
+  const level = getStarsCount(film.rating);
 
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{review && review.rating}</div>
+        <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{level}</span>
           <span className="film-rating__count">{film.scoresCount} ratings</span>
@@ -35,9 +21,16 @@ function OverviewTab(props: OverviewTabProps): JSX.Element {
       </div>
 
       <div className="film-card__text">
-        <p>{review && review.comment}</p>
-        <p className="film-card__director"><strong>{film && film.director}</strong></p>
-        <p className="film-card__starring"><strong>{film && film.starring}</strong></p>
+        <p>{film.description}</p>
+        <p className="film-card__director"><strong>Director: {film.director}</strong></p>
+        <p className="film-card__starring">
+          <strong>Starring: {film.starring.map((item, index) => (
+            <span key={item}>
+              {' '}{item}{Boolean(film.starring.length - index - 1) && ','}
+            </span>
+          ))}
+          </strong>
+        </p>
       </div>
     </>
   );

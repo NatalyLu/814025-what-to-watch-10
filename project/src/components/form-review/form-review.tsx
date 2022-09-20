@@ -1,100 +1,50 @@
-import {useState, ChangeEvent, SyntheticEvent, Fragment, useRef} from 'react';
-import {useAppSelector, useAppDispatch} from '../../hooks';
-import {sendReviewAction} from '../../store/api-actions';
+import {useState, ChangeEvent, SyntheticEvent, useRef} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {sendReviewAction} from '../../store/current-film/api-actions';
+import {TEXTAREA_MIN_LENGTH} from '../../const';
+import FormStars from '../form-stars/form-stars';
+import FormTextarea from '../form-textarea/form-textarea';
+import { getSendingReviewStatus } from '../../store/current-film/selectors';
 
-function FormReview(): JSX.Element {
-  const starsArray = [
-    {
-      value: 10,
-      checked: false,
-    },
-    {
-      value: 9,
-      checked: false,
-    },
-    {
-      value: 8,
-      checked: true,
-    },
-    {
-      value: 7,
-      checked: false,
-    },
-    {
-      value: 6,
-      checked: false,
-    },
-    {
-      value: 5,
-      checked: false,
-    },
-    {
-      value: 4,
-      checked: false,
-    },
-    {
-      value: 3,
-      checked: false,
-    },
-    {
-      value: 2,
-      checked: false,
-    },
-    {
-      value: 1,
-      checked: false,
-    }
-  ];
+type FormReviewProps = {
+  filmId: number;
+  rating: number;
+}
 
-  const [review, setReview] = useState({
-    stars: '8', // Инпут с этим значением активен по умолчанию
-    text: '',
-  });
-
-  const handleReviewChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    const {name, value} = evt.target;
-
-    switch (name) {
-      case 'rating':
-        return setReview({...review, stars: value});
-      case 'review-text':
-        return setReview({...review, text: value});
-      default:
-        throw new Error('The new field has been edited. Please, describe the state of this field');
-    }
-  };
-
+function FormReview(props: FormReviewProps): JSX.Element {
+  const {filmId, rating} = props;
+  const isReviewSending = useAppSelector(getSendingReviewStatus);
   const dispatch = useAppDispatch();
-  const filmId = useAppSelector((state) => state.film?.id);
+  const [stars, setStar] = useState(Math.floor(rating));
+  const [text, setText] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
+
+  const handleStarsChange = (evt: ChangeEvent<HTMLInputElement>) => ( setStar(Number(evt.target.value)) );
+  const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => ( setText(evt.target.value) );
 
   const handleReviewSend = (evt: SyntheticEvent) => {
     evt.preventDefault();
-    dispatch(sendReviewAction( {id: filmId, review: {comment: review.text, rating: Number(review.stars)}} ));
+    dispatch(sendReviewAction( {id: filmId, review: {comment: text, rating: stars}} ));
     formRef.current?.reset();
   };
 
   return(
     <form onSubmit={handleReviewSend} ref={formRef} action="#" className="add-review__htmlForm">
       <div className="rating">
-        <div className="rating__stars">
-          {
-            starsArray.map((star) =>
-              (
-                <Fragment key={`key-star-${star.value}`}>
-                  <input onChange={handleReviewChange} className="rating__input" id={`star-${star.value}`} type="radio" name="rating" value={star.value} checked={star.value === Number(review.stars)} />
-                  <label className="rating__label" htmlFor={`star-${star.value}`}>Rating {star.value}</label>
-                </Fragment>
-              )
-            )
-          }
-        </div>
+        <FormStars handleStarsChange={handleStarsChange} isSending={isReviewSending} stars={stars} />
       </div>
 
       <div className="add-review__text">
-        <textarea onChange={handleReviewChange} className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+        <FormTextarea handleTextChange={handleTextChange} isSending={isReviewSending} text={text} />
+
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={text.length < TEXTAREA_MIN_LENGTH || !stars || isReviewSending}
+          >
+            Post
+          </button>
         </div>
       </div>
     </form>

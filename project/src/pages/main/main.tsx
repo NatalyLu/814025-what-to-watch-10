@@ -1,26 +1,28 @@
 import { useEffect } from 'react';
 import {store} from '../../store';
 import {useAppSelector} from '../../hooks';
-import {fetchPromoFilmAction} from '../../store/api-actions';
+import {fetchPromoFilmAction} from '../../store/main/api-actions';
 import Logo from '../../components/logo/logo';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
 import Spiner from '../../components/spiner/spiner';
 import SignIn from '../../components/sign-in/sign-in';
+import FilmButtons from '../../components/film-buttons/film-buttons';
+import { getPromo, getPromoStatus } from '../../store/main/selectors';
 
 
 function Main(): JSX.Element {
-
   useEffect(() => {
-    store.dispatch(fetchPromoFilmAction(2));
+    store.dispatch(fetchPromoFilmAction());
   }, []);
 
-  const {promoFilm, isPromoFilmLoading} = useAppSelector((state) => state);
+  const promoFilm = useAppSelector(getPromo);
+  const isPromoFilmLoaded = useAppSelector(getPromoStatus);
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,11 +33,12 @@ function Main(): JSX.Element {
         </header>
 
         <div className="film-card__wrap">
-          {!promoFilm && isPromoFilmLoading && <Spiner />}
-          {promoFilm &&
+          {(!promoFilm || !isPromoFilmLoaded)
+            ? <Spiner />
+            :
             <div className="film-card__info">
               <div className="film-card__poster">
-                <img src="img/the-grand-budapest-hotel-poster.jpg" alt={promoFilm.name} width="218" height="327" />
+                <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />
               </div>
 
               <div className="film-card__desc">
@@ -45,21 +48,7 @@ function Main(): JSX.Element {
                   <span className="film-card__year">{promoFilm.released}</span>
                 </p>
 
-                <div className="film-card__buttons">
-                  <button className="btn btn--play film-card__button" type="button">
-                    <svg viewBox="0 0 19 19" width="19" height="19">
-                      <use xlinkHref="#play-s"></use>
-                    </svg>
-                    <span>Play</span>
-                  </button>
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">9</span>
-                  </button>
-                </div>
+                <FilmButtons film={promoFilm} />
               </div>
             </div>}
         </div>

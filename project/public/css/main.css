@@ -585,6 +585,17 @@ main {
   .catalog__button:hover {
     border-color: rgba(217, 202, 116, 0.5); }
 
+.catalog__genres-button {
+  padding: 0;
+  font-size: inherit;
+  border: none;
+  color: #eee5b5;
+}
+
+.catalog__genres-button:hover {
+  color: #d9ca74;
+}
+
 .copyright {
   text-align: center;
   font-size: 14px;
@@ -866,7 +877,10 @@ main {
   color: #EEE5B5;
   text-decoration: none;
   position: relative;
-  padding-bottom: 19px; }
+  padding-bottom: 19px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer; }
   .film-nav__link::after {
     content: '';
     position: absolute;
@@ -988,7 +1002,8 @@ main {
   cursor: pointer;
   width: 93px;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  text-decoration: none; }
 
 .player__controls {
   position: absolute;
@@ -1440,3 +1455,14 @@ main {
   color: #fff;
   background: #fd612ead;
   border-radius: 15px; }
+
+.loading-spiner__absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+  .page-footer {
+    margin-top: auto;
+  }
