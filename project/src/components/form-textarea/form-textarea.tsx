@@ -1,5 +1,5 @@
 import {ChangeEvent} from 'react';
-import {TEXTAREA_MIN_LENGTH, TEXTAREA_MAX_LENGTH} from '../../const';
+import { TextAreaLength } from '../../enums';
 
 type FormTextareaProps = {
   handleTextChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -14,8 +14,8 @@ function FormTextarea (props: FormTextareaProps):JSX.Element {
     <textarea
       onChange={handleTextChange}
       value={text}
-      minLength={TEXTAREA_MIN_LENGTH}
-      maxLength={TEXTAREA_MAX_LENGTH}
+      minLength={TextAreaLength.Min}
+      maxLength={TextAreaLength.Max}
       className="add-review__textarea"
       name="review-text"
       id="review-text"
