@@ -1,9 +1,9 @@
-import {MAX_FILMS_COUNT} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import GenreList from '../../components/genre-list/genre-list';
 import FilmShortList from '../film-short-list/film-short-list';
 import { getFilterFilmsByGenre, getActiveGenre } from '../../store/main/selectors';
 import { changeGenre } from '../../store/main/actions';
+import { MaxCount } from '../../enums';
 
 function FilmCatalog():JSX.Element {
   const activeGenre = useAppSelector(getActiveGenre);
@@ -20,7 +20,7 @@ function FilmCatalog():JSX.Element {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <GenreList activeGenre={activeGenre} onClick={handleGenreClick} />
-      <FilmShortList maxCount={MAX_FILMS_COUNT} films={films} />
+      <FilmShortList maxCount={MaxCount.Films} films={films} />
     </section>
   );
 }

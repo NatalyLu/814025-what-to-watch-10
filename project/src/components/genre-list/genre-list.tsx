@@ -1,8 +1,8 @@
 import {useAppSelector} from '../../hooks';
 import ShowMore from '../show-more/show-more';
 import useShowMore from '../../hooks/useShowMore';
-import {MAX_GENRES_COUNT} from '../../const';
 import { getGenres } from '../../store/main/selectors';
+import { MaxCount } from '../../enums';
 
 type GenreListProps = {
   activeGenre: string;
@@ -13,7 +13,7 @@ function GenreList(props: GenreListProps):JSX.Element {
   const {activeGenre, onClick} = props;
   const genres = useAppSelector(getGenres);
 
-  const {isMoreItemsExist, handleButtonClick, someFilteredItems} = useShowMore(MAX_GENRES_COUNT, genres);
+  const {isMoreItemsExist, handleButtonClick, someFilteredItems} = useShowMore(MaxCount.Genres, genres);
 
   return (
     <ul className="catalog__genres-list">

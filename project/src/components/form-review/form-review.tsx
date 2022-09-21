@@ -1,10 +1,10 @@
 import {useState, ChangeEvent, SyntheticEvent, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {sendReviewAction} from '../../store/current-film/api-actions';
-import {TEXTAREA_MIN_LENGTH} from '../../const';
 import FormStars from '../form-stars/form-stars';
 import FormTextarea from '../form-textarea/form-textarea';
 import { getSendingReviewStatus } from '../../store/current-film/selectors';
+import { TextAreaLength } from '../../enums';
 
 type FormReviewProps = {
   filmId: number;
@@ -41,7 +41,7 @@ function FormReview(props: FormReviewProps): JSX.Element {
           <button
             className="add-review__btn"
             type="submit"
-            disabled={text.length < TEXTAREA_MIN_LENGTH || !stars || isReviewSending}
+            disabled={text.length < TextAreaLength.Min || !stars || isReviewSending}
           >
             Post
           </button>

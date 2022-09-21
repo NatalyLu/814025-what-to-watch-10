@@ -34,3 +34,14 @@ export enum NameSpace {
   Film = 'FILM',
   Main = 'MAIN',
 }
+
+export enum TextAreaLength {
+  Min = 50,
+  Max = 400,
+}
+
+export enum MaxCount {
+  Films = 8,
+  Genres = 10,
+  SimilarFilms = 4,
+}

@@ -3,7 +3,6 @@ import {useEffect} from 'react';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import Logo from '../../components/logo/logo';
 import Video from '../../components/video/video';
-import {MAX_SIMILAR_FILM_COUNT} from '../../const';
 import {fetchCurrentFilmAction, fetchSimilarFilmsAction, fetchReviewsAction} from '../../store/current-film/api-actions';
 import SignIn from '../../components/sign-in/sign-in';
 import Spiner from '../../components/spiner/spiner';
@@ -12,6 +11,7 @@ import useCheckFilmId from '../../hooks/useCheckFilmId';
 import FilmShortList from '../../components/film-short-list/film-short-list';
 import FilmNav from '../../components/film-nav/film-nav';
 import { getFilm, getSimilar, getSimilarStatus } from '../../store/current-film/selectors';
+import { MaxCount } from '../../enums';
 
 function Film(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -77,7 +77,7 @@ function Film(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           {isSimilarFilmsLoaded
-            ? <FilmShortList maxCount={MAX_SIMILAR_FILM_COUNT} films={similarFilms} />
+            ? <FilmShortList maxCount={MaxCount.SimilarFilms} films={similarFilms} />
             : <Spiner />}
         </section>
 
