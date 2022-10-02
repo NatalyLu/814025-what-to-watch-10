@@ -8,7 +8,7 @@ import {
   sendReviewAction,
 } from './api-actions';
 
-const currentFilmInitialState: CurrentFilmState = {
+export const currentFilmInitialState: CurrentFilmState = {
   film: {
     data: undefined,
     isLoaded: false,

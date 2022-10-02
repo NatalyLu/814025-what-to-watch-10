@@ -10,12 +10,12 @@ export type AppDispatch = typeof store.dispatch;
 export type UserState = {
   authorizationStatus: AuthorizationStatus;
   userData?: UserData;
+  isDataCorrect: boolean;
   favorites: {
     data: Films;
     isLoaded: boolean;
-    isFavoriteActionSending: boolean | null;
   };
-  isDataCorrect: boolean;
+  isFavoriteActionSending: boolean | null;
 };
 
 export type CurrentFilmState = {
@@ -36,7 +36,7 @@ export type CurrentFilmState = {
 
 export type MainState = {
   films: {
-    data: Films;
+    data?: Films;
     isLoaded: boolean;
   };
   promo: {

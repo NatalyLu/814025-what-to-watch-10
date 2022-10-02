@@ -10,17 +10,18 @@ import {
 } from './api-actions';
 import {setCorrectEmailStatus} from './actions';
 
-const userInitialState: UserState = {
+export const userInitialState: UserState = {
   // authorizationStatus = Unknown, при запуске приложения неизвестно состояние,
   // валидный ли наш токен (если он есть)
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: undefined,
+  // Для вывода ошибки при некорректном email (pages->sign-in.tsx)
+  isDataCorrect: true,
   favorites: {
     data: [],
     isLoaded: false,
-    isFavoriteActionSending: false,
   },
-  isDataCorrect: true,
+  isFavoriteActionSending: false,
 };
 
 export const userSlice = createSlice({
@@ -44,7 +45,7 @@ export const userSlice = createSlice({
       .addCase(setCorrectEmailStatus, (state, action) => {
         state.isDataCorrect = action.payload;
       })
-      .addCase(loginAction.rejected, (state, action) => {
+      .addCase(loginAction.rejected, (state,) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.fulfilled, (state) => {
@@ -64,13 +65,13 @@ export const userSlice = createSlice({
       })
 
       .addCase(sendFavoriteFilmAction.pending, (state) => {
-        state.favorites.isFavoriteActionSending = true;
+        state.isFavoriteActionSending = true;
       })
       .addCase(sendFavoriteFilmAction.fulfilled, (state) => {
-        state.favorites.isFavoriteActionSending = false;
+        state.isFavoriteActionSending = false;
       })
       .addCase(sendFavoriteFilmAction.rejected, (state) => {
-        state.favorites.isFavoriteActionSending = null;
+        state.isFavoriteActionSending = null;
       });
   },
 });

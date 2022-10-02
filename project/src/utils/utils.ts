@@ -5,9 +5,11 @@ export const checkId = (films: Films, id: number) => films.some((film) => film.i
 
 export const getGenres = (filmsArr: Films) => {
   const genres = [DEFAULT_GENRE];
-  filmsArr.forEach(
-    (film) => !genres.includes(film.genre) && genres.push(film.genre)
-  );
+  if (filmsArr.length > 1) {
+    filmsArr.forEach(
+      (film) => !genres.includes(film.genre) && genres.push(film.genre)
+    );
+  }
   return genres;
 };
 
