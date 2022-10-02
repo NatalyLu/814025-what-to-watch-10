@@ -6,7 +6,7 @@ import { getGenres } from '../../utils/utils';
 import { changeGenre } from './actions';
 import { fetchFilmsAction, fetchPromoFilmAction } from './api-actions';
 
-const mainInitialState: MainState = {
+export const mainInitialState: MainState = {
   films: {
     data: [],
     isLoaded: false,
