@@ -2,15 +2,15 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import { Action } from '@reduxjs/toolkit';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
-import { Film, Films, Review, Reviews } from "../types/types";
+import { Film, Films, Review, Reviews } from '../types/types';
 import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
 import {name as fakerName, image, commerce, lorem, internet, datatype, random} from 'faker';
-import { AuthorizationStatus, MaxCount, NameSpace } from "../enums";
+import { AuthorizationStatus, MaxCount, NameSpace } from '../enums';
 import {DEFAULT_GENRE} from '../const';
-import { mainInitialState } from "../store/main/slice";
-import { CurrentFilmState, MainState, State, UserState } from "../types/state";
-import { getGenres } from "./utils";
+import { mainInitialState } from '../store/main/slice';
+import { CurrentFilmState, MainState, State, UserState } from '../types/state';
+import { getGenres } from './utils';
 import { createAPI } from '../services/api';
 import { currentFilmInitialState } from '../store/current-film/slice';
 import { userInitialState } from '../store/user/slice';
@@ -106,7 +106,7 @@ export const createMockStore = (props = mockStoreDefaultProps) => {
   const isFavoriteActionSending = false;
   const isDataCorrect = true;
   const userData = createFakeUserData();
-  const favoriteFilms = films.filter((film) => {film.isFavorite});
+  const favoriteFilms = films.filter((film) => film.isFavorite);
 
   const mockStoreData = {
     [NameSpace.Main]: {...mainInitialState,
@@ -127,7 +127,7 @@ export const createMockStore = (props = mockStoreDefaultProps) => {
       favorites: {data: favoriteFilms, isLoaded: true },
       isFavoriteActionSending: isFavoriteActionSending,
     } as UserState,
-  }
+  };
 
   // Конфигурируем стор
   const mockStore = configureMockStore<

@@ -1,5 +1,5 @@
-import { NameSpace } from "../enums";
-import { createMockStore, mockStoreDefaultProps } from "./mocks";
+import { NameSpace } from '../enums';
+import { createMockStore, mockStoreDefaultProps } from './mocks';
 
 
 export const utilsTest = (props = mockStoreDefaultProps) => {
