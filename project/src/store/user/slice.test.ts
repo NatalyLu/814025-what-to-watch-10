@@ -1,3 +1,4 @@
+import { UNKNOWN_ACTION } from './../../const';
 import { AuthorizationStatus } from './../../enums';
 import { setCorrectEmailStatus } from './actions';
 import { utilsTest } from './../../utils/utils-test';
@@ -16,7 +17,6 @@ describe('Reducer: userSlice', () => {
   const state = userInitialState;
 
   it('Without additional parameters should return initial state', () => {
-    const UNKNOWN_ACTION = 'unknown';
     expect(userSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
       .toEqual(userInitialState);
   });

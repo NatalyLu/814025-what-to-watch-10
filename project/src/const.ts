@@ -15,3 +15,5 @@ export const filmTextRating = {
 export const DEFAULT_GENRE = 'All genres';
 
 export const BAD_REQUEST_ERROR = 400;
+
+export const UNKNOWN_ACTION = 'unknown';

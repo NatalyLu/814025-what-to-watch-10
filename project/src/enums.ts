@@ -6,6 +6,11 @@ export enum AppRoute {
   AddReview = '/films/:id/review',
   Player = '/player/:id',
   NotFound = '/404',
+  Unknown = '/unknown',
+}
+
+export enum AppAction {
+  RedirectToRoute = 'films/redirectToRoute',
 }
 
 export enum AuthorizationStatus {
